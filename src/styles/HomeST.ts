@@ -25,8 +25,18 @@ export const SThomeBtn = styled.div`
     width: 19rem;
     height: 17rem;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background: ${colors.brightgrey};
     border-radius: 15px;
+    box-shadow: 0 5px 7px #b0b0b0;
+    &: hover {
+        outline: 3px solid ${colors.red};
+    }
+`;
+
+export const SThomeIc = styled.img`
+    width: 86px;
+    height: 86px;
 `;
