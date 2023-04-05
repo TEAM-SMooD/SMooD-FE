@@ -31,6 +31,7 @@ export const SThomeBtn = styled.div`
     background: ${colors.brightgrey};
     border-radius: 15px;
     box-shadow: 0 5px 7px #b0b0b0;
+    cursor: pointer;
     &: hover {
         outline: 3px solid ${colors.red};
     }

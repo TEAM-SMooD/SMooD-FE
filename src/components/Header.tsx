@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import main_logo from "../assets/main_logo.png";
+import headerStyle from "../styles/HeaderStyle.module.css";
 
 interface HeaderProps {
     idx: number;
@@ -12,27 +13,18 @@ const Header = (props: HeaderProps) => {
     const navigate = useNavigate();
 
     return (
-        <header
-            style={{
-                background: "white",
-                height: "70px",
-                display: "grid",
-                gridTemplateColumns: "255px 1fr auto",
-                flexDirection: "row",
-                position: "fixed",
-                width: "100%",
-                alignItems: "center",
-                padding: "0 40px",
-            }}
-        >
-            <img
-                src={main_logo}
-                style={{ width: "155px", height: "50px" }}
-                onClick={() => navigate("/")}
-            />
-            <div style={{ display: "flex", flexDirection: "row", gap: "39px" }}>
+        <header className={headerStyle.header}>
+            <div className={headerStyle.pointer}>
+                <img
+                    src={main_logo}
+                    className={headerStyle.logo}
+                    onClick={() => navigate("/")}
+                />
+            </div>
+            <div className={`${headerStyle.pointer} ${headerStyle.menueach}`}>
                 {headermenu.map((e: string, idx: number) => (
                     <div
+                        className={headerStyle.pointer}
                         key={idx}
                         onClick={(e) => {
                             navigate(`/${headerPath[idx]}`);
