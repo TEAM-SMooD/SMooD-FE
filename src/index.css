@@ -20,4 +20,6 @@ code {
 }
 * {
     font-family: "Pretendard-Regular";
+    -webkit-box-sizing: border-box;
 }
+/* -webkit-box-sizing: https://endorphin0710.tistory.com/75 */
