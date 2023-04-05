@@ -26,7 +26,7 @@ const Header = (props: HeaderProps) => {
                     <div
                         className={headerStyle.pointer}
                         key={idx}
-                        onClick={(e) => {
+                        onClick={() => {
                             navigate(`/${headerPath[idx]}`);
                         }}
                     >
