@@ -23,17 +23,22 @@ const Header = (props: HeaderProps) => {
                     onClick={() => navigate("/")}
                 />
             </div>
-            <div className={`${headerStyle.pointer} ${headerStyle.menueach}`}>
+            <div className={`${headerStyle.pointer} ${headerStyle.menubar}`}>
                 {headermenu.map((e: string, idx: number) => (
                     <div
-                        className={headerStyle.pointer}
+                        className={`${
+                            menu === headerPath[idx]
+                                ? headerStyle.menuEachSelected
+                                : headerStyle.menuEach
+                        }`}
                         key={idx}
                         onClick={() => {
                             setMenu(headerPath[idx]);
                             navigate(`/${headerPath[idx]}`);
                         }}
                     >
-                        {e}
+                        {/* {e} */}
+                        <div>{e}</div>
                     </div>
                 ))}
             </div>

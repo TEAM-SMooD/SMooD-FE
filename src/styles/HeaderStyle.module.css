@@ -1,3 +1,6 @@
+:root {
+    --red: #ff504b;
+}
 .header {
     background: white;
     height: 70px;
@@ -8,19 +11,37 @@
     width: 100%;
     align-items: center;
     padding: 0 40px;
+    border-bottom: 1px solid #b0b0b0;
 }
 
 .pointer :hover {
     cursor: pointer;
 }
-
 .logo {
     width: 155px;
     height: 50px;
 }
 
-.menueach {
+.menubar {
     display: flex;
     flex-direction: row;
     gap: 39px;
+}
+.menuEach {
+    display: flex;
+    height: 70px;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    border-top: 3px solid transparent;
+    border-bottom: 3px transparent;
+}
+.menuEachSelected {
+    border-top: 6px solid transparent;
+    border-bottom: 3px solid var(--red);
+    display: flex;
+    height: 70px;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
 }
