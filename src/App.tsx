@@ -6,6 +6,7 @@ import Concept from "./pages/Concept";
 import Site from "./pages/Site";
 import Analysis from "./pages/Analysis";
 import NotFound from "./pages/NotFound";
+import { RecoilRoot } from "recoil";
 
 const router = createBrowserRouter([
     {
@@ -30,7 +31,11 @@ const router = createBrowserRouter([
     },
 ]);
 function App() {
-    return <RouterProvider router={router} />;
+    return (
+        <RecoilRoot>
+            <RouterProvider router={router} />
+        </RecoilRoot>
+    );
 }
 
 export default App;
