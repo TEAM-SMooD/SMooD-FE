@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Layout from "./Layout";
+import { StWrap } from "../styles/Concept";
+import ConceptModal from "../components/ConceptModal";
 
 const kakao = (window as any).kakao;
 
 const Concept = () => {
     const [innerWidth, setInnerWidth] = useState(window.innerWidth);
     const [innerHeight, setInnerHeight] = useState(window.innerHeight);
-    console.log(innerWidth);
+
     useEffect(() => {
         const resizeListener = () => {
             setInnerWidth(window.innerWidth);
@@ -32,6 +34,7 @@ const Concept = () => {
                     id="map"
                     style={{ width: innerWidth, height: innerHeight - 70 }}
                 ></div>
+                <ConceptModal />
             </Layout>
         </>
     );
