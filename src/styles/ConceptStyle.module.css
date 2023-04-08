@@ -1,0 +1,21 @@
+.modalContents {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: gainsboro 0px 0px 1px 1px;
+}
+.modalArrow {
+    position: absolute;
+    left: 152px;
+    background: white;
+    width: 36px;
+    border-radius: 0px 0px 10px 10px;
+    display: flex;
+    justify-content: center;
+    box-shadow: gainsboro 0px 2px 1px 1px;
+}
+.modalArrowImg {
+    width: 31px;
+    height: 25px;
+    border-radius: 10px;
+}
