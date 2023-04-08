@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "./Layout";
-import { StWrap } from "../styles/Concept";
+import { StWrap } from "../styles/ConceptST";
 import ConceptModal from "../components/ConceptModal";
 
 const kakao = (window as any).kakao;
