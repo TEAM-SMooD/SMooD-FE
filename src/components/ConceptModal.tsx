@@ -21,12 +21,7 @@ const ConceptModal = () => {
     const [store2, setStore2] = useState("");
 
     const districtArr = ["성수", "북촌", "신촌"];
-    const sungsuArr = [
-        "성수 1가 1동",
-        "성수 1가 2동",
-        "성수 2가 1동",
-        "성수 2가 3동",
-    ];
+    const sungsuArr = ["1가 1동", "1가 2동", "2가 1동", "2가 3동"];
     const bukchonArr = ["가회동", "삼청동"];
     const shinchonArr = ["신촌동"];
     const storeArr = ["카페", "음식점"];
@@ -47,21 +42,41 @@ const ConceptModal = () => {
     const handleSelectDistrict = (id: string, each: string) => {
         return (
             <div
+                key={each}
                 className={ConceptStyle.test}
                 onClick={(e: any) => {
                     id == "district"
                         ? setDistrict(e.target.innerHTML)
+                        : id == "restaurant"
+                        ? setStore2(e.target.innerHTML)
                         : id == "store"
                         ? setStore(e.target.innerHTML)
                         : id == "sungsu" || "buckchon" || "shinchon"
                         ? setDistrict2(e.target.innerHTML)
-                        : setStore2(e.target.innerHTML);
+                        : id == "restaurant"
+                        ? setStore2(e.target.innerHTML)
+                        : console.log("");
                 }}
             >
                 {each}
             </div>
         );
     };
+    console.log(
+        store,
+        ".",
+        store2,
+        ",",
+        district,
+        "/",
+        district2,
+        ",",
+        selectedDropdown
+    );
+    useEffect(() => {
+        setDistrict2("");
+    }, [district]); // 큰범위지역(district)이 바뀌면 상세지역(district2)은 초기화시킵니다.
+
     return (
         <>
             <StWrap>
@@ -88,19 +103,47 @@ const ConceptModal = () => {
                                     src={ic_location}
                                     style={{ width: "17px", height: "17px" }}
                                 />
-                                <div>{district}</div>
+                                <div>
+                                    {district} | {district2}
+                                </div>
                             </div>
 
                             <StDropdown
-                                style={{
-                                    display:
-                                        selectedDropdown != 1 ? "none" : "",
-                                    top: "85px",
-                                }}
+                                districtstore={1}
+                                district1={district}
+                                selectedDropdown={selectedDropdown}
+                                top={85}
                             >
                                 {districtArr.map((each, i) =>
                                     handleSelectDistrict("district", each)
                                 )}
+                            </StDropdown>
+                            <StDropdown
+                                districtstore={2}
+                                district1={district}
+                                selectedDropdown={selectedDropdown}
+                                top={117}
+                            >
+                                {district == "성수"
+                                    ? sungsuArr.map((each, i) =>
+                                          handleSelectDistrict(
+                                              "district2",
+                                              each
+                                          )
+                                      )
+                                    : district == "북촌"
+                                    ? bukchonArr.map((each, i) =>
+                                          handleSelectDistrict(
+                                              "district2",
+                                              each
+                                          )
+                                      )
+                                    : shinchonArr.map((each, i) =>
+                                          handleSelectDistrict(
+                                              "district2",
+                                              each
+                                          )
+                                      )}
                             </StDropdown>
                         </StSelectbox>
                         <StSelectbox isOpen={selectedDropdown == 2}>
@@ -116,18 +159,30 @@ const ConceptModal = () => {
                                     src={ic_concept}
                                     style={{ width: "17px", height: "17px" }}
                                 />
-                                <div>{store}</div>
+                                <div>
+                                    {store} | {store2}
+                                </div>
                             </div>
                             <StDropdown
-                                style={{
-                                    display:
-                                        selectedDropdown != 2 ? "none" : "",
-                                    top: "130px",
-                                }}
+                                districtstore={3}
+                                store1={store}
+                                selectedDropdown={selectedDropdown}
+                                top={130}
                             >
                                 {storeArr.map((each, i) =>
                                     handleSelectDistrict("store", each)
                                 )}
+                            </StDropdown>
+                            <StDropdown
+                                districtstore={4}
+                                store1={store}
+                                selectedDropdown={selectedDropdown}
+                                top={162}
+                            >
+                                {store == "음식점" &&
+                                    restaurantArr.map((each, i) =>
+                                        handleSelectDistrict("restaurant", each)
+                                    )}
                             </StDropdown>
                         </StSelectbox>
                     </div>

@@ -34,7 +34,13 @@ export const StSelectbox = styled.div<{ isOpen: boolean }>`
     display: flex;
     align-items: center;
 `;
-export const StDropdown = styled.div`
+export const StDropdown = styled.div<{
+    districtstore?: number;
+    district1?: string;
+    selectedDropdown?: number;
+    store1?: string;
+    top?: number;
+}>`
     position: absolute;
     border-radius: 0px 0px 12.8px 12.8px;
     background: ${colors.brightgrey};
@@ -48,4 +54,24 @@ export const StDropdown = styled.div`
     border: 0.7px solid ${colors.red};
     height: 2rem;
     justify-content: space-around;
+    display: ${(props) =>
+        props.districtstore == 1
+            ? props.selectedDropdown == 1
+                ? ""
+                : "none"
+            : props.districtstore == 2
+            ? props.selectedDropdown == 1 &&
+              props.district1 != "지역을 선택하세요"
+                ? ""
+                : "none"
+            : props.districtstore == 3
+            ? props.selectedDropdown == 2
+                ? ""
+                : "none"
+            : props.districtstore == 4
+            ? props.selectedDropdown == 2 && props.store1 != "업종을 선택하세요"
+                ? ""
+                : "none"
+            : "none"};
+    top: ${(props) => props.top}px;
 `;
