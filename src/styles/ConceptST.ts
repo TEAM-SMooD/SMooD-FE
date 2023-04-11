@@ -68,10 +68,32 @@ export const StDropdown = styled.div<{
             ? props.selectedDropdown == 2
                 ? ""
                 : "none"
-            : props.districtstore == 4
-            ? props.selectedDropdown == 2 && props.store1 != "업종을 선택하세요"
-                ? ""
-                : "none"
+            : "none"};
+    top: ${(props) => props.top}px;
+`;
+export const StDropdown2 = styled.div<{
+    districtstore?: number;
+    district1?: string;
+    selectedDropdown?: number;
+    store1?: string;
+    top?: number;
+}>`
+    position: absolute;
+    border-radius: 0px 0px 12.8px 12.8px;
+    background: ${colors.brightgrey};
+    margin-bottom: 9px;
+    display: flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+    left: 14px;
+    width: calc(100% - 28px);
+    z-index: 1;
+    border: 0.7px solid ${colors.red};
+    justify-content: space-around;
+    display: ${(props) =>
+        props.selectedDropdown == 2 && props.store1 != "업종을 선택하세요"
+            ? ""
             : "none"};
     top: ${(props) => props.top}px;
 `;

@@ -4,6 +4,7 @@ import {
     StWrap,
     StDropdown,
     StModalContent,
+    StDropdown2,
 } from "../styles/ConceptST";
 import { colors } from "../styles/designSystem";
 import ic_arrow from "../assets/ic_arrow.png";
@@ -53,8 +54,6 @@ const ConceptModal = () => {
                         ? setStore(e.target.innerHTML)
                         : id == "sungsu" || "buckchon" || "shinchon"
                         ? setDistrict2(e.target.innerHTML)
-                        : id == "restaurant"
-                        ? setStore2(e.target.innerHTML)
                         : console.log("");
                 }}
             >
@@ -62,17 +61,6 @@ const ConceptModal = () => {
             </div>
         );
     };
-    console.log(
-        store,
-        ".",
-        store2,
-        ",",
-        district,
-        "/",
-        district2,
-        ",",
-        selectedDropdown
-    );
     useEffect(() => {
         setDistrict2("");
     }, [district]); // 큰범위지역(district)이 바뀌면 상세지역(district2)은 초기화시킵니다.
@@ -160,7 +148,7 @@ const ConceptModal = () => {
                                     style={{ width: "17px", height: "17px" }}
                                 />
                                 <div>
-                                    {store} | {store2}
+                                    {store} | {store == "음식점" && store2}
                                 </div>
                             </div>
                             <StDropdown
@@ -173,17 +161,30 @@ const ConceptModal = () => {
                                     handleSelectDistrict("store", each)
                                 )}
                             </StDropdown>
-                            <StDropdown
+                            <StDropdown2
                                 districtstore={4}
                                 store1={store}
                                 selectedDropdown={selectedDropdown}
                                 top={162}
                             >
                                 {store == "음식점" &&
-                                    restaurantArr.map((each, i) =>
-                                        handleSelectDistrict("restaurant", each)
+                                    restaurantArr.map(
+                                        (each, i) => (
+                                            <div
+                                                key={each}
+                                                className={ConceptStyle.test}
+                                                onClick={(e: any) => {
+                                                    setStore2(
+                                                        e.target.innerHTML
+                                                    );
+                                                }}
+                                            >
+                                                {each}
+                                            </div>
+                                        )
+                                        // handleSelectDistrict("restaurant", each)
                                     )}
-                            </StDropdown>
+                            </StDropdown2>
                         </StSelectbox>
                     </div>
                 </StModalContent>
