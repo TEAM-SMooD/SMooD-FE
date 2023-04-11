@@ -44,7 +44,55 @@ const ConceptModal = () => {
         return (
             <div
                 key={each}
-                className={ConceptStyle.test}
+                className={[
+                    ConceptStyle.selectEach,
+                    ConceptStyle.selectEachHover,
+                ].join(" ")}
+                style={{
+                    border:
+                        each == district
+                            ? `1px solid ${colors.red}`
+                            : each == store && id == "store"
+                            ? `1px solid blue`
+                            : "",
+                    borderBottom:
+                        id == "district"
+                            ? district == "지역을 선택하세요"
+                                ? ""
+                                : each == district
+                                ? "none"
+                                : `1px solid ${colors.red}`
+                            : //id == "store"
+                            store == "업종을 선택하세요"
+                            ? ""
+                            : store == "카페" && each == "카페"
+                            ? ""
+                            : store == "음식점" && each == "카페"
+                            ? `1px solid ${colors.red}`
+                            : "",
+                    // each == district
+                    //     ? "none"
+                    //     : district != "지역을 선택하세요"
+                    //     ? `1px solid ${colors.red}`
+                    //     : id == "store"
+                    //     ? "none"
+                    //     : "",
+                    // : store == "음식점" &&
+                    //   id == "store" &&
+                    //   each == "음식점"
+                    // ? "none"
+                    // // : "",
+
+                    // id == "district"
+                    // ? district != "지역을 선택하세요"
+                    //     ? district == each
+                    //         ? "none"
+                    //         : `1px solid ${colors.red}`
+                    //     : ""
+                    // : //id=="store"
+                    //   "",
+                    color: each == district ? colors.red : "",
+                }}
                 onClick={(e: any) => {
                     id == "district"
                         ? setDistrict(e.target.innerHTML)
@@ -101,6 +149,7 @@ const ConceptModal = () => {
                                 district1={district}
                                 selectedDropdown={selectedDropdown}
                                 top={85}
+                                style={{ gridTemplateColumns: "1fr 1fr 1fr" }}
                             >
                                 {districtArr.map((each, i) =>
                                     handleSelectDistrict("district", each)
@@ -111,6 +160,14 @@ const ConceptModal = () => {
                                 district1={district}
                                 selectedDropdown={selectedDropdown}
                                 top={117}
+                                style={{
+                                    gridTemplateColumns:
+                                        district == "성수"
+                                            ? "1fr 1fr 1fr 1fr"
+                                            : district == "북촌"
+                                            ? "1fr 1fr"
+                                            : "1fr",
+                                }}
                             >
                                 {district == "성수"
                                     ? sungsuArr.map((each, i) =>
@@ -156,6 +213,7 @@ const ConceptModal = () => {
                                 store1={store}
                                 selectedDropdown={selectedDropdown}
                                 top={130}
+                                style={{ gridTemplateColumns: "1fr 1fr" }}
                             >
                                 {storeArr.map((each, i) =>
                                     handleSelectDistrict("store", each)
@@ -168,22 +226,21 @@ const ConceptModal = () => {
                                 top={162}
                             >
                                 {store == "음식점" &&
-                                    restaurantArr.map(
-                                        (each, i) => (
-                                            <div
-                                                key={each}
-                                                className={ConceptStyle.test}
-                                                onClick={(e: any) => {
-                                                    setStore2(
-                                                        e.target.innerHTML
-                                                    );
-                                                }}
-                                            >
-                                                {each}
-                                            </div>
-                                        )
-                                        // handleSelectDistrict("restaurant", each)
-                                    )}
+                                    restaurantArr.map((each, i) => (
+                                        <div
+                                            key={each}
+                                            className={[
+                                                ConceptStyle.selectEach,
+                                                ConceptStyle.selectEachHover,
+                                            ].join(" ")}
+                                            style={{}}
+                                            onClick={(e: any) => {
+                                                setStore2(e.target.innerHTML);
+                                            }}
+                                        >
+                                            {each}
+                                        </div>
+                                    ))}
                             </StDropdown2>
                         </StSelectbox>
                     </div>

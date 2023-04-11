@@ -6,16 +6,21 @@
     width: 100%;
     padding: 8px 14px;
 }
-.test {
+.selectEach {
     width: 100%;
     text-align: center;
     display: flex;
     height: 2rem;
     align-items: center;
     justify-content: center;
+    height: 100%;
 }
-.test:not(:first-child) {
-    border-left: 0.7px solid var(--red);
+.selectEach:not(:first-child) {
+    border-left: 0.7px solid #b0b0b0;
+}
+.selectEachHover:hover {
+    color: var(--red);
+    cursor: pointer;
 }
 .modalArrow {
     position: absolute;

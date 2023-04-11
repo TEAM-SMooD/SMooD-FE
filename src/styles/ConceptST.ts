@@ -42,16 +42,30 @@ export const StDropdown = styled.div<{
     top?: number;
 }>`
     position: absolute;
-    border-radius: 0px 0px 12.8px 12.8px;
+    border-radius: ${(props) =>
+        props.district1 != "지역을 선택하세요" ? "0" : "0px 0px 12.8px 12.8px"};
     background: ${colors.brightgrey};
     margin-bottom: 9px;
-    display: flex;
+    display: grid;
     -webkit-box-align: center;
     align-items: center;
-    left: 14px;
-    width: calc(100% - 28px);
+    left: 15px;
+    width: calc(100% - 30px);
     z-index: 1;
-    border: 0.7px solid ${colors.red};
+    border: ${(props) =>
+        props.districtstore != 2 ? `0.7px solid ${colors.grey}` : ""};
+    border-bottom: ${(props) =>
+        props.districtstore == 1 && props.district1 != "지역을 선택하세요"
+            ? "none"
+            : // : props.districtstore == 3 && props.store1 == "업종을 선택하세요"
+              // ? ""
+              // : props.districtstore == 3 && props.store1 != "업종을 선택하세요"
+              // ? "none"
+              ""};
+    border-left: ${(props) =>
+        props.districtstore == 2 && `1.7px solid ${colors.red}`};
+    border-right: ${(props) =>
+        props.districtstore == 2 && `1.7px solid ${colors.red}`};
     height: 2rem;
     justify-content: space-around;
     display: ${(props) =>
@@ -86,14 +100,13 @@ export const StDropdown2 = styled.div<{
     flex-direction: column;
     -webkit-box-align: center;
     align-items: center;
-    left: 14px;
-    width: calc(100% - 28px);
+    left: 15px;
+    width: calc(100% - 30px);
     z-index: 1;
-    border: 0.7px solid ${colors.red};
+    border: 3.7px solid ${colors.red};
+    border-top: none;
     justify-content: space-around;
     display: ${(props) =>
-        props.selectedDropdown == 2 && props.store1 != "업종을 선택하세요"
-            ? ""
-            : "none"};
+        props.selectedDropdown == 2 && props.store1 == "음식점" ? "" : "none"};
     top: ${(props) => props.top}px;
 `;
