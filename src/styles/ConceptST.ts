@@ -53,19 +53,19 @@ export const StDropdown = styled.div<{
     width: calc(100% - 30px);
     z-index: 1;
     border: ${(props) =>
-        props.districtstore != 2 ? `0.7px solid ${colors.grey}` : ""};
-    border-bottom: ${(props) =>
-        props.districtstore == 1 && props.district1 != "지역을 선택하세요"
+        props.district1 == "지역을 선택하세요"
+            ? `0.7px solid ${colors.grey}` //display처리때문에 districtstore=1인경우만 보임
+            : //지역선택을 했거나 districtstore=3인경우
+            props.districtstore == 1
             ? "none"
-            : // : props.districtstore == 3 && props.store1 == "업종을 선택하세요"
-              // ? ""
-              // : props.districtstore == 3 && props.store1 != "업종을 선택하세요"
-              // ? "none"
-              ""};
-    border-left: ${(props) =>
-        props.districtstore == 2 && `1.7px solid ${colors.red}`};
-    border-right: ${(props) =>
-        props.districtstore == 2 && `1.7px solid ${colors.red}`};
+            : props.districtstore == 2
+            ? `0.7px solid ${colors.red}`
+            : props.districtstore == 3
+            ? props.store1 == "업종을 선택하세요"
+                ? `0.7px solid ${colors.grey}`
+                : ""
+            : ""};
+    border-top: ${(props) => props.districtstore == 2 && "none"};
     height: 2rem;
     justify-content: space-around;
     display: ${(props) =>
@@ -103,7 +103,7 @@ export const StDropdown2 = styled.div<{
     left: 15px;
     width: calc(100% - 30px);
     z-index: 1;
-    border: 3.7px solid ${colors.red};
+    border: 0.7px solid ${colors.red};
     border-top: none;
     justify-content: space-around;
     display: ${(props) =>
