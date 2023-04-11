@@ -40,6 +40,7 @@ const ConceptModal = () => {
         "음식배달 서비스",
     ];
 
+    console.log(district);
     const handleSelectDistrict = (id: string, each: string) => {
         return (
             <div
@@ -49,48 +50,28 @@ const ConceptModal = () => {
                     ConceptStyle.selectEachHover,
                 ].join(" ")}
                 style={{
-                    border:
-                        each == district
-                            ? `1px solid ${colors.red}`
-                            : each == store && id == "store"
-                            ? `1px solid blue`
-                            : "",
-                    borderBottom:
+                    borderStyle: "solid",
+                    borderWidth: "0.7px",
+                    borderColor:
                         id == "district"
                             ? district == "지역을 선택하세요"
-                                ? ""
-                                : each == district
-                                ? "none"
-                                : `1px solid ${colors.red}`
-                            : //id == "store"
-                            store == "업종을 선택하세요"
-                            ? ""
-                            : store == "카페" && each == "카페"
-                            ? ""
-                            : store == "음식점" && each == "카페"
-                            ? `1px solid ${colors.red}`
+                                ? "transparent"
+                                : district == each
+                                ? `${colors.red} ${colors.red} transparent ${colors.red}`
+                                : `${colors.grey} ${colors.grey} ${colors.red} ${colors.grey}`
+                            : id == "district2"
+                            ? "transparent"
+                            : id == "store"
+                            ? store == "업종을 선택하세요"
+                                ? "transparent"
+                                : each == "카페" && store == "카페"
+                                ? `${colors.red} ${colors.red} ${colors.red} ${colors.red}`
+                                : each == "카페" && store == "음식점"
+                                ? `${colors.grey} ${colors.grey} ${colors.red} ${colors.grey}`
+                                : each == "음식점" && store == "카페"
+                                ? `${colors.grey} ${colors.grey}  ${colors.grey} ${colors.grey}`
+                                : `${colors.red} ${colors.red} transparent ${colors.red}`
                             : "",
-                    // each == district
-                    //     ? "none"
-                    //     : district != "지역을 선택하세요"
-                    //     ? `1px solid ${colors.red}`
-                    //     : id == "store"
-                    //     ? "none"
-                    //     : "",
-                    // : store == "음식점" &&
-                    //   id == "store" &&
-                    //   each == "음식점"
-                    // ? "none"
-                    // // : "",
-
-                    // id == "district"
-                    // ? district != "지역을 선택하세요"
-                    //     ? district == each
-                    //         ? "none"
-                    //         : `1px solid ${colors.red}`
-                    //     : ""
-                    // : //id=="store"
-                    //   "",
                     color: each == district ? colors.red : "",
                 }}
                 onClick={(e: any) => {
