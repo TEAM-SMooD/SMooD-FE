@@ -12,7 +12,17 @@ import ConceptStyle from "../styles/ConceptStyle.module.css";
 import ic_location from "../assets/ic_location.png";
 import ic_store from "../assets/ic_store.png";
 import ic_concept from "../assets/ic_concept.png";
-
+import {
+    districtArr,
+    sungsuArr,
+    bukchonArr,
+    shinchonArr,
+    storeArr,
+    restaurantArr,
+} from "../data/concepmodalData";
+import { useRecoilState } from "recoil";
+import { selectedDistrictCrdnt } from "../state/atom";
+import { crdntList } from "../data/concepmodalData";
 const ConceptModal = () => {
     const [modalOpen, setModalOpen] = useState(true);
     const [selectedDropdown, setSelectedDropdown] = useState(0);
@@ -20,27 +30,13 @@ const ConceptModal = () => {
     const [district2, setDistrict2] = useState("");
     const [store, setStore] = useState("업종을 선택하세요");
     const [store2, setStore2] = useState("");
+    const [crdnt, setCrdnt] = useRecoilState(selectedDistrictCrdnt);
 
-    const districtArr = ["성수", "북촌", "신촌"];
-    const sungsuArr = ["1가 1동", "1가 2동", "2가 1동", "2가 3동"];
-    const bukchonArr = ["가회동", "삼청동"];
-    const shinchonArr = ["신촌동"];
-    const storeArr = ["카페", "음식점"];
-    const restaurantArr = [
-        "한식",
-        "유흥주점",
-        "분식",
-        "일식/수산물",
-        "양식",
-        "패스트푸드",
-        "닭/오리요리",
-        "제과제빵/떡/케익",
-        "중식",
-        "별식/퓨전요리",
-        "음식배달 서비스",
-    ];
-
-    console.log(district);
+    const handelChangeCrdnt = (each: any) => {
+        if (each != "카페" && each != "음식점") {
+            setCrdnt(crdntList[each]);
+        }
+    };
     const handleSelectDistrict = (id: string, each: string) => {
         return (
             <div
@@ -84,6 +80,7 @@ const ConceptModal = () => {
                         : id == "sungsu" || "buckchon" || "shinchon"
                         ? setDistrict2(e.target.innerHTML)
                         : console.log("");
+                    handelChangeCrdnt(each);
                 }}
             >
                 {each}
