@@ -42,6 +42,7 @@ export const StDropdown = styled.div<{
     top?: number;
 }>`
     position: absolute;
+    background: yellow;
     border-radius: ${(props) =>
         props.district1 != "지역을 선택하세요" ? "0" : "0px 0px 12.8px 12.8px"};
     background: ${colors.brightgrey};
