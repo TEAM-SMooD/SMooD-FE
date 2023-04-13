@@ -4,8 +4,8 @@ import { StWrap } from "../styles/ConceptST";
 import ConceptModal from "../components/ConceptModal";
 import { useRecoilState } from "recoil";
 import { selectedDistrictCrdnt } from "../state/atom";
-const kakao = (window as any).kakao;
 
+const kakao = (window as any).kakao;
 const Concept = () => {
     const [innerWidth, setInnerWidth] = useState(window.innerWidth);
     const [innerHeight, setInnerHeight] = useState(window.innerHeight);
