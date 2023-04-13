@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import main_logo from "../assets/main_logo.png";
 import headerStyle from "../styles/HeaderStyle.module.css";
+import kakao_login from "../assets/kakao_login.png";
 
 interface HeaderProps {
     idx: number;
@@ -40,9 +41,9 @@ const Header = (props: HeaderProps) => {
                 ))}
             </div>
             <div style={{ display: "flex", flexDirection: "row" }}>
-                <div>[ 로그인</div>
-                <div>|</div>
-                <div>회원가입 ]</div>
+                <a href={process.env.REACT_APP_KAKAO_AUTH_URL}>
+                    <img src={kakao_login} />
+                </a>
             </div>
         </header>
     );
