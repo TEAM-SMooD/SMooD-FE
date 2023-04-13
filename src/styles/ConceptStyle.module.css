@@ -1,0 +1,48 @@
+.displayNone {
+    display: none;
+}
+.selectBoxContent {
+    display: flex;
+    width: 100%;
+    padding: 8px 14px;
+}
+.selectEach {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+.selectEach:not(:first-child) {
+    border-left: 0.7px solid #b0b0b0;
+}
+.selectEachHover:hover {
+    color: var(--red);
+    cursor: pointer;
+}
+.modalArrow {
+    position: absolute;
+    left: 152px;
+    background: white;
+    width: 36px;
+    border-radius: 0px 0px 10px 10px;
+    display: flex;
+    justify-content: center;
+    box-shadow: gainsboro 0px 2px 1px 1px;
+}
+.modalArrowImg {
+    width: 31px;
+    height: 25px;
+    border-radius: 10px;
+}
+.selectDropDown {
+    position: absolute;
+}
+.dropdownOpen {
+    position: absolute;
+    top: 85px;
+    background: pink;
+    left: 15px;
+}

@@ -13,6 +13,7 @@ import {
     SThomeBtn,
     SThomeIc,
 } from "../styles/HomeST";
+
 const Home = () => {
     const navigate = useNavigate();
     const [isHover, setIsHover] = useState(0);
@@ -20,6 +21,7 @@ const Home = () => {
         <StHome>
             <StCreamImg src={home_cream} />
             <StLogo src={home_logo} />
+
             <div style={{ display: "flex", gap: "100px", marginTop: "3rem" }}>
                 <SThomeBtn
                     onClick={() => navigate("/concept")}
