@@ -25,7 +25,7 @@ export const StModal = styled.div`
     box-shadow: 0px 0px 1px 1px gainsboro;
     padding: 15px;
 `;
-export const StSelectbox = styled.div<{ isOpen: boolean }>`
+export const StSelectbox = styled.div<{ isOpen?: boolean }>`
     width: 100%;
     border-radius: ${(props) =>
         props.isOpen ? "12.8px 12.8px 0px 0px" : "204px"};
