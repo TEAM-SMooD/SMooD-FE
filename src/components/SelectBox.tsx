@@ -24,6 +24,7 @@ import {
     storeArr,
     restaurantArr,
 } from "../data/concepmodalData";
+import SelectStyle from "../styles/SelectBox.module.css";
 
 export const handleSelectDropdownEach = (
     id: string,
@@ -34,6 +35,13 @@ export const handleSelectDropdownEach = (
         <div
             key={each}
             onClick={handelClick}
+            className={
+                id == "store"
+                    ? `${SelectStyle.store}`
+                    : id == "restaurant"
+                    ? `${SelectStyle.restaurant}`
+                    : ""
+            }
             style={{
                 width: "100%",
                 height: "100%",
@@ -58,22 +66,23 @@ const StoreSelectBox = (props: SelectBoxProps) => {
         SiteSelectedRestaurant
     );
     const [openedSelect, setOpenedSelect] = useRecoilState(SiteOpenedSelect);
-    console.log(openedSelect, selectedStore, props.openId, selectedRestaurant);
 
     useEffect(() => {
         if (selectedStore == "카페") {
-            setSelectedRestaurant(" ");
             setOpenedSelect(0);
-        } else if (selectedStore == "음식점" && selectedRestaurant != "") {
+        } else if (selectedRestaurant != "") {
             setOpenedSelect(0);
         }
     }, [selectedStore, selectedRestaurant]);
     return (
         <>
-            <STselectbox onClick={props.handleOnclick}>
-                <STselectWrap>
+            <STselectbox isOpen={openedSelect == props.openId}>
+                <STselectWrap onClick={props.handleOnclick}>
                     <STicons src={ic_concept} />
-                    <div>{selectedStore}</div>
+                    <div>
+                        {selectedStore}{" "}
+                        {selectedRestaurant ? " | selectedRestaurant" : ""}
+                    </div>
                     <img
                         src={ic_arrow}
                         style={{
@@ -83,38 +92,17 @@ const StoreSelectBox = (props: SelectBoxProps) => {
                     />
                 </STselectWrap>
                 {openedSelect == props.openId ? (
-                    selectedStore == "업종을 선택하세요" ? (
+                    selectedStore == "음식점" ? (
                         <STStoreDropdown>
-                            {storeArr.map((each, i) =>
-                                handleSelectDropdownEach("store", each, () =>
-                                    setSelectedStore(each)
+                            {restaurantArr.map((each, i) =>
+                                handleSelectDropdownEach(
+                                    "restaurant",
+                                    each,
+                                    () => setSelectedRestaurant(each)
                                 )
                             )}
                         </STStoreDropdown>
-                    ) : selectedStore == "음식점" ? (
-                        selectedRestaurant != "" ? ( // 음식점 하위까지 선택했지만 한번 더 누른경우
-                            <STStoreDropdown>
-                                {storeArr.map((each, i) =>
-                                    handleSelectDropdownEach(
-                                        "store",
-                                        each,
-                                        () => setSelectedStore(each)
-                                    )
-                                )}
-                            </STStoreDropdown>
-                        ) : (
-                            <STStoreDropdown>
-                                {restaurantArr.map((each, i) =>
-                                    handleSelectDropdownEach(
-                                        "restaurant",
-                                        each,
-                                        () => setSelectedRestaurant(each)
-                                    )
-                                )}
-                            </STStoreDropdown>
-                        )
                     ) : (
-                        // selectedStore == 카페
                         <STStoreDropdown>
                             {storeArr.map((each, i) =>
                                 handleSelectDropdownEach("store", each, () =>
@@ -134,6 +122,10 @@ const DistrictSelectBox = (props: SelectBoxProps) => {
     const [selectedDistrict, setSelectedDistrict] =
         useRecoilState(SiteSelectedDistrict);
     const [openedSelect, setOpenedSelect] = useRecoilState(SiteOpenedSelect);
+
+    useEffect(() => {
+        setOpenedSelect(0);
+    }, [selectedDistrict]);
 
     return (
         <>

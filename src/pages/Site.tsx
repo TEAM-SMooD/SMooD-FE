@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import Layout from "./Layout";
 import ReportLayout from "./ReportLayout";
-import { STselectbox, STselectWrap, STicons } from "../styles/SelectST";
-import ic_concept from "../assets/ic_concept.png";
-import ic_arrow from "../assets/ic_arrow.png";
 import { StoreSelectBox, DistrictSelectBox } from "../components/SelectBox";
 import { useRecoilState } from "recoil";
 import {
@@ -27,6 +24,12 @@ const Site = () => {
         const [selectedRestaurant, setSelectedRestaurant] = useRecoilState(
             SiteSelectedRestaurant
         );
+        console.log(
+            selectedStore,
+            selectedRestaurant,
+            selectedConcept,
+            selectedDistrict
+        );
         return (
             <>
                 <div
@@ -38,7 +41,15 @@ const Site = () => {
                 >
                     <StoreSelectBox
                         openId={1}
-                        handleOnclick={() => setOpenedSelect(1)}
+                        handleOnclick={() => {
+                            if (selectedStore != "업종을 선택하세요") {
+                                setSelectedStore("업종을 선택하세요");
+                                setSelectedRestaurant("");
+                                setOpenedSelect(1);
+                            } else {
+                                setOpenedSelect(1);
+                            }
+                        }}
                     />
                     <DistrictSelectBox
                         openId={2}
