@@ -5,6 +5,7 @@ import {
     STicons,
     STStoreDropdown,
     STDistritDropdown,
+    STConceptDropdown,
 } from "../styles/SelectST";
 import ic_concept from "../assets/ic_concept.png";
 import ic_arrow from "../assets/ic_arrow.png";
@@ -23,6 +24,7 @@ import {
     shinchonArr,
     storeArr,
     restaurantArr,
+    conceptArr,
 } from "../data/concepmodalData";
 import SelectStyle from "../styles/SelectBox.module.css";
 
@@ -118,6 +120,65 @@ const StoreSelectBox = (props: SelectBoxProps) => {
         </>
     );
 };
+const ConceptSelectBox = (props: SelectBoxProps) => {
+    const [selectedConcept, setSelectedConcept] =
+        useRecoilState(SiteSelectedConcept);
+    const [openedSelect, setOpenedSelect] = useRecoilState(SiteOpenedSelect);
+
+    // useEffect(() => {
+    //     if (selectedStore == "카페") {
+    //         setOpenedSelect(0);
+    //     } else if (selectedRestaurant != "") {
+    //         setOpenedSelect(0);
+    //     }
+    // }, [selectedStore, selectedRestaurant]);
+    console.log(selectedConcept);
+    return (
+        <>
+            <STselectbox isOpen={openedSelect == props.openId}>
+                <STselectWrap onClick={props.handleOnclick}>
+                    <STicons src={ic_concept} />
+                    <div>
+                        {selectedConcept.length == 1
+                            ? "컨셉을 선택해주세요"
+                            : selectedConcept.map((e: string) =>
+                                  e != "" ? e + " | " : ""
+                              )}
+                    </div>
+                    <img
+                        src={ic_arrow}
+                        style={{
+                            rotate: "180deg",
+                            width: "24px",
+                        }}
+                    />
+                </STselectWrap>
+                {openedSelect == props.openId ? (
+                    <STConceptDropdown>
+                        {conceptArr.map((each, i) =>
+                            handleSelectDropdownEach("concept", each, () => {
+                                if (selectedConcept.includes(each)) {
+                                    const changeConcept =
+                                        selectedConcept.filter(
+                                            (e) => e != each
+                                        );
+                                    setSelectedConcept(changeConcept);
+                                } else {
+                                    setSelectedConcept((prev) => [
+                                        ...prev,
+                                        each,
+                                    ]);
+                                }
+                            })
+                        )}
+                    </STConceptDropdown>
+                ) : (
+                    ""
+                )}
+            </STselectbox>
+        </>
+    );
+};
 const DistrictSelectBox = (props: SelectBoxProps) => {
     const [selectedDistrict, setSelectedDistrict] =
         useRecoilState(SiteSelectedDistrict);
@@ -129,8 +190,8 @@ const DistrictSelectBox = (props: SelectBoxProps) => {
 
     return (
         <>
-            <STselectbox onClick={props.handleOnclick}>
-                <STselectWrap>
+            <STselectbox>
+                <STselectWrap onClick={props.handleOnclick}>
                     <STicons src={ic_concept} />
                     <div>{selectedDistrict}</div>
                     <img
@@ -157,4 +218,4 @@ const DistrictSelectBox = (props: SelectBoxProps) => {
     );
 };
 
-export { StoreSelectBox, DistrictSelectBox };
+export { StoreSelectBox, ConceptSelectBox, DistrictSelectBox };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Layout from "./Layout";
 import ReportLayout from "./ReportLayout";
-import { StoreSelectBox, DistrictSelectBox } from "../components/SelectBox";
+import { StoreSelectBox, ConceptSelectBox } from "../components/SelectBox";
 import { useRecoilState } from "recoil";
 import {
     SiteSelectedStore,
@@ -51,16 +51,24 @@ const Site = () => {
                             }
                         }}
                     />
-                    <DistrictSelectBox
+                    <ConceptSelectBox
                         openId={2}
-                        handleOnclick={() => setOpenedSelect(2)}
+                        handleOnclick={() => {
+                            if (openedSelect != 2) {
+                                setOpenedSelect(2);
+                            } else {
+                                setOpenedSelect(0);
+                            }
+                        }}
                     />
                 </div>
                 <div style={{ display: "flex", justifyContent: "center" }}>
                     <div
                         className={
-                            selectedRestaurant != "" &&
-                            selectedDistrict != "지역을 선택하세요"
+                            (selectedStore == "카페" &&
+                                selectedConcept.length != 1) ||
+                            (selectedRestaurant != "" &&
+                                selectedConcept.length != 1)
                                 ? `${SelectStyle.clickableReportBtn} ${SelectStyle.reportBtn}`
                                 : `${SelectStyle.reportBtn}`
                         }
