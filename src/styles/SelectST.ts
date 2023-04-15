@@ -29,11 +29,14 @@ export const STDropdown = styled.div`
     border-radius: 0px 0px 12.8px 12.8px;
     background: ${colors.brightgrey};
     display: grid;
+    grid-gap: 0.3rem;
     -webkit-box-align: center;
     align-items: center;
     top: 42px;
-    height: 2rem;
     justify-items: center;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid ${colors.lightgrey};
 `;
 export const STStoreDropdown = styled(STDropdown)`
     grid-template-columns: 1fr 1fr;
