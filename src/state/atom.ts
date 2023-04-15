@@ -19,7 +19,7 @@ export const SiteSelectedRestaurant = atom({
 });
 export const SiteSelectedConcept = atom({
     key: "SiteSelectedConcept",
-    default: "컨셉을 선택하세요",
+    default: [""],
 });
 export const SiteSelectedDistrict = atom({
     key: "SiteSelectedDistrict",

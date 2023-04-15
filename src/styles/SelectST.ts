@@ -44,3 +44,6 @@ export const STStoreDropdown = styled(STDropdown)`
 export const STDistritDropdown = styled(STDropdown)`
     grid-template-columns: 1fr 1fr 1fr;
 `;
+export const STConceptDropdown = styled(STDropdown)`
+    grid-template-columns: 1fr 1fr 1fr;
+`;
