@@ -80,8 +80,8 @@ const StoreSelectBox = (props: SelectBoxProps) => {
                 <STselectWrap onClick={props.handleOnclick}>
                     <STicons src={ic_concept} />
                     <div>
-                        {selectedStore}{" "}
-                        {selectedRestaurant ? " | selectedRestaurant" : ""}
+                        {selectedStore} {selectedRestaurant ? " | " : ""}
+                        {selectedRestaurant ? selectedRestaurant : ""}
                     </div>
                     <img
                         src={ic_arrow}
