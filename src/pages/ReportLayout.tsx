@@ -4,7 +4,6 @@ import { STtitle, STcontentWrap } from "../styles/ReportLayoutST";
 interface ReportLayoutChildrenProps {
     title: string;
     childrenSelectWrap?: ReactNode;
-    childrenRepor?: ReactNode;
     children?: ReactNode;
 }
 const ReportLayout = (props: ReportLayoutChildrenProps) => {

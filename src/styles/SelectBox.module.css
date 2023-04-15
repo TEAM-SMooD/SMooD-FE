@@ -1,0 +1,14 @@
+.reportBtn {
+    width: 110px;
+    background: #d9d9d9;
+    color: #727272;
+    display: flex;
+    justify-content: center;
+    height: 37px;
+    align-items: center;
+    border-radius: 10px;
+}
+.clickableReportBtn {
+    background: var(--red);
+    color: white;
+}
