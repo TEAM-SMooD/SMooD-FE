@@ -25,3 +25,21 @@ export const SiteSelectedDistrict = atom({
     key: "SiteSelectedDistrict",
     default: "지역을 선택하세요",
 });
+
+// Analysis
+export const AnalysisOpenedSelect = atom({
+    key: "AnalysisOpenedSelect",
+    default: 0,
+});
+export const AnalysisSelectedStore = atom({
+    key: "AnalysisSelectedStore",
+    default: "업종을 선택하세요",
+});
+export const AnalysisSelectedRestaurant = atom({
+    key: "AnalysisSelectedRestaurant",
+    default: "",
+});
+export const AnalysisSelectedDistrict = atom({
+    key: "AnalysisSelectedDistrict",
+    default: "지역을 선택하세요",
+});

@@ -40,6 +40,10 @@ const Site = () => {
                     }}
                 >
                     <StoreSelectBox
+                        state={selectedStore}
+                        changeState={(e: any) => setSelectedStore(e)}
+                        resState={selectedRestaurant}
+                        resChangeState={setSelectedRestaurant}
                         openId={1}
                         handleOnclick={() => {
                             if (selectedStore != "업종을 선택하세요") {
@@ -52,6 +56,8 @@ const Site = () => {
                         }}
                     />
                     <ConceptSelectBox
+                        state={selectedConcept}
+                        changeState={() => console.log("")}
                         openId={2}
                         handleOnclick={() => {
                             if (openedSelect != 2) {
