@@ -134,13 +134,6 @@ const ConceptSelectBox = (props: SelectBoxProps) => {
         useRecoilState(SiteSelectedConcept);
     const [openedSelect, setOpenedSelect] = useRecoilState(SiteOpenedSelect);
 
-    // useEffect(() => {
-    //     if (selectedStore == "카페") {
-    //         setOpenedSelect(0);
-    //     } else if (selectedRestaurant != "") {
-    //         setOpenedSelect(0);
-    //     }
-    // }, [selectedStore, selectedRestaurant]);
     console.log(selectedConcept);
     return (
         <>

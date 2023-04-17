@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "./Layout";
 import ReportLayout from "./ReportLayout";
 import { StoreSelectBox, ConceptSelectBox } from "../components/SelectBox";
@@ -12,24 +12,38 @@ import {
 } from "../state/atom";
 import SelectStyle from "../styles/SelectBox.module.css";
 const Site = () => {
+    const [selectedStore, setSelectedStore] = useRecoilState(SiteSelectedStore);
+    const [selectedConcept, setSelectedConcept] =
+        useRecoilState(SiteSelectedConcept);
+    const [selectedRestaurant, setSelectedRestaurant] = useRecoilState(
+        SiteSelectedRestaurant
+    );
+    const [selectedAll, setSelectedAll] = useState(false);
+    const [reportOpen, setReportOpen] = useState(false);
+
+    useEffect(() => {
+        if (
+            (selectedStore == "카페" && selectedConcept.length != 1) ||
+            (selectedRestaurant != "" && selectedConcept.length != 1)
+        ) {
+            setSelectedAll(true);
+        } else {
+            setSelectedAll(false);
+        }
+        setReportOpen(false);
+    }, [selectedStore, selectedRestaurant, selectedConcept]);
+
     const SelectBlock = () => {
         const [selectedStore, setSelectedStore] =
             useRecoilState(SiteSelectedStore);
         const [selectedConcept, setSelectedConcept] =
             useRecoilState(SiteSelectedConcept);
-        const [selectedDistrict, setSelectedDistrict] =
-            useRecoilState(SiteSelectedDistrict);
         const [openedSelect, setOpenedSelect] =
             useRecoilState(SiteOpenedSelect);
         const [selectedRestaurant, setSelectedRestaurant] = useRecoilState(
             SiteSelectedRestaurant
         );
-        console.log(
-            selectedStore,
-            selectedRestaurant,
-            selectedConcept,
-            selectedDistrict
-        );
+        console.log(selectedStore, selectedRestaurant, selectedConcept);
         return (
             <>
                 <div
@@ -69,7 +83,7 @@ const Site = () => {
                     />
                 </div>
                 <div style={{ display: "flex", justifyContent: "center" }}>
-                    <div
+                    <button
                         className={
                             (selectedStore == "카페" &&
                                 selectedConcept.length != 1) ||
@@ -78,12 +92,11 @@ const Site = () => {
                                 ? `${SelectStyle.clickableReportBtn} ${SelectStyle.reportBtn}`
                                 : `${SelectStyle.reportBtn}`
                         }
-                        onClick={() =>
-                            console.log(selectedStore, selectedDistrict)
-                        }
+                        onClick={() => setReportOpen(true)}
+                        disabled={!selectedAll}
                     >
                         분석하기
-                    </div>
+                    </button>
                 </div>
             </>
         );
@@ -95,7 +108,13 @@ const Site = () => {
                     title="지역 추천"
                     childrenSelectWrap={<SelectBlock />}
                 >
-                    <div>여기는 리포트</div>
+                    {reportOpen && (
+                        <div>
+                            여기는 리포트 - -{selectedStore}
+                            {selectedRestaurant}
+                            {selectedConcept}
+                        </div>
+                    )}
                 </ReportLayout>
             </Layout>
         </>

@@ -24,9 +24,6 @@ const Analysis = () => {
         const [selectedRestaurant, setSelectedRestaurant] = useRecoilState(
             AnalysisSelectedRestaurant
         );
-        const changeState = (e: string) => {
-            setSelectedStore(e);
-        };
         console.log(
             "store,distirct",
             selectedStore,
