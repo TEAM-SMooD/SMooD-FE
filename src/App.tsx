@@ -7,6 +7,7 @@ import Site from "./pages/Site";
 import Analysis from "./pages/Analysis";
 import NotFound from "./pages/NotFound";
 import { RecoilRoot } from "recoil";
+import Login from "./pages/Login";
 
 const router = createBrowserRouter([
     {
@@ -27,6 +28,11 @@ const router = createBrowserRouter([
     {
         path: "/analysis",
         element: <Analysis />,
+        errorElement: <NotFound />,
+    },
+    {
+        path: "/auth/kakao/callback",
+        element: <Login />,
         errorElement: <NotFound />,
     },
 ]);
