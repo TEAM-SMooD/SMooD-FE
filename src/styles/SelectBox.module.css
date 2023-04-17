@@ -1,0 +1,20 @@
+.reportBtn {
+    width: 110px;
+    background: #d9d9d9;
+    color: #727272;
+    display: flex;
+    justify-content: center;
+    height: 37px;
+    align-items: center;
+    border-radius: 10px;
+}
+.clickableReportBtn {
+    background: var(--red);
+    color: white;
+}
+.store:not(:first-child) {
+    border-left: 1px solid #b0b0b0;
+}
+.restaurant:nth-child(even) {
+    border-left: 1px solid #b0b0b0;
+}
