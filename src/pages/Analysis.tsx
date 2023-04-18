@@ -24,12 +24,6 @@ const Analysis = () => {
         const [selectedRestaurant, setSelectedRestaurant] = useRecoilState(
             AnalysisSelectedRestaurant
         );
-        console.log(
-            "store,distirct",
-            selectedStore,
-            selectedDistrict,
-            openedSelect
-        );
         return (
             <>
                 <div
