@@ -10,7 +10,12 @@ import {
 import ic_concept from "../assets/ic_concept.png";
 import ic_arrow from "../assets/ic_arrow.png";
 import { useRecoilState } from "recoil";
-import { SiteOpenedSelect } from "../state/atom";
+import {
+    SiteOpenedSelect,
+    SiteSelectedStore,
+    SiteSelectedRestaurant,
+    AnalysisSelectedDistrict,
+} from "../state/atom";
 import {
     districtArr,
     storeArr,
@@ -67,7 +72,10 @@ interface StoreSelectBoxProps {
 
 const StoreSelectBox = (props: StoreSelectBoxProps) => {
     const [openedSelect, setOpenedSelect] = useRecoilState(SiteOpenedSelect);
-
+    const [selectedStore, setSelectedStore] = useRecoilState(SiteSelectedStore);
+    const [selectedRestaurant, setSelectedRestaurant] = useRecoilState(
+        SiteSelectedRestaurant
+    );
     useEffect(() => {
         if (openedSelect == 1) {
             if (props.state == "카페") {
@@ -76,7 +84,7 @@ const StoreSelectBox = (props: StoreSelectBoxProps) => {
                 setOpenedSelect(0);
             }
         }
-    }, [props.state, props.resState]);
+    }, [selectedStore, selectedRestaurant]);
     return (
         <>
             <STselectbox isOpen={openedSelect == props.openId}>
@@ -161,10 +169,16 @@ const ConceptSelectBox = (props: SelectBoxProps) => {
 };
 const DistrictSelectBox = (props: SelectBoxProps) => {
     const [openedSelect, setOpenedSelect] = useRecoilState(SiteOpenedSelect);
-
+    const [selectedDistrict, setSelectedDistrict] = useRecoilState(
+        AnalysisSelectedDistrict
+    );
     useEffect(() => {
-        setOpenedSelect(0);
-    }, [props.state]);
+        if (openedSelect == 3) {
+            if (selectedDistrict != "지역을 선택하세요") {
+                setOpenedSelect(0);
+            }
+        }
+    }, [selectedDistrict]);
 
     return (
         <>
