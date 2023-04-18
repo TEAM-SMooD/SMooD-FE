@@ -7,7 +7,6 @@ import {
     SiteSelectedStore,
     SiteSelectedConcept,
     SiteOpenedSelect,
-    SiteSelectedDistrict,
     SiteSelectedRestaurant,
 } from "../state/atom";
 import SelectStyle from "../styles/SelectBox.module.css";
@@ -43,7 +42,6 @@ const Site = () => {
         const [selectedRestaurant, setSelectedRestaurant] = useRecoilState(
             SiteSelectedRestaurant
         );
-        console.log(selectedStore, selectedRestaurant, selectedConcept);
         return (
             <>
                 <div
@@ -71,7 +69,16 @@ const Site = () => {
                     />
                     <ConceptSelectBox
                         state={selectedConcept}
-                        changeState={() => console.log("")}
+                        changeState={(each: any) => {
+                            if (selectedConcept.includes(each)) {
+                                const changeConcept = selectedConcept.filter(
+                                    (e) => e != each
+                                );
+                                setSelectedConcept(changeConcept);
+                            } else {
+                                setSelectedConcept((prev) => [...prev, each]);
+                            }
+                        }}
                         openId={2}
                         handleOnclick={() => {
                             if (openedSelect != 2) {
@@ -92,7 +99,10 @@ const Site = () => {
                                 ? `${SelectStyle.clickableReportBtn} ${SelectStyle.reportBtn}`
                                 : `${SelectStyle.reportBtn}`
                         }
-                        onClick={() => setReportOpen(true)}
+                        onClick={() => {
+                            setReportOpen(true);
+                            setOpenedSelect(0);
+                        }}
                         disabled={!selectedAll}
                     >
                         분석하기

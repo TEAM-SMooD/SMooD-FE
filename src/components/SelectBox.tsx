@@ -10,18 +10,9 @@ import {
 import ic_concept from "../assets/ic_concept.png";
 import ic_arrow from "../assets/ic_arrow.png";
 import { useRecoilState } from "recoil";
-import {
-    SiteSelectedStore,
-    SiteSelectedConcept,
-    SiteOpenedSelect,
-    SiteSelectedDistrict,
-    SiteSelectedRestaurant,
-} from "../state/atom";
+import { SiteOpenedSelect } from "../state/atom";
 import {
     districtArr,
-    sungsuArr,
-    bukchonArr,
-    shinchonArr,
     storeArr,
     restaurantArr,
     conceptArr,
@@ -78,13 +69,14 @@ const StoreSelectBox = (props: StoreSelectBoxProps) => {
     const [openedSelect, setOpenedSelect] = useRecoilState(SiteOpenedSelect);
 
     useEffect(() => {
-        if (props.state == "카페") {
-            setOpenedSelect(0);
-        } else if (props.resState != "") {
-            setOpenedSelect(0);
+        if (openedSelect == 1) {
+            if (props.state == "카페") {
+                setOpenedSelect(0);
+            } else if (props.resState != "") {
+                setOpenedSelect(0);
+            }
         }
     }, [props.state, props.resState]);
-    console.log(openedSelect, props.state, props.resState);
     return (
         <>
             <STselectbox isOpen={openedSelect == props.openId}>
@@ -130,20 +122,17 @@ const StoreSelectBox = (props: StoreSelectBoxProps) => {
     );
 };
 const ConceptSelectBox = (props: SelectBoxProps) => {
-    const [selectedConcept, setSelectedConcept] =
-        useRecoilState(SiteSelectedConcept);
     const [openedSelect, setOpenedSelect] = useRecoilState(SiteOpenedSelect);
 
-    console.log(selectedConcept);
     return (
         <>
             <STselectbox isOpen={openedSelect == props.openId}>
                 <STselectWrap onClick={props.handleOnclick}>
                     <STicons src={ic_concept} />
                     <div>
-                        {selectedConcept.length == 1
+                        {props.state.length == 1
                             ? "컨셉을 선택해주세요"
-                            : selectedConcept.map((e: string) =>
+                            : props.state.map((e: string) =>
                                   e != "" ? e + " | " : ""
                               )}
                     </div>
@@ -159,18 +148,7 @@ const ConceptSelectBox = (props: SelectBoxProps) => {
                     <STConceptDropdown>
                         {conceptArr.map((each, i) =>
                             handleSelectDropdownEach("concept", each, () => {
-                                if (selectedConcept.includes(each)) {
-                                    const changeConcept =
-                                        selectedConcept.filter(
-                                            (e) => e != each
-                                        );
-                                    setSelectedConcept(changeConcept);
-                                } else {
-                                    setSelectedConcept((prev) => [
-                                        ...prev,
-                                        each,
-                                    ]);
-                                }
+                                props.changeState(each);
                             })
                         )}
                     </STConceptDropdown>
