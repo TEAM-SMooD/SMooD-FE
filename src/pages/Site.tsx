@@ -10,6 +10,7 @@ import {
     SiteSelectedRestaurant,
 } from "../state/atom";
 import SelectStyle from "../styles/SelectBox.module.css";
+
 const Site = () => {
     const [selectedStore, setSelectedStore] = useRecoilState(SiteSelectedStore);
     const [selectedConcept, setSelectedConcept] =
@@ -33,15 +34,8 @@ const Site = () => {
     }, [selectedStore, selectedRestaurant, selectedConcept]);
 
     const SelectBlock = () => {
-        const [selectedStore, setSelectedStore] =
-            useRecoilState(SiteSelectedStore);
-        const [selectedConcept, setSelectedConcept] =
-            useRecoilState(SiteSelectedConcept);
         const [openedSelect, setOpenedSelect] =
             useRecoilState(SiteOpenedSelect);
-        const [selectedRestaurant, setSelectedRestaurant] = useRecoilState(
-            SiteSelectedRestaurant
-        );
         return (
             <>
                 <div
@@ -61,10 +55,8 @@ const Site = () => {
                             if (selectedStore != "업종을 선택하세요") {
                                 setSelectedStore("업종을 선택하세요");
                                 setSelectedRestaurant("");
-                                setOpenedSelect(1);
-                            } else {
-                                setOpenedSelect(1);
                             }
+                            setOpenedSelect(1);
                         }}
                     />
                     <ConceptSelectBox
@@ -92,10 +84,7 @@ const Site = () => {
                 <div style={{ display: "flex", justifyContent: "center" }}>
                     <button
                         className={
-                            (selectedStore == "카페" &&
-                                selectedConcept.length != 1) ||
-                            (selectedRestaurant != "" &&
-                                selectedConcept.length != 1)
+                            selectedAll
                                 ? `${SelectStyle.clickableReportBtn} ${SelectStyle.reportBtn}`
                                 : `${SelectStyle.reportBtn}`
                         }
