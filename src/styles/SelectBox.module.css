@@ -7,10 +7,12 @@
     height: 37px;
     align-items: center;
     border-radius: 10px;
+    border: 0px;
 }
 .clickableReportBtn {
     background: var(--red);
     color: white;
+    cursor: pointer;
 }
 .store:not(:first-child) {
     border-left: 1px solid #b0b0b0;
