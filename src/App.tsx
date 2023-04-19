@@ -31,7 +31,7 @@ const router = createBrowserRouter([
         errorElement: <NotFound />,
     },
     {
-        path: "/auth/kakao/callback",
+        path: "/login/oauth2/code/kakao",
         element: <Login />,
         errorElement: <NotFound />,
     },

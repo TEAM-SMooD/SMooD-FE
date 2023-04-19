@@ -16,11 +16,12 @@ const Login = () => {
             try {
                 setError(null);
                 setLoading(true);
-                const res = await axios.post(
-                    "/api/oauth/token",
-                    JSON.stringify({ code })
-                );
-                console.log("asdf?");
+                const res = await axios.get("api/login/oauth/kakao", {
+                    params: {
+                        code: code,
+                    },
+                });
+                console.log("RES", res);
             } catch (err) {
                 setError(err);
                 console.log(err);
