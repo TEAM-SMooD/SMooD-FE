@@ -18,6 +18,7 @@ export const STselectWrap = styled.div`
     width: 100%;
     grid-template-columns: 25px auto 25px;
     align-items: center;
+    cursor: pointer;
 `;
 export const STicons = styled.img`
     width: 19px;
