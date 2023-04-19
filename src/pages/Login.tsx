@@ -16,11 +16,14 @@ const Login = () => {
             try {
                 setError(null);
                 setLoading(true);
-                const res = await axios.get("api/login/oauth/kakao", {
-                    params: {
-                        code: code,
-                    },
-                });
+                const res = await axios.get(
+                    "http://localhost:8080/login/oauth/kakao",
+                    {
+                        params: {
+                            code: code,
+                        },
+                    }
+                );
                 console.log("RES", res);
             } catch (err) {
                 setError(err);
