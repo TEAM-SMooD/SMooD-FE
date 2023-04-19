@@ -11,17 +11,13 @@ import ic_concept from "../assets/ic_concept.png";
 import ic_arrow from "../assets/ic_arrow.png";
 import { useRecoilState } from "recoil";
 import {
-    SiteSelectedStore,
-    SiteSelectedConcept,
     SiteOpenedSelect,
-    SiteSelectedDistrict,
+    SiteSelectedStore,
     SiteSelectedRestaurant,
+    AnalysisSelectedDistrict,
 } from "../state/atom";
 import {
     districtArr,
-    sungsuArr,
-    bukchonArr,
-    shinchonArr,
     storeArr,
     restaurantArr,
     conceptArr,
@@ -50,6 +46,7 @@ export const handleSelectDropdownEach = (
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                cursor: "pointer",
             }}
         >
             {each}
@@ -76,15 +73,19 @@ interface StoreSelectBoxProps {
 
 const StoreSelectBox = (props: StoreSelectBoxProps) => {
     const [openedSelect, setOpenedSelect] = useRecoilState(SiteOpenedSelect);
-
+    const [selectedStore, setSelectedStore] = useRecoilState(SiteSelectedStore);
+    const [selectedRestaurant, setSelectedRestaurant] = useRecoilState(
+        SiteSelectedRestaurant
+    );
     useEffect(() => {
-        if (props.state == "카페") {
-            setOpenedSelect(0);
-        } else if (props.resState != "") {
-            setOpenedSelect(0);
+        if (openedSelect == 1) {
+            if (props.state == "카페") {
+                setOpenedSelect(0);
+            } else if (props.resState != "") {
+                setOpenedSelect(0);
+            }
         }
-    }, [props.state, props.resState]);
-    console.log(openedSelect, props.state, props.resState);
+    }, [selectedStore, selectedRestaurant]);
     return (
         <>
             <STselectbox isOpen={openedSelect == props.openId}>
@@ -130,27 +131,17 @@ const StoreSelectBox = (props: StoreSelectBoxProps) => {
     );
 };
 const ConceptSelectBox = (props: SelectBoxProps) => {
-    const [selectedConcept, setSelectedConcept] =
-        useRecoilState(SiteSelectedConcept);
     const [openedSelect, setOpenedSelect] = useRecoilState(SiteOpenedSelect);
 
-    // useEffect(() => {
-    //     if (selectedStore == "카페") {
-    //         setOpenedSelect(0);
-    //     } else if (selectedRestaurant != "") {
-    //         setOpenedSelect(0);
-    //     }
-    // }, [selectedStore, selectedRestaurant]);
-    console.log(selectedConcept);
     return (
         <>
             <STselectbox isOpen={openedSelect == props.openId}>
                 <STselectWrap onClick={props.handleOnclick}>
                     <STicons src={ic_concept} />
                     <div>
-                        {selectedConcept.length == 1
+                        {props.state.length == 1
                             ? "컨셉을 선택해주세요"
-                            : selectedConcept.map((e: string) =>
+                            : props.state.map((e: string) =>
                                   e != "" ? e + " | " : ""
                               )}
                     </div>
@@ -166,18 +157,7 @@ const ConceptSelectBox = (props: SelectBoxProps) => {
                     <STConceptDropdown>
                         {conceptArr.map((each, i) =>
                             handleSelectDropdownEach("concept", each, () => {
-                                if (selectedConcept.includes(each)) {
-                                    const changeConcept =
-                                        selectedConcept.filter(
-                                            (e) => e != each
-                                        );
-                                    setSelectedConcept(changeConcept);
-                                } else {
-                                    setSelectedConcept((prev) => [
-                                        ...prev,
-                                        each,
-                                    ]);
-                                }
+                                props.changeState(each);
                             })
                         )}
                     </STConceptDropdown>
@@ -190,10 +170,16 @@ const ConceptSelectBox = (props: SelectBoxProps) => {
 };
 const DistrictSelectBox = (props: SelectBoxProps) => {
     const [openedSelect, setOpenedSelect] = useRecoilState(SiteOpenedSelect);
-
+    const [selectedDistrict, setSelectedDistrict] = useRecoilState(
+        AnalysisSelectedDistrict
+    );
     useEffect(() => {
-        setOpenedSelect(0);
-    }, [props.state]);
+        if (openedSelect == 3) {
+            if (selectedDistrict != "지역을 선택하세요") {
+                setOpenedSelect(0);
+            }
+        }
+    }, [selectedDistrict]);
 
     return (
         <>
