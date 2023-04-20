@@ -56,7 +56,11 @@ const Site = () => {
                                 setSelectedStore("업종을 선택하세요");
                                 setSelectedRestaurant("");
                             }
-                            setOpenedSelect(1);
+                            if (openedSelect != 1) {
+                                setOpenedSelect(1);
+                            } else {
+                                setOpenedSelect(0);
+                            }
                         }}
                         openedSelect={openedSelect}
                         setOpenedSelect={setOpenedSelect}
