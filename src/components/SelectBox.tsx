@@ -15,12 +15,14 @@ import {
     SiteSelectedStore,
     SiteSelectedRestaurant,
     AnalysisSelectedDistrict,
+    selectedDistrictCrdnt,
 } from "../state/atom";
 import {
     districtArr,
     storeArr,
     restaurantArr,
     conceptArr,
+    crdntList,
 } from "../data/concepmodalData";
 import SelectStyle from "../styles/SelectBox.module.css";
 
@@ -62,6 +64,7 @@ interface SelectBoxProps {
     // ? 붙이면안됨! Cannot invoke an object which is possibly 'undefined'.ts(2722)
     openedSelect: number;
     setOpenedSelect: React.Dispatch<React.SetStateAction<number>>;
+    concept?: boolean;
 }
 interface StoreSelectBoxProps {
     openId?: number;
@@ -73,6 +76,7 @@ interface StoreSelectBoxProps {
     resChangeState: React.Dispatch<React.SetStateAction<string>>;
     openedSelect: number;
     setOpenedSelect: React.Dispatch<React.SetStateAction<number>>;
+    concept?: boolean;
 }
 
 const StoreSelectBox = (props: StoreSelectBoxProps) => {
@@ -88,10 +92,13 @@ const StoreSelectBox = (props: StoreSelectBoxProps) => {
                 props.setOpenedSelect(0);
             }
         }
-    }, [selectedStore, selectedRestaurant]);
+    }, [props.state, props.resState]);
     return (
         <>
-            <STselectbox isOpen={props.openedSelect == props.openId}>
+            <STselectbox
+                isOpen={props.openedSelect == props.openId}
+                concept={props.concept}
+            >
                 <STselectWrap onClick={props.handleOnclick}>
                     <STicons src={ic_concept} />
                     <div>
@@ -178,20 +185,22 @@ const ConceptSelectBox = (props: SelectBoxProps) => {
     );
 };
 const DistrictSelectBox = (props: SelectBoxProps) => {
-    const [selectedDistrict, setSelectedDistrict] = useRecoilState(
-        AnalysisSelectedDistrict
-    );
+    const [crdnt, setCrdnt] = useRecoilState(selectedDistrictCrdnt);
+
     useEffect(() => {
         if (props.openedSelect == 3) {
-            if (selectedDistrict != "지역을 선택하세요") {
+            if (props.state != "지역을 선택하세요") {
                 props.setOpenedSelect(0);
             }
         }
-    }, [selectedDistrict]);
+    }, [props.state]);
 
     return (
         <>
-            <STselectbox isOpen={props.openedSelect == props.openId}>
+            <STselectbox
+                isOpen={props.openedSelect == props.openId}
+                concept={props.concept}
+            >
                 <STselectWrap onClick={props.handleOnclick}>
                     <STicons src={ic_concept} />
                     <div>{props.state}</div>
@@ -210,9 +219,12 @@ const DistrictSelectBox = (props: SelectBoxProps) => {
                 {props.openedSelect == props.openId ? (
                     <STDistritDropdown>
                         {districtArr.map((each, i) =>
-                            handleSelectDropdownEach("store", each, () =>
-                                props.changeState(each)
-                            )
+                            handleSelectDropdownEach("store", each, () => {
+                                props.changeState(each);
+                                if (props.concept) {
+                                    setCrdnt(crdntList[each]);
+                                }
+                            })
                         )}
                     </STDistritDropdown>
                 ) : (

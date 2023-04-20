@@ -9,93 +9,92 @@ import {
 import { colors } from "../styles/designSystem";
 import ic_arrow from "../assets/ic_arrow.png";
 import ConceptStyle from "../styles/ConceptStyle.module.css";
-import ic_location from "../assets/ic_location.png";
-import ic_store from "../assets/ic_store.png";
-import ic_concept from "../assets/ic_concept.png";
-import {
-    districtArr,
-    sungsuArr,
-    bukchonArr,
-    shinchonArr,
-    storeArr,
-    restaurantArr,
-} from "../data/concepmodalData";
 import { useRecoilState } from "recoil";
-import { selectedDistrictCrdnt } from "../state/atom";
+import {
+    ConceptOpenedSelect,
+    ConceptSelectedRestaurant,
+    ConceptSelectedStore,
+    ConceptSelectedDistrict,
+    selectedDistrictCrdnt,
+} from "../state/atom";
 import { crdntList } from "../data/concepmodalData";
 import SelectStyle from "../styles/SelectBox.module.css";
+import { DistrictSelectBox, StoreSelectBox } from "./SelectBox";
 interface btnActiveProps {
     btnActive: boolean;
     setBtnActive: React.Dispatch<React.SetStateAction<boolean>>;
+    setReportDoorVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const ConceptModal = (props: btnActiveProps) => {
     const [modalOpen, setModalOpen] = useState(true);
-    const [selectedDropdown, setSelectedDropdown] = useState(0);
-    const [district, setDistrict] = useState("지역을 선택하세요");
-    const [district2, setDistrict2] = useState("");
-    const [store, setStore] = useState("업종을 선택하세요");
-    const [store2, setStore2] = useState("");
-    const [crdnt, setCrdnt] = useRecoilState(selectedDistrictCrdnt);
 
+    const [crdnt, setCrdnt] = useRecoilState(selectedDistrictCrdnt);
+    const [selectedStore, setSelectedStore] =
+        useRecoilState(ConceptSelectedStore);
+    const [selectedRestaurant, setSelectedRestaurant] = useRecoilState(
+        ConceptSelectedRestaurant
+    );
+    const [selectedAll, setSelectedAll] = useState(false);
+    const [reportOpen, setReportOpen] = useState(false);
+    const [selectedDistrict, setSelectedDistrict] = useRecoilState(
+        ConceptSelectedDistrict
+    );
     const handelChangeCrdnt = (each: any) => {
         if (each != "카페" && each != "음식점") {
             setCrdnt(crdntList[each]);
         }
     };
-    const handleSelectDistrict = (id: string, each: string) => {
-        return (
-            <div
-                key={each}
-                className={[
-                    ConceptStyle.selectEach,
-                    ConceptStyle.selectEachHover,
-                ].join(" ")}
-                style={{
-                    borderStyle: "solid",
-                    borderWidth: "0.7px",
-                    borderColor:
-                        id == "district"
-                            ? district == "지역을 선택하세요"
-                                ? "transparent"
-                                : district == each
-                                ? `${colors.red} ${colors.red} transparent ${colors.red}`
-                                : `${colors.grey} ${colors.grey} ${colors.red} ${colors.grey}`
-                            : id == "district2"
-                            ? "transparent"
-                            : id == "store"
-                            ? store == "업종을 선택하세요"
-                                ? "transparent"
-                                : each == "카페" && store == "카페"
-                                ? `${colors.red} ${colors.red} ${colors.red} ${colors.red}`
-                                : each == "카페" && store == "음식점"
-                                ? `${colors.grey} ${colors.grey} ${colors.red} ${colors.grey}`
-                                : each == "음식점" && store == "카페"
-                                ? `${colors.grey} ${colors.grey}  ${colors.grey} ${colors.grey}`
-                                : `${colors.red} ${colors.red} transparent ${colors.red}`
-                            : "",
-                    color: each == district ? colors.red : "",
-                }}
-                onClick={(e: any) => {
-                    id == "district"
-                        ? setDistrict(e.target.innerHTML)
-                        : id == "restaurant"
-                        ? setStore2(e.target.innerHTML)
-                        : id == "store"
-                        ? setStore(e.target.innerHTML)
-                        : id == "sungsu" || "buckchon" || "shinchon"
-                        ? setDistrict2(e.target.innerHTML)
-                        : console.log("");
-                    handelChangeCrdnt(each);
-                }}
-            >
-                {each}
-            </div>
-        );
-    };
-    useEffect(() => {
-        setDistrict2("");
-    }, [district]); // 큰범위지역(district)이 바뀌면 상세지역(district2)은 초기화시킵니다.
-
+    const [openedSelect, setOpenedSelect] = useRecoilState(ConceptOpenedSelect);
+    // const handleSelectDistrict = (id: string, each: string) => {
+    //     return (
+    //         <div
+    //             key={each}
+    //             className={[
+    //                 ConceptStyle.selectEach,
+    //                 ConceptStyle.selectEachHover,
+    //             ].join(" ")}
+    //             style={{
+    //                 borderStyle: "solid",
+    //                 borderWidth: "0.7px",
+    //                 borderColor:
+    //                     id == "district"
+    //                         ? district == "지역을 선택하세요"
+    //                             ? "transparent"
+    //                             : district == each
+    //                             ? `${colors.red} ${colors.red} transparent ${colors.red}`
+    //                             : `${colors.grey} ${colors.grey} ${colors.red} ${colors.grey}`
+    //                         : id == "district2"
+    //                         ? "transparent"
+    //                         : id == "store"
+    //                         ? store == "업종을 선택하세요"
+    //                             ? "transparent"
+    //                             : each == "카페" && store == "카페"
+    //                             ? `${colors.red} ${colors.red} ${colors.red} ${colors.red}`
+    //                             : each == "카페" && store == "음식점"
+    //                             ? `${colors.grey} ${colors.grey} ${colors.red} ${colors.grey}`
+    //                             : each == "음식점" && store == "카페"
+    //                             ? `${colors.grey} ${colors.grey}  ${colors.grey} ${colors.grey}`
+    //                             : `${colors.red} ${colors.red} transparent ${colors.red}`
+    //                         : "",
+    //                 color: each == district ? colors.red : "",
+    //             }}
+    //             onClick={(e: any) => {
+    //                 id == "district"
+    //                     ? setDistrict(e.target.innerHTML)
+    //                     : id == "restaurant"
+    //                     ? setStore2(e.target.innerHTML)
+    //                     : id == "store"
+    //                     ? setStore(e.target.innerHTML)
+    //                     : id == "sungsu" || "buckchon" || "shinchon"
+    //                     ? setDistrict2(e.target.innerHTML)
+    //                     : console.log("");
+    //                 handelChangeCrdnt(each);
+    //             }}
+    //         >
+    //             {each}
+    //         </div>
+    //     );
+    // };
     return (
         <>
             <StWrap>
@@ -106,10 +105,50 @@ const ConceptModal = (props: btnActiveProps) => {
                     <div
                         style={{
                             marginTop: "15px",
-                            display: !modalOpen ? "none" : "",
+                            display: !modalOpen ? "none" : "grid",
+                            gridGap: "10px",
                         }}
                     >
-                        <StSelectbox isOpen={selectedDropdown == 1}>
+                        <DistrictSelectBox
+                            state={selectedDistrict}
+                            changeState={(e: any) => setSelectedDistrict(e)}
+                            openId={3}
+                            handleOnclick={() => {
+                                if (selectedDistrict != "지역을 선택하세요") {
+                                    setSelectedDistrict("지역을 선택하세요");
+                                }
+                                if (openedSelect != 3) {
+                                    setOpenedSelect(3);
+                                } else {
+                                    setOpenedSelect(0);
+                                }
+                            }}
+                            openedSelect={openedSelect}
+                            setOpenedSelect={setOpenedSelect}
+                            concept={true}
+                        />
+                        <StoreSelectBox
+                            state={selectedStore}
+                            changeState={(e: any) => setSelectedStore(e)}
+                            resState={selectedRestaurant}
+                            resChangeState={setSelectedRestaurant}
+                            openId={1}
+                            handleOnclick={() => {
+                                if (selectedStore != "업종을 선택하세요") {
+                                    setSelectedStore("업종을 선택하세요");
+                                    setSelectedRestaurant("");
+                                }
+                                if (openedSelect != 1) {
+                                    setOpenedSelect(1);
+                                } else {
+                                    setOpenedSelect(0);
+                                }
+                            }}
+                            openedSelect={openedSelect}
+                            setOpenedSelect={setOpenedSelect}
+                            concept={true}
+                        />
+                        {/* <StSelectbox isOpen={selectedDropdown == 1}>
                             <div
                                 className={ConceptStyle.selectBoxContent}
                                 onClick={(e) => {
@@ -173,8 +212,8 @@ const ConceptModal = (props: btnActiveProps) => {
                                           )
                                       )}
                             </StDropdown>
-                        </StSelectbox>
-                        <StSelectbox isOpen={selectedDropdown == 2}>
+                        </StSelectbox> */}
+                        {/* <StSelectbox isOpen={selectedDropdown == 2}>
                             <div
                                 className={ConceptStyle.selectBoxContent}
                                 onClick={(e) => {
@@ -225,27 +264,37 @@ const ConceptModal = (props: btnActiveProps) => {
                                         </div>
                                     ))}
                             </StDropdown2>
-                        </StSelectbox>
-                    </div>
-                    <div style={{ display: "flex", justifyContent: "center" }}>
-                        <button
-                            className={
-                                district != "지역을 선택하세요" &&
-                                store != "업종을 선택하세요"
-                                    ? `${SelectStyle.clickableReportBtn} ${SelectStyle.reportBtn}`
-                                    : `${SelectStyle.reportBtn}`
-                            }
-                            onClick={() => props.setBtnActive(!props.btnActive)}
-                            // ~~~ onClick 에 서버로부터 보고서 받아오는거 추가 필요 ~~~
-                            disabled={
-                                !(
-                                    district != "지역을 선택하세요" &&
-                                    store != "업종을 선택하세요"
-                                )
-                            }
+                        </StSelectbox> */}
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                marginTop: "5px",
+                            }}
                         >
-                            분석하기
-                        </button>
+                            <button
+                                className={
+                                    selectedDistrict != "지역을 선택하세요" &&
+                                    selectedStore != "업종을 선택하세요"
+                                        ? `${SelectStyle.clickableReportBtn} ${SelectStyle.reportBtn}`
+                                        : `${SelectStyle.reportBtn}`
+                                }
+                                onClick={() => {
+                                    props.setBtnActive(!props.btnActive);
+                                    props.setReportDoorVisible(true);
+                                }}
+                                // ~~~ onClick 에 서버로부터 보고서 받아오는거 추가 필요 ~~~
+                                disabled={
+                                    !(
+                                        selectedDistrict !=
+                                            "지역을 선택하세요" &&
+                                        selectedStore != "업종을 선택하세요"
+                                    )
+                                }
+                            >
+                                분석하기
+                            </button>
+                        </div>
                     </div>
                 </StModalContent>
                 <div
