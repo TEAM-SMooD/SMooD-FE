@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "./Layout";
-import { StWrap } from "../styles/ConceptST";
 import ConceptModal from "../components/ConceptModal";
+import SiteReports from "../components/reports/SiteReports";
 import { useRecoilState } from "recoil";
 import { selectedDistrictCrdnt } from "../state/atom";
 
@@ -10,6 +10,7 @@ const Concept = () => {
     const [innerWidth, setInnerWidth] = useState(window.innerWidth);
     const [innerHeight, setInnerHeight] = useState(window.innerHeight);
     const [crdnt, setCrdnt] = useRecoilState(selectedDistrictCrdnt);
+    const [btnActive, setBtnActive] = useState(false);
 
     useEffect(() => {
         const resizeListener = () => {
@@ -36,7 +37,14 @@ const Concept = () => {
                     id="map"
                     style={{ width: innerWidth, height: innerHeight - 70 }}
                 ></div>
-                <ConceptModal />
+                <ConceptModal
+                    btnActive={btnActive}
+                    setBtnActive={setBtnActive}
+                />
+                <SiteReports
+                    btnActive={btnActive}
+                    setBtnActive={setBtnActive}
+                />
             </Layout>
         </>
     );

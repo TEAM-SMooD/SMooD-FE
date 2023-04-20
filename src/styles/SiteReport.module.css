@@ -1,0 +1,23 @@
+.h50center {
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+.reportHeader {
+    width: 100%;
+    background: var(--red);
+    color: white;
+    font-size: 1.2rem;
+    padding: 11px;
+}
+.reportNav {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;
+    width: 100%;
+    background: white;
+    height: 50px;
+}
+.reportContentWrap {
+    padding: 15px;
+}
