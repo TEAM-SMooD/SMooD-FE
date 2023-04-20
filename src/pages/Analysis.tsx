@@ -59,7 +59,11 @@ const Analysis = () => {
                             if (selectedDistrict != "지역을 선택하세요") {
                                 setSelectedDistrict("지역을 선택하세요");
                             }
-                            setOpenedSelect(3);
+                            if (openedSelect != 3) {
+                                setOpenedSelect(3);
+                            } else {
+                                setOpenedSelect(0);
+                            }
                         }}
                         openedSelect={openedSelect}
                         setOpenedSelect={setOpenedSelect}
@@ -71,12 +75,17 @@ const Analysis = () => {
                         resChangeState={setSelectedRestaurant}
                         openId={1}
                         handleOnclick={() => {
-                            if (selectedStore != "업종을 선택하세요") {
-                                setSelectedStore("업종을 선택하세요");
-                                setSelectedRestaurant("");
+                            if (openedSelect != 1) {
                                 setOpenedSelect(1);
+                                if (selectedStore != "업종을 선택하세요") {
+                                    setSelectedStore("업종을 선택하세요");
+                                    setSelectedRestaurant("");
+                                    setOpenedSelect(1);
+                                } else {
+                                    setOpenedSelect(1);
+                                }
                             } else {
-                                setOpenedSelect(1);
+                                setOpenedSelect(0);
                             }
                         }}
                         openedSelect={openedSelect}

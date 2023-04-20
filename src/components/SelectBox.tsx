@@ -101,6 +101,10 @@ const StoreSelectBox = (props: StoreSelectBoxProps) => {
                     <img
                         src={ic_arrow}
                         style={{
+                            display:
+                                props.openedSelect == props.openId
+                                    ? "none"
+                                    : "",
                             rotate: "180deg",
                             width: "24px",
                         }}
@@ -149,6 +153,10 @@ const ConceptSelectBox = (props: SelectBoxProps) => {
                     <img
                         src={ic_arrow}
                         style={{
+                            display:
+                                props.openedSelect == props.openId
+                                    ? "none"
+                                    : "",
                             rotate: "180deg",
                             width: "24px",
                         }}
@@ -190,6 +198,10 @@ const DistrictSelectBox = (props: SelectBoxProps) => {
                     <img
                         src={ic_arrow}
                         style={{
+                            display:
+                                props.openedSelect == props.openId
+                                    ? "none"
+                                    : "",
                             rotate: "180deg",
                             width: "24px",
                         }}
