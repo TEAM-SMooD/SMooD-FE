@@ -5,7 +5,7 @@ import { DistrictSelectBox, StoreSelectBox } from "../components/SelectBox";
 import { useRecoilState } from "recoil";
 import {
     AnalysisSelectedStore,
-    SiteOpenedSelect,
+    AnalysisOpenedSelect,
     AnalysisSelectedDistrict,
     AnalysisSelectedRestaurant,
 } from "../state/atom";
@@ -40,7 +40,7 @@ const Analysis = () => {
 
     const SelectBlock = () => {
         const [openedSelect, setOpenedSelect] =
-            useRecoilState(SiteOpenedSelect);
+            useRecoilState(AnalysisOpenedSelect);
 
         return (
             <>
@@ -61,6 +61,8 @@ const Analysis = () => {
                             }
                             setOpenedSelect(3);
                         }}
+                        openedSelect={openedSelect}
+                        setOpenedSelect={setOpenedSelect}
                     />
                     <StoreSelectBox
                         state={selectedStore}
@@ -77,6 +79,8 @@ const Analysis = () => {
                                 setOpenedSelect(1);
                             }
                         }}
+                        openedSelect={openedSelect}
+                        setOpenedSelect={setOpenedSelect}
                     />
                 </div>
                 <div style={{ display: "flex", justifyContent: "center" }}>

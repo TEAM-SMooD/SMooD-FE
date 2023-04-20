@@ -58,6 +58,8 @@ const Site = () => {
                             }
                             setOpenedSelect(1);
                         }}
+                        openedSelect={openedSelect}
+                        setOpenedSelect={setOpenedSelect}
                     />
                     <ConceptSelectBox
                         state={selectedConcept}
@@ -79,6 +81,8 @@ const Site = () => {
                                 setOpenedSelect(0);
                             }
                         }}
+                        openedSelect={openedSelect}
+                        setOpenedSelect={setOpenedSelect}
                     />
                 </div>
                 <div style={{ display: "flex", justifyContent: "center" }}>
