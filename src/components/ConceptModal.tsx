@@ -23,7 +23,12 @@ import {
 import { useRecoilState } from "recoil";
 import { selectedDistrictCrdnt } from "../state/atom";
 import { crdntList } from "../data/concepmodalData";
-const ConceptModal = () => {
+import SelectStyle from "../styles/SelectBox.module.css";
+interface btnActiveProps {
+    btnActive: boolean;
+    setBtnActive: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const ConceptModal = (props: btnActiveProps) => {
     const [modalOpen, setModalOpen] = useState(true);
     const [selectedDropdown, setSelectedDropdown] = useState(0);
     const [district, setDistrict] = useState("지역을 선택하세요");
@@ -221,6 +226,26 @@ const ConceptModal = () => {
                                     ))}
                             </StDropdown2>
                         </StSelectbox>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                        <button
+                            className={
+                                district != "지역을 선택하세요" &&
+                                store != "업종을 선택하세요"
+                                    ? `${SelectStyle.clickableReportBtn} ${SelectStyle.reportBtn}`
+                                    : `${SelectStyle.reportBtn}`
+                            }
+                            onClick={() => props.setBtnActive(!props.btnActive)}
+                            // ~~~ onClick 에 서버로부터 보고서 받아오는거 추가 필요 ~~~
+                            disabled={
+                                !(
+                                    district != "지역을 선택하세요" &&
+                                    store != "업종을 선택하세요"
+                                )
+                            }
+                        >
+                            분석하기
+                        </button>
                     </div>
                 </StModalContent>
                 <div
