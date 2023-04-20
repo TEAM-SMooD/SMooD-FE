@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "./Layout";
 import ConceptModal from "../components/ConceptModal";
-import SiteReports from "../components/reports/SiteReports";
+import ConceptSlideReport from "../components/reports/ConceptSlideReport";
 import { useRecoilState } from "recoil";
 import { selectedDistrictCrdnt } from "../state/atom";
 
@@ -11,6 +11,7 @@ const Concept = () => {
     const [innerHeight, setInnerHeight] = useState(window.innerHeight);
     const [crdnt, setCrdnt] = useRecoilState(selectedDistrictCrdnt);
     const [btnActive, setBtnActive] = useState(false);
+    const [reportDoorVisible, setReportDoorVisible] = useState(false);
 
     useEffect(() => {
         const resizeListener = () => {
@@ -40,10 +41,12 @@ const Concept = () => {
                 <ConceptModal
                     btnActive={btnActive}
                     setBtnActive={setBtnActive}
+                    setReportDoorVisible={setReportDoorVisible}
                 />
-                <SiteReports
+                <ConceptSlideReport
                     btnActive={btnActive}
                     setBtnActive={setBtnActive}
+                    reportDoorVisible={reportDoorVisible}
                 />
             </Layout>
         </>
