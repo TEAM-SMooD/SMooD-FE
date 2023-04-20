@@ -60,6 +60,8 @@ interface SelectBoxProps {
     state: any;
     changeState: React.Dispatch<React.SetStateAction<string>>;
     // ? 붙이면안됨! Cannot invoke an object which is possibly 'undefined'.ts(2722)
+    openedSelect: number;
+    setOpenedSelect: React.Dispatch<React.SetStateAction<number>>;
 }
 interface StoreSelectBoxProps {
     openId?: number;
@@ -69,26 +71,27 @@ interface StoreSelectBoxProps {
     changeState: React.Dispatch<React.SetStateAction<string>>;
     resState: string;
     resChangeState: React.Dispatch<React.SetStateAction<string>>;
+    openedSelect: number;
+    setOpenedSelect: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const StoreSelectBox = (props: StoreSelectBoxProps) => {
-    const [openedSelect, setOpenedSelect] = useRecoilState(SiteOpenedSelect);
     const [selectedStore, setSelectedStore] = useRecoilState(SiteSelectedStore);
     const [selectedRestaurant, setSelectedRestaurant] = useRecoilState(
         SiteSelectedRestaurant
     );
     useEffect(() => {
-        if (openedSelect == 1) {
+        if (props.openedSelect == 1) {
             if (props.state == "카페") {
-                setOpenedSelect(0);
+                props.setOpenedSelect(0);
             } else if (props.resState != "") {
-                setOpenedSelect(0);
+                props.setOpenedSelect(0);
             }
         }
     }, [selectedStore, selectedRestaurant]);
     return (
         <>
-            <STselectbox isOpen={openedSelect == props.openId}>
+            <STselectbox isOpen={props.openedSelect == props.openId}>
                 <STselectWrap onClick={props.handleOnclick}>
                     <STicons src={ic_concept} />
                     <div>
@@ -103,7 +106,7 @@ const StoreSelectBox = (props: StoreSelectBoxProps) => {
                         }}
                     />
                 </STselectWrap>
-                {openedSelect == props.openId ? (
+                {props.openedSelect == props.openId ? (
                     props.state == "음식점" ? (
                         <STStoreDropdown>
                             {restaurantArr.map((each, i) =>
@@ -131,11 +134,9 @@ const StoreSelectBox = (props: StoreSelectBoxProps) => {
     );
 };
 const ConceptSelectBox = (props: SelectBoxProps) => {
-    const [openedSelect, setOpenedSelect] = useRecoilState(SiteOpenedSelect);
-
     return (
         <>
-            <STselectbox isOpen={openedSelect == props.openId}>
+            <STselectbox isOpen={props.openedSelect == props.openId}>
                 <STselectWrap onClick={props.handleOnclick}>
                     <STicons src={ic_concept} />
                     <div>
@@ -153,7 +154,7 @@ const ConceptSelectBox = (props: SelectBoxProps) => {
                         }}
                     />
                 </STselectWrap>
-                {openedSelect == props.openId ? (
+                {props.openedSelect == props.openId ? (
                     <STConceptDropdown>
                         {conceptArr.map((each, i) =>
                             handleSelectDropdownEach("concept", each, () => {
@@ -169,21 +170,20 @@ const ConceptSelectBox = (props: SelectBoxProps) => {
     );
 };
 const DistrictSelectBox = (props: SelectBoxProps) => {
-    const [openedSelect, setOpenedSelect] = useRecoilState(SiteOpenedSelect);
     const [selectedDistrict, setSelectedDistrict] = useRecoilState(
         AnalysisSelectedDistrict
     );
     useEffect(() => {
-        if (openedSelect == 3) {
+        if (props.openedSelect == 3) {
             if (selectedDistrict != "지역을 선택하세요") {
-                setOpenedSelect(0);
+                props.setOpenedSelect(0);
             }
         }
     }, [selectedDistrict]);
 
     return (
         <>
-            <STselectbox isOpen={openedSelect == props.openId}>
+            <STselectbox isOpen={props.openedSelect == props.openId}>
                 <STselectWrap onClick={props.handleOnclick}>
                     <STicons src={ic_concept} />
                     <div>{props.state}</div>
@@ -195,7 +195,7 @@ const DistrictSelectBox = (props: SelectBoxProps) => {
                         }}
                     />
                 </STselectWrap>
-                {openedSelect == props.openId ? (
+                {props.openedSelect == props.openId ? (
                     <STDistritDropdown>
                         {districtArr.map((each, i) =>
                             handleSelectDropdownEach("store", each, () =>
