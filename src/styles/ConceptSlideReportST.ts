@@ -7,7 +7,7 @@ export const STconceptSlideReportWrap = styled.div<{ slideOpen: boolean }>`
     z-index: 99;
     top: 69px;
     right: ${(props) => (props.slideOpen ? "0px" : "-700px")};
-    width: 689px;
+    width: 700px;
     height: calc(100vh - 71px);
 `;
 
@@ -20,4 +20,8 @@ export const STconceptSlideReportDoor = styled.div`
     height: 80px;
     margin-top: -40px;
     background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 `;

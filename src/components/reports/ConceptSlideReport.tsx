@@ -54,8 +54,10 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                     <img
                         src={ic_arrow}
                         style={{
-                            rotate: "180deg",
-                            width: "24px",
+                            rotate: props.reportDoorVisible
+                                ? "90deg"
+                                : "-90deg",
+                            width: "35px",
                         }}
                     />
                 </STconceptSlideReportDoor>
