@@ -10,7 +10,7 @@ const Concept = () => {
     const [innerWidth, setInnerWidth] = useState(window.innerWidth);
     const [innerHeight, setInnerHeight] = useState(window.innerHeight);
     const [crdnt, setCrdnt] = useRecoilState(selectedDistrictCrdnt);
-    const [btnActive, setBtnActive] = useState(false);
+    const [isBtnClicked, setIsBtnClicked] = useState(false);
     const [reportDoorVisible, setReportDoorVisible] = useState(false);
 
     useEffect(() => {
@@ -30,7 +30,6 @@ const Concept = () => {
         const newLatLng = new kakao.maps.LatLng(crdnt[0], crdnt[1]);
         map.panTo(newLatLng);
     }, [crdnt]);
-
     return (
         <>
             <Layout idx={1}>
@@ -39,14 +38,16 @@ const Concept = () => {
                     style={{ width: innerWidth, height: innerHeight - 70 }}
                 ></div>
                 <ConceptModal
-                    btnActive={btnActive}
-                    setBtnActive={setBtnActive}
+                    isBtnClicked={isBtnClicked}
+                    setIsBtnClicked={setIsBtnClicked}
+                    reportDoorVisible={reportDoorVisible}
                     setReportDoorVisible={setReportDoorVisible}
                 />
                 <ConceptSlideReport
-                    btnActive={btnActive}
-                    setBtnActive={setBtnActive}
+                    isBtnClicked={isBtnClicked}
+                    setIsBtnClicked={setIsBtnClicked}
                     reportDoorVisible={reportDoorVisible}
+                    setReportDoorVisible={setReportDoorVisible}
                 />
             </Layout>
         </>

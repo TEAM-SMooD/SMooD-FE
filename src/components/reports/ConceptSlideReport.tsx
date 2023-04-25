@@ -4,11 +4,13 @@ import {
     STconceptSlideReportDoor,
 } from "../../styles/ConceptSlideReportST";
 import ConceptSlideReportStyle from "../../styles/ConceptSlideReport.module.css";
+import ic_arrow from "../../assets/ic_arrow.png";
 
 interface btnActiveProps {
-    btnActive: boolean;
-    setBtnActive: React.Dispatch<React.SetStateAction<boolean>>;
+    isBtnClicked: boolean;
+    setIsBtnClicked: React.Dispatch<React.SetStateAction<boolean>>;
     reportDoorVisible: boolean;
+    setReportDoorVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const ConceptSlideReport = (props: btnActiveProps) => {
     const [innerHeight, setInnerHeight] = useState(window.innerHeight);
@@ -19,7 +21,7 @@ const ConceptSlideReport = (props: btnActiveProps) => {
 
     return (
         <>
-            <STconceptSlideReportWrap slideOpen={props.btnActive}>
+            <STconceptSlideReportWrap slideOpen={props.reportDoorVisible}>
                 <div
                     className={`${ConceptSlideReportStyle.h50center} ${ConceptSlideReportStyle.reportHeader}`}
                 >
@@ -44,9 +46,19 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                     본문
                 </div>
                 <STconceptSlideReportDoor
-                    style={{ display: props.reportDoorVisible ? "" : "none" }}
-                    onClick={() => props.setBtnActive(!props.btnActive)}
-                />
+                    style={{ display: props.isBtnClicked ? "" : "none" }}
+                    onClick={() =>
+                        props.setReportDoorVisible(!props.reportDoorVisible)
+                    }
+                >
+                    <img
+                        src={ic_arrow}
+                        style={{
+                            rotate: "180deg",
+                            width: "24px",
+                        }}
+                    />
+                </STconceptSlideReportDoor>
             </STconceptSlideReportWrap>
         </>
     );
