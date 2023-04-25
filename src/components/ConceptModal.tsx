@@ -14,8 +14,9 @@ import {
 import SelectStyle from "../styles/SelectBox.module.css";
 import { DistrictSelectBox, StoreSelectBox } from "./SelectBox";
 interface btnActiveProps {
-    btnActive: boolean;
-    setBtnActive: React.Dispatch<React.SetStateAction<boolean>>;
+    isBtnClicked: boolean;
+    setIsBtnClicked: React.Dispatch<React.SetStateAction<boolean>>;
+    reportDoorVisible: boolean;
     setReportDoorVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const ConceptModal = (props: btnActiveProps) => {
@@ -30,6 +31,7 @@ const ConceptModal = (props: btnActiveProps) => {
         ConceptSelectedDistrict
     );
     const [openedSelect, setOpenedSelect] = useRecoilState(ConceptOpenedSelect);
+
     return (
         <>
             <StWrap>
@@ -98,8 +100,11 @@ const ConceptModal = (props: btnActiveProps) => {
                                         : `${SelectStyle.reportBtn}`
                                 }
                                 onClick={() => {
-                                    props.setBtnActive(!props.btnActive);
-                                    props.setReportDoorVisible(true);
+                                    if (!props.isBtnClicked) {
+                                        props.setIsBtnClicked(true);
+                                        props.setReportDoorVisible(true);
+                                    }
+                                    console.log("서버에 get 요청");
                                 }}
                                 // ~~~ onClick 에 서버로부터 보고서 받아오는거 추가 필요 ~~~
                                 disabled={
