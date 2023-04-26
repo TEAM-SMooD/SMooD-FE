@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { colors } from "./designSystem";
 
-export const STselectbox = styled.div<{ isOpen?: boolean }>`
-    width: 30%;
+export const STselectbox = styled.div<{ isOpen?: boolean; concept?: boolean }>`
+    width: ${(props) => (props.concept ? "100%" : "30%")};
     border-radius: ${(props) =>
         props.isOpen ? "12.8px 12.8px 0px 0px" : "204px"};
     background: #f2f1f5;
@@ -38,6 +38,7 @@ export const STDropdown = styled.div`
     padding-bottom: 0.5rem;
     padding-top: 0.5rem;
     border-top: 1px solid ${colors.lightgrey};
+    z-index: 99;
 `;
 export const STStoreDropdown = styled(STDropdown)`
     grid-template-columns: 1fr 1fr;

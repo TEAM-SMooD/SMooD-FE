@@ -5,7 +5,7 @@ import { DistrictSelectBox, StoreSelectBox } from "../components/SelectBox";
 import { useRecoilState } from "recoil";
 import {
     AnalysisSelectedStore,
-    SiteOpenedSelect,
+    AnalysisOpenedSelect,
     AnalysisSelectedDistrict,
     AnalysisSelectedRestaurant,
 } from "../state/atom";
@@ -40,7 +40,7 @@ const Analysis = () => {
 
     const SelectBlock = () => {
         const [openedSelect, setOpenedSelect] =
-            useRecoilState(SiteOpenedSelect);
+            useRecoilState(AnalysisOpenedSelect);
 
         return (
             <>
@@ -59,8 +59,14 @@ const Analysis = () => {
                             if (selectedDistrict != "지역을 선택하세요") {
                                 setSelectedDistrict("지역을 선택하세요");
                             }
-                            setOpenedSelect(3);
+                            if (openedSelect != 3) {
+                                setOpenedSelect(3);
+                            } else {
+                                setOpenedSelect(0);
+                            }
                         }}
+                        openedSelect={openedSelect}
+                        setOpenedSelect={setOpenedSelect}
                     />
                     <StoreSelectBox
                         state={selectedStore}
@@ -69,14 +75,21 @@ const Analysis = () => {
                         resChangeState={setSelectedRestaurant}
                         openId={1}
                         handleOnclick={() => {
-                            if (selectedStore != "업종을 선택하세요") {
-                                setSelectedStore("업종을 선택하세요");
-                                setSelectedRestaurant("");
+                            if (openedSelect != 1) {
                                 setOpenedSelect(1);
+                                if (selectedStore != "업종을 선택하세요") {
+                                    setSelectedStore("업종을 선택하세요");
+                                    setSelectedRestaurant("");
+                                    setOpenedSelect(1);
+                                } else {
+                                    setOpenedSelect(1);
+                                }
                             } else {
-                                setOpenedSelect(1);
+                                setOpenedSelect(0);
                             }
                         }}
+                        openedSelect={openedSelect}
+                        setOpenedSelect={setOpenedSelect}
                     />
                 </div>
                 <div style={{ display: "flex", justifyContent: "center" }}>

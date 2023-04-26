@@ -4,7 +4,24 @@ export const selectedDistrictCrdnt = atom({
     key: "selectedDistrictCrdnt",
     default: [37.56355393394405, 126.98066789603592],
 });
+export const ConceptOpenedSelect = atom({
+    key: "ConceptOpenedSelect",
+    default: 0,
+});
+export const ConceptSelectedDistrict = atom({
+    key: "ConceptSelectedDistrict",
+    default: "지역을 선택하세요",
+});
+export const ConceptSelectedStore = atom({
+    key: "ConceptSelectedStore",
+    default: "업종을 선택하세요",
+});
+export const ConceptSelectedRestaurant = atom({
+    key: "ConceptSelectedRestaurant",
+    default: "",
+});
 
+// Site
 export const SiteOpenedSelect = atom({
     key: "SiteOpenedSelect",
     default: 0,
@@ -20,10 +37,6 @@ export const SiteSelectedRestaurant = atom({
 export const SiteSelectedConcept = atom({
     key: "SiteSelectedConcept",
     default: [""],
-});
-export const SiteSelectedDistrict = atom({
-    key: "SiteSelectedDistrict",
-    default: "지역을 선택하세요",
 });
 
 // Analysis
