@@ -1,38 +1,74 @@
 import React, { useEffect, useRef, useState } from "react";
-// import useDetectOutside from "../hooks/useDetectOutside";
+import {
+    ModalBackGround,
+    ModalContainer,
+    ModalWrap,
+} from "../styles/StoreModalST";
+import { colors } from "../styles/designSystem";
+import ic_closeX from "../assets/ic_closeX.png";
+import StoreModalStyle from "../styles/StoreModal.module.css";
+import KakaoMap from "./KakaoMap";
 
 interface StoreModalProps {
     modalOpen: boolean;
     setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const StoreModal = (props: StoreModalProps) => {
-    const modalRef = useRef<HTMLDivElement>(null);
-    const closeModal = () => {
-        props.setModalOpen(false);
+    const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+    const resizeListener = () => {
+        setInnerWidth(window.innerWidth);
     };
-    useEffect(() => {
-        const handleOutsideClick = (e: any) => {
-            console.log("modalREf", modalRef.current);
-            console.log(e.target);
-            // console.log("??", );
-            if (
-                modalRef.current &&
-                !modalRef.current.contains(e.target) &&
-                e.target.innerHTML != "모달오픈!" //////////////////////이게아닐텐데 어떡할까요 ㅠ ㅅ ㅠ!
-            ) {
-                props.setModalOpen(false); //모달(ref에설정된) 외부를 클릭하면 모달오픈 닫음
-                console.log("g");
-            }
-        };
-        document.addEventListener("click", handleOutsideClick);
-        return () => document.removeEventListener("click", handleOutsideClick);
-    });
-
-    // const [modalOpen, modalRef, modalHandler] = useDetectOutside(false);
+    window.addEventListener("resize", resizeListener);
     return (
-        <div ref={modalRef}>
-            <p>모달창인디</p>
-        </div>
+        <ModalWrap>
+            <ModalBackGround onClick={() => props.setModalOpen(false)} />
+            <ModalContainer>
+                <div className={StoreModalStyle.headerRed}>
+                    <img
+                        src={ic_closeX}
+                        style={{ height: "80%" }}
+                        onClick={() => props.setModalOpen(false)}
+                    />
+                </div>
+                <div className={StoreModalStyle.title}>
+                    <div style={{ fontSize: "1.4rem" }}>가게이름</div>
+                    <div className={StoreModalStyle.tagsWrap}>
+                        {["#분위기좋은", "#데이트", "#인스타"].map(
+                            (e: string, i: number) => (
+                                <div
+                                    className={StoreModalStyle.tagEach}
+                                    key={e}
+                                >
+                                    {e}
+                                </div>
+                            )
+                        )}
+                    </div>
+                </div>
+                <div className={StoreModalStyle.mainWrap}>
+                    <div className={StoreModalStyle.mainEachWrap}>
+                        <div style={{ fontWeight: "bold" }}>키워드</div>
+                    </div>
+                    <div className={StoreModalStyle.mainEachWrap}>
+                        <div style={{ fontWeight: "bold" }}>키워드 리뷰</div>
+                    </div>
+                    <div
+                        className={StoreModalStyle.mainEachWrap}
+                        style={{ overflow: "hidden" }}
+                    >
+                        <div>
+                            <KakaoMap
+                                elementsId="Storemap"
+                                mapWidth={innerWidth * 0.53}
+                                mapHeight={258}
+                                crdnt={[37.55049472619646, 127.07427075510395]}
+                                isForStore={1}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </ModalContainer>
+        </ModalWrap>
     );
 };
 

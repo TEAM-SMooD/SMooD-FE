@@ -21,7 +21,6 @@ const ConceptSlideReport = (props: btnActiveProps) => {
     const [modalOpen, setModalOpen] = useState(false);
 
     window.addEventListener("resize", resizeListener);
-    console.log(modalOpen);
     return (
         <>
             <STconceptSlideReportWrap slideOpen={props.reportDoorVisible}>
