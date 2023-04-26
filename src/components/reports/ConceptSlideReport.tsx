@@ -5,6 +5,7 @@ import {
 } from "../../styles/ConceptSlideReportST";
 import ConceptSlideReportStyle from "../../styles/ConceptSlideReport.module.css";
 import ic_arrow from "../../assets/ic_arrow.png";
+import StoreModal from "../StoreModal";
 
 interface btnActiveProps {
     isBtnClicked: boolean;
@@ -17,8 +18,10 @@ const ConceptSlideReport = (props: btnActiveProps) => {
     const resizeListener = () => {
         setInnerHeight(window.innerHeight);
     };
-    window.addEventListener("resize", resizeListener);
+    const [modalOpen, setModalOpen] = useState(false);
 
+    window.addEventListener("resize", resizeListener);
+    console.log(modalOpen);
     return (
         <>
             <STconceptSlideReportWrap slideOpen={props.reportDoorVisible}>
@@ -61,6 +64,16 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                         }}
                     />
                 </STconceptSlideReportDoor>
+
+                <button onClick={() => setModalOpen(true)}>모달오픈!</button>
+                {modalOpen && (
+                    <>
+                        <StoreModal
+                            modalOpen={modalOpen}
+                            setModalOpen={setModalOpen}
+                        />
+                    </>
+                )}
             </STconceptSlideReportWrap>
         </>
     );
