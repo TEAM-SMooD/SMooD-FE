@@ -6,8 +6,8 @@ export const STconceptSlideReportWrap = styled.div<{ slideOpen: boolean }>`
     background: white;
     z-index: 99;
     top: 69px;
-    right: ${(props) => (props.slideOpen ? "0px" : "-700px")};
-    width: 700px;
+    right: ${(props) => (props.slideOpen ? "0px" : "calc(100vw * -0.5)")};
+    width: calc(100vw * 0.5);
     height: calc(100vh - 71px);
 `;
 
