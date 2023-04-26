@@ -1,0 +1,38 @@
+.headerRed {
+    background: var(--red);
+    border-radius: 10px 10px 0px 0px;
+    flex-direction: row-reverse;
+    display: flex;
+    align-items: center;
+    padding-right: 5px;
+}
+.title {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0px 5px 0px;
+    justify-items: center;
+}
+.tagsWrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+}
+.tagEach {
+    border: 0.9px solid var(--red);
+    border-radius: 7px;
+    padding: 2px 4px 2px 4px;
+    text-align: center;
+    color: var(--red);
+    font-size: 0.8rem;
+}
+.mainWrap {
+    padding: 0% 3%;
+    overflow-y: "scroll";
+    display: grid;
+    gap: 11px;
+}
+.mainEachWrap {
+    border: 1px solid #c8c8c8;
+    padding: 0.8rem 1rem 0.8rem 1rem;
+}
