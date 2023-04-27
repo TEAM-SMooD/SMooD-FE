@@ -12,6 +12,7 @@
     justify-content: center;
     padding: 10px 0px 5px 0px;
     justify-items: center;
+    border-bottom: 0.9px solid #b0b0b0;
 }
 .tagsWrap {
     display: grid;
@@ -27,12 +28,23 @@
     font-size: 0.8rem;
 }
 .mainWrap {
-    padding: 0% 3%;
-    overflow-y: "scroll";
+    padding: 2% 3%;
+    overflow-y: scroll;
     display: grid;
     gap: 11px;
 }
 .mainEachWrap {
-    border: 1px solid #c8c8c8;
+    border: 0.9px solid #b0b0b0;
     padding: 0.8rem 1rem 0.8rem 1rem;
+}
+.mainEachTitle {
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+.mainKeywordContentsWrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.mainReviewEach:not(:last-child) {
+    border-bottom: 0.9px solid #b0b0b0;
 }

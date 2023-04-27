@@ -45,7 +45,7 @@ const KakaoMap = (props: kakaomapPRops) => {
     return (
         <div
             id={props.elementsId}
-            style={{ width: props.mapWidth, height: props.mapHeight }}
+            style={{ width: "100%", height: props.mapHeight }}
         ></div>
     );
 };
