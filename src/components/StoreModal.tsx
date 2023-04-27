@@ -47,15 +47,34 @@ const StoreModal = (props: StoreModalProps) => {
                 </div>
                 <div className={StoreModalStyle.mainWrap}>
                     <div className={StoreModalStyle.mainEachWrap}>
-                        <div style={{ fontWeight: "bold" }}>키워드</div>
+                        <div className={StoreModalStyle.mainEachTitle}>
+                            키워드
+                        </div>
+                        <div
+                            className={StoreModalStyle.mainKeywordContentsWrap}
+                        >
+                            <div>키워드그래프</div>
+                            <div>워드클라우드</div>
+                        </div>
                     </div>
                     <div className={StoreModalStyle.mainEachWrap}>
-                        <div style={{ fontWeight: "bold" }}>키워드 리뷰</div>
+                        <div className={StoreModalStyle.mainEachTitle}>
+                            키워드 리뷰
+                        </div>
+                        <div>
+                            <div className={StoreModalStyle.mainReviewEach}>
+                                <div>#분위기좋은</div>
+                                <div>내용</div>
+                                <div>내용</div>
+                            </div>
+                            <div className={StoreModalStyle.mainReviewEach}>
+                                <div>#데이트</div>
+                                <div>내용</div>
+                                <div>내용</div>
+                            </div>
+                        </div>
                     </div>
-                    <div
-                        className={StoreModalStyle.mainEachWrap}
-                        style={{ overflow: "hidden" }}
-                    >
+                    <div className={StoreModalStyle.mainEachWrap}>
                         <div>
                             <KakaoMap
                                 elementsId="Storemap"
