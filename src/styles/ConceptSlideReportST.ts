@@ -9,6 +9,8 @@ export const STconceptSlideReportWrap = styled.div<{ slideOpen: boolean }>`
     right: ${(props) => (props.slideOpen ? "0px" : "calc(100vw * -0.5)")};
     width: calc(100vw * 0.5);
     height: calc(100vh - 71px);
+    display: grid;
+    grid-template-rows: 50px 50px 50px auto;
 `;
 
 export const STconceptSlideReportDoor = styled.div`
