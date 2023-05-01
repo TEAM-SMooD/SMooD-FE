@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { StWrap, StModalContent } from "../styles/ConceptST";
 import { colors } from "../styles/designSystem";
 import ic_arrow from "../assets/ic_arrow.png";
