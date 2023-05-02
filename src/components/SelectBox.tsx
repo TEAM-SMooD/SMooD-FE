@@ -4,21 +4,18 @@ import {
     STselectWrap,
     STicons,
     STStoreDropdown,
-    STDistritDropdown,
     STConceptDropdown,
+    STDropdown,
 } from "../styles/SelectST";
 import ic_concept from "../assets/ic_concept.png";
 import ic_arrow from "../assets/ic_arrow.png";
 import { useRecoilState } from "recoil";
-import {
-    SiteOpenedSelect,
-    SiteSelectedStore,
-    SiteSelectedRestaurant,
-    AnalysisSelectedDistrict,
-    selectedDistrictCrdnt,
-} from "../state/atom";
+import { selectedDistrictCrdnt } from "../state/atom";
 import {
     districtArr,
+    sungsuArr,
+    bukchonArr,
+    shinchonArr,
     storeArr,
     restaurantArr,
     conceptArr,
@@ -66,24 +63,16 @@ interface SelectBoxProps {
     setOpenedSelect: React.Dispatch<React.SetStateAction<number>>;
     concept?: boolean;
 }
-interface StoreSelectBoxProps {
-    openId?: number;
-    dropdownId?: string;
-    handleOnclick: () => void;
-    state: any;
-    changeState: React.Dispatch<React.SetStateAction<string>>;
+interface StoreSelectBoxProps extends SelectBoxProps {
     resState: string;
     resChangeState: React.Dispatch<React.SetStateAction<string>>;
-    openedSelect: number;
-    setOpenedSelect: React.Dispatch<React.SetStateAction<number>>;
-    concept?: boolean;
+}
+interface DistrictSelectBoxProps extends SelectBoxProps {
+    state2: string;
+    changeState2: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const StoreSelectBox = (props: StoreSelectBoxProps) => {
-    const [selectedStore, setSelectedStore] = useRecoilState(SiteSelectedStore);
-    const [selectedRestaurant, setSelectedRestaurant] = useRecoilState(
-        SiteSelectedRestaurant
-    );
     useEffect(() => {
         if (props.openedSelect == 1) {
             if (props.state == "카페") {
@@ -184,17 +173,16 @@ const ConceptSelectBox = (props: SelectBoxProps) => {
         </>
     );
 };
-const DistrictSelectBox = (props: SelectBoxProps) => {
+const DistrictSelectBox = (props: DistrictSelectBoxProps) => {
     const [crdnt, setCrdnt] = useRecoilState(selectedDistrictCrdnt);
 
     useEffect(() => {
         if (props.openedSelect == 3) {
-            if (props.state != "지역을 선택하세요") {
+            if (props.state2 != "") {
                 props.setOpenedSelect(0);
             }
         }
-    }, [props.state]);
-
+    }, [props.state2]);
     return (
         <>
             <STselectbox
@@ -203,7 +191,10 @@ const DistrictSelectBox = (props: SelectBoxProps) => {
             >
                 <STselectWrap onClick={props.handleOnclick}>
                     <STicons src={ic_concept} />
-                    <div>{props.state}</div>
+                    <div>
+                        {props.state} {props.state2 ? " | " : ""}
+                        {props.state2 ? props.state2 : ""}
+                    </div>
                     <img
                         src={ic_arrow}
                         style={{
@@ -217,16 +208,56 @@ const DistrictSelectBox = (props: SelectBoxProps) => {
                     />
                 </STselectWrap>
                 {props.openedSelect == props.openId ? (
-                    <STDistritDropdown>
-                        {districtArr.map((each, i) =>
-                            handleSelectDropdownEach("store", each, () => {
-                                props.changeState(each);
-                                if (props.concept) {
-                                    setCrdnt(crdntList[each]);
-                                }
-                            })
-                        )}
-                    </STDistritDropdown>
+                    props.state == "지역을 선택하세요" ? (
+                        <STDropdown
+                            style={{ gridTemplateColumns: "1fr 1fr 1fr" }}
+                        >
+                            {districtArr.map((each, i) =>
+                                handleSelectDropdownEach("store", each, () => {
+                                    props.changeState(each);
+                                    if (props.concept) {
+                                        setCrdnt(crdntList[each]);
+                                    }
+                                })
+                            )}
+                        </STDropdown>
+                    ) : props.state == "성수" ? (
+                        <STDropdown
+                            style={{ gridTemplateColumns: "1fr 1fr 1fr 1fr" }}
+                        >
+                            {sungsuArr.map((each, i) =>
+                                handleSelectDropdownEach("store", each, () => {
+                                    props.changeState2(each);
+                                    if (props.concept) {
+                                        setCrdnt(crdntList[each]);
+                                    }
+                                })
+                            )}
+                        </STDropdown>
+                    ) : props.state == "북촌" ? (
+                        <STDropdown style={{ gridTemplateColumns: "1fr 1fr" }}>
+                            {bukchonArr.map((each, i) =>
+                                handleSelectDropdownEach("store", each, () => {
+                                    props.changeState2(each);
+                                    if (props.concept) {
+                                        setCrdnt(crdntList[each]);
+                                    }
+                                })
+                            )}
+                        </STDropdown>
+                    ) : (
+                        //"신촌"
+                        <STDropdown style={{ gridTemplateColumns: "1fr" }}>
+                            {shinchonArr.map((each, i) =>
+                                handleSelectDropdownEach("store", each, () => {
+                                    props.changeState2(each);
+                                    if (props.concept) {
+                                        setCrdnt(crdntList[each]);
+                                    }
+                                })
+                            )}
+                        </STDropdown>
+                    )
                 ) : (
                     ""
                 )}

@@ -7,6 +7,7 @@ import {
     AnalysisSelectedStore,
     AnalysisOpenedSelect,
     AnalysisSelectedDistrict,
+    AnalysisSelectedDistrict2,
     AnalysisSelectedRestaurant,
 } from "../state/atom";
 import SelectStyle from "../styles/SelectBox.module.css";
@@ -14,6 +15,9 @@ import SelectStyle from "../styles/SelectBox.module.css";
 const Analysis = () => {
     const [selectedDistrict, setSelectedDistrict] = useRecoilState(
         AnalysisSelectedDistrict
+    );
+    const [selectedDistrict2, setSelectedDistrict2] = useRecoilState(
+        AnalysisSelectedDistrict2
     );
     const [selectedStore, setSelectedStore] = useRecoilState(
         AnalysisSelectedStore
@@ -54,10 +58,13 @@ const Analysis = () => {
                     <DistrictSelectBox
                         state={selectedDistrict}
                         changeState={(e: any) => setSelectedDistrict(e)}
+                        state2={selectedDistrict2}
+                        changeState2={(e: any) => setSelectedDistrict2(e)}
                         openId={3}
                         handleOnclick={() => {
                             if (selectedDistrict != "지역을 선택하세요") {
                                 setSelectedDistrict("지역을 선택하세요");
+                                setSelectedDistrict2("");
                             }
                             if (openedSelect != 3) {
                                 setOpenedSelect(3);

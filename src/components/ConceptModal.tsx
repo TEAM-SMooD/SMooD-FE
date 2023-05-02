@@ -9,6 +9,7 @@ import {
     ConceptSelectedRestaurant,
     ConceptSelectedStore,
     ConceptSelectedDistrict,
+    ConceptSelectedDistrict2,
     selectedDistrictCrdnt,
 } from "../state/atom";
 import SelectStyle from "../styles/SelectBox.module.css";
@@ -30,6 +31,9 @@ const ConceptModal = (props: btnActiveProps) => {
     const [selectedDistrict, setSelectedDistrict] = useRecoilState(
         ConceptSelectedDistrict
     );
+    const [selectedDistrict2, setSelectedDistrict2] = useRecoilState(
+        ConceptSelectedDistrict2
+    );
     const [openedSelect, setOpenedSelect] = useRecoilState(ConceptOpenedSelect);
 
     return (
@@ -49,10 +53,13 @@ const ConceptModal = (props: btnActiveProps) => {
                         <DistrictSelectBox
                             state={selectedDistrict}
                             changeState={(e: any) => setSelectedDistrict(e)}
+                            state2={selectedDistrict2}
+                            changeState2={(e: any) => setSelectedDistrict2(e)}
                             openId={3}
                             handleOnclick={() => {
                                 if (selectedDistrict != "지역을 선택하세요") {
                                     setSelectedDistrict("지역을 선택하세요");
+                                    setSelectedDistrict2("");
                                 }
                                 if (openedSelect != 3) {
                                     setOpenedSelect(3);
