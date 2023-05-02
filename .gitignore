@@ -24,3 +24,7 @@ yarn-error.log*
 
 ## KEY
 .env
+
+package.json
+setupProxy.js
+Login.tsx

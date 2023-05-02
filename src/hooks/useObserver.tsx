@@ -8,7 +8,7 @@ export const useObserver = (
     const refElement = useRef<HTMLDivElement>(null);
     useEffect(() => {
         const osv = new IntersectionObserver((entries, observer) => {
-            console.log(entries[0].isIntersecting);
+            // console.log(entries[0].isIntersecting);
             if (entries[0].isIntersecting) {
                 setNavNumber(navNumber);
             }

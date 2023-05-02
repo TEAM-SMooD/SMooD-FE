@@ -20,7 +20,7 @@ export const ModalBackGround = styled.div`
 `;
 export const ModalContainer = styled.div`
     display: grid;
-    grid-template-rows: 7% 20% auto;
+    grid-template-rows: 7% auto;
     border-radius: 10px;
     // gap: 2rem;
     // padding: 3.6rem 0;
