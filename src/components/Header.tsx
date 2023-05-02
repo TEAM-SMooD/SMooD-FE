@@ -40,7 +40,6 @@ const Header = (props: HeaderProps) => {
                     </div>
                 ))}
             </div>
-<<<<<<< HEAD
             {!sessionStorage.getItem("userId") ? (
                 <div style={{ display: "flex", flexDirection: "row" }}>
                     <a href={process.env.REACT_APP_KAKAO_AUTH_URL}>
@@ -50,13 +49,6 @@ const Header = (props: HeaderProps) => {
             ) : (
                 <div>로그인 아이디 : {sessionStorage.getItem("userId")}</div>
             )}
-=======
-            <div style={{ display: "flex", flexDirection: "row" }}>
-                <a href={process.env.REACT_APP_KAKAO_AUTH_URL}>
-                    <img src={kakao_login} />
-                </a>
-            </div>
->>>>>>> 767a92300c530a339c477f06b925a2293a8b18cc
         </header>
     );
 };
