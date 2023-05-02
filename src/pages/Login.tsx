@@ -4,6 +4,8 @@ import { useState } from "react";
 // import { Container, Grid, Text } from "../Elements";
 // import { actionCreators as userActions} from "../Redux/Modules/User";
 import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
+
 const Login = () => {
     // const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
@@ -11,32 +13,31 @@ const Login = () => {
     const href = window.location.href;
     let params = new URL(document.URL).searchParams;
     let code = params.get("code");
+    const navigate = useNavigate();
+
     useEffect(() => {
         const postCode = async () => {
             try {
                 setError(null);
                 setLoading(true);
                 const res = await axios.get(
-                    "http://localhost:8080/login/oauth/kakao",
+                    // `${process.env.REACT_APP_SERVER_URL}/login/oauth/kakao`,
+                    "http://3.39.182.90:8080/login/oauth/kakao",
+                    // "/api/login/oauth/kakao",
                     {
                         params: {
                             code: code,
                         },
                     }
                 );
-                console.log("RES", res);
+                console.log(res);
+                // navigate("/");
             } catch (err) {
                 setError(err);
-                console.log(err);
             }
-            setLoading(false);
         };
         postCode();
     }, []);
-
-    // React.useEffect(async () => {
-    //     await dispatch(userActions.kakaoLogin(code));
-    // }, []);
 
     return (
         <>{loading ? <p>{code}</p> : <p>대기중</p>}</>
