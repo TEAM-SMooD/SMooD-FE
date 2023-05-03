@@ -3,6 +3,9 @@ import Layout from "./Layout";
 import ReportLayout from "./ReportLayout";
 import { DistrictSelectBox, StoreSelectBox } from "../components/SelectBox";
 import { useRecoilState } from "recoil";
+import AnalysisReport from "../components/AnalysisReport";
+import AnalysisReportStyle from "../styles/AnalysisStyle.module.css";
+
 import {
     AnalysisSelectedStore,
     AnalysisOpenedSelect,
@@ -28,6 +31,27 @@ const Analysis = () => {
     const [selectedAll, setSelectedAll] = useState(false);
     const [reportOpen, setReportOpen] = useState(false);
 
+    const [scrollY, setScrollY] = useState(0);
+    const [menuFixed, setMenuFixed] = useState(false);
+    console.log(scrollY, menuFixed);
+    function handleScroll() {
+        setScrollY(window.pageYOffset);
+        if (scrollY > 90) {
+            setMenuFixed(true);
+        } else {
+            setMenuFixed(false);
+        }
+    }
+    useEffect(() => {
+        function scrollListener() {
+            window.addEventListener("scroll", handleScroll);
+        }
+        scrollListener();
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    });
+
     useEffect(() => {
         if (
             (selectedStore == "카페" &&
@@ -49,71 +73,81 @@ const Analysis = () => {
         return (
             <>
                 <div
+                    className={
+                        menuFixed ? `${AnalysisReportStyle.fixedMenu}` : ""
+                    }
                     style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-around",
+                        background: "white",
+                        padding: "10px 0px 10px 0px",
                     }}
                 >
-                    <DistrictSelectBox
-                        state={selectedDistrict}
-                        changeState={(e: any) => setSelectedDistrict(e)}
-                        state2={selectedDistrict2}
-                        changeState2={(e: any) => setSelectedDistrict2(e)}
-                        openId={3}
-                        handleOnclick={() => {
-                            if (selectedDistrict != "지역을 선택하세요") {
-                                setSelectedDistrict("지역을 선택하세요");
-                                setSelectedDistrict2("");
-                            }
-                            if (openedSelect != 3) {
-                                setOpenedSelect(3);
-                            } else {
-                                setOpenedSelect(0);
-                            }
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-around",
                         }}
-                        openedSelect={openedSelect}
-                        setOpenedSelect={setOpenedSelect}
-                    />
-                    <StoreSelectBox
-                        state={selectedStore}
-                        changeState={(e: any) => setSelectedStore(e)}
-                        resState={selectedRestaurant}
-                        resChangeState={setSelectedRestaurant}
-                        openId={1}
-                        handleOnclick={() => {
-                            if (openedSelect != 1) {
-                                setOpenedSelect(1);
-                                if (selectedStore != "업종을 선택하세요") {
-                                    setSelectedStore("업종을 선택하세요");
-                                    setSelectedRestaurant("");
-                                    setOpenedSelect(1);
-                                } else {
-                                    setOpenedSelect(1);
-                                }
-                            } else {
-                                setOpenedSelect(0);
-                            }
-                        }}
-                        openedSelect={openedSelect}
-                        setOpenedSelect={setOpenedSelect}
-                    />
-                </div>
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                    <button
-                        className={
-                            selectedAll
-                                ? `${SelectStyle.clickableReportBtn} ${SelectStyle.reportBtn}`
-                                : `${SelectStyle.reportBtn}`
-                        }
-                        onClick={() => {
-                            setReportOpen(true);
-                            setOpenedSelect(0);
-                        }}
-                        disabled={!selectedAll}
                     >
-                        분석하기
-                    </button>
+                        <DistrictSelectBox
+                            state={selectedDistrict}
+                            changeState={(e: any) => setSelectedDistrict(e)}
+                            state2={selectedDistrict2}
+                            changeState2={(e: any) => setSelectedDistrict2(e)}
+                            openId={3}
+                            handleOnclick={() => {
+                                if (selectedDistrict != "지역을 선택하세요") {
+                                    setSelectedDistrict("지역을 선택하세요");
+                                    setSelectedDistrict2("");
+                                }
+                                if (openedSelect != 3) {
+                                    setOpenedSelect(3);
+                                } else {
+                                    setOpenedSelect(0);
+                                }
+                            }}
+                            openedSelect={openedSelect}
+                            setOpenedSelect={setOpenedSelect}
+                        />
+                        <StoreSelectBox
+                            state={selectedStore}
+                            changeState={(e: any) => setSelectedStore(e)}
+                            resState={selectedRestaurant}
+                            resChangeState={setSelectedRestaurant}
+                            openId={1}
+                            handleOnclick={() => {
+                                if (openedSelect != 1) {
+                                    setOpenedSelect(1);
+                                    if (selectedStore != "업종을 선택하세요") {
+                                        setSelectedStore("업종을 선택하세요");
+                                        setSelectedRestaurant("");
+                                        setOpenedSelect(1);
+                                    } else {
+                                        setOpenedSelect(1);
+                                    }
+                                } else {
+                                    setOpenedSelect(0);
+                                }
+                            }}
+                            openedSelect={openedSelect}
+                            setOpenedSelect={setOpenedSelect}
+                        />
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                        <button
+                            className={
+                                selectedAll
+                                    ? `${SelectStyle.clickableReportBtn} ${SelectStyle.reportBtn}`
+                                    : `${SelectStyle.reportBtn}`
+                            }
+                            onClick={() => {
+                                setReportOpen(true);
+                                setOpenedSelect(0);
+                            }}
+                            disabled={!selectedAll}
+                        >
+                            분석하기
+                        </button>
+                    </div>
                 </div>
             </>
         );
@@ -125,13 +159,15 @@ const Analysis = () => {
                     title="지역별 상권 분석"
                     childrenSelectWrap={<SelectBlock />}
                 >
-                    {reportOpen && (
-                        <>
-                            <div>여기는 리포트</div>
-                            <div>{selectedDistrict}</div>
-                            <div>{selectedStore}</div>
-                        </>
-                    )}
+                    {/* <div
+                        className={
+                            menuFixed
+                                ? `${AnalysisReportStyle.fixedReport}`
+                                : ""
+                        }
+                    > */}
+                    {reportOpen && <AnalysisReport />}
+                    {/* </div> */}
                 </ReportLayout>
             </Layout>
         </>

@@ -1,0 +1,17 @@
+.reportMenuWrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.fixedMenu {
+    width: 70%;
+    top: 70px;
+    position: fixed;
+}
+.fixedReportMenu {
+    width: 70%;
+    top: 170px;
+    position: fixed;
+}
+.fixedReport {
+    padding-top: 140px;
+}
