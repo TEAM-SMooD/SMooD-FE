@@ -20,7 +20,8 @@ import {
     restaurantArr,
     conceptArr,
     crdntList,
-} from "../data/concepmodalData";
+} from "../data/conceptmodalData";
+
 import SelectStyle from "../styles/SelectBox.module.css";
 
 export const handleSelectDropdownEach = (
@@ -90,7 +91,7 @@ const StoreSelectBox = (props: StoreSelectBoxProps) => {
             >
                 <STselectWrap onClick={props.handleOnclick}>
                     <STicons src={ic_concept} />
-                    <div>
+                    <div className={SelectStyle.selectBoxScroll}>
                         {props.state} {props.resState ? " | " : ""}
                         {props.resState ? props.resState : ""}
                     </div>
@@ -139,11 +140,11 @@ const ConceptSelectBox = (props: SelectBoxProps) => {
             <STselectbox isOpen={props.openedSelect == props.openId}>
                 <STselectWrap onClick={props.handleOnclick}>
                     <STicons src={ic_concept} />
-                    <div>
+                    <div className={SelectStyle.selectBoxScroll}>
                         {props.state.length == 1
                             ? "컨셉을 선택해주세요"
-                            : props.state.map((e: string) =>
-                                  e != "" ? e + " | " : ""
+                            : props.state.map((e: string, i: number) =>
+                                  i != 1 && e != "" ? " | " + e : e
                               )}
                     </div>
                     <img
@@ -191,7 +192,7 @@ const DistrictSelectBox = (props: DistrictSelectBoxProps) => {
             >
                 <STselectWrap onClick={props.handleOnclick}>
                     <STicons src={ic_concept} />
-                    <div>
+                    <div className={SelectStyle.selectBoxScroll}>
                         {props.state} {props.state2 ? " | " : ""}
                         {props.state2 ? props.state2 : ""}
                     </div>

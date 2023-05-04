@@ -10,6 +10,8 @@ import {
     SiteSelectedRestaurant,
 } from "../state/atom";
 import SelectStyle from "../styles/SelectBox.module.css";
+import SiteReport from "../components/SiteReport";
+import AnalysisReportStyle from "../styles/AnalysisStyle.module.css";
 
 const Site = () => {
     const [selectedStore, setSelectedStore] = useRecoilState(SiteSelectedStore);
@@ -20,6 +22,27 @@ const Site = () => {
     );
     const [selectedAll, setSelectedAll] = useState(false);
     const [reportOpen, setReportOpen] = useState(false);
+
+    const [scrollY, setScrollY] = useState(0);
+    const [menuFixed, setMenuFixed] = useState(false);
+
+    function handleScroll() {
+        setScrollY(window.pageYOffset);
+        if (scrollY >= 90) {
+            setMenuFixed(true);
+        } else {
+            setMenuFixed(false);
+        }
+    }
+    useEffect(() => {
+        function scrollListener() {
+            window.addEventListener("scroll", handleScroll);
+        }
+        scrollListener();
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    });
 
     useEffect(() => {
         if (
@@ -39,71 +62,89 @@ const Site = () => {
         return (
             <>
                 <div
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-around",
-                    }}
+                    className={
+                        menuFixed
+                            ? `${AnalysisReportStyle.fixedMenu} ${AnalysisReportStyle.Menu}`
+                            : `${AnalysisReportStyle.Menu}`
+                    }
                 >
-                    <StoreSelectBox
-                        state={selectedStore}
-                        changeState={(e: any) => setSelectedStore(e)}
-                        resState={selectedRestaurant}
-                        resChangeState={setSelectedRestaurant}
-                        openId={1}
-                        handleOnclick={() => {
-                            if (selectedStore != "업종을 선택하세요") {
-                                setSelectedStore("업종을 선택하세요");
-                                setSelectedRestaurant("");
+                    <div className={AnalysisReportStyle.selectBoxWrap}>
+                        <StoreSelectBox
+                            state={selectedStore}
+                            changeState={(e: any) => setSelectedStore(e)}
+                            resState={selectedRestaurant}
+                            resChangeState={setSelectedRestaurant}
+                            openId={1}
+                            handleOnclick={() => {
+                                if (selectedStore != "업종을 선택하세요") {
+                                    setSelectedStore("업종을 선택하세요");
+                                    setSelectedRestaurant("");
+                                }
+                                if (openedSelect != 1) {
+                                    setOpenedSelect(1);
+                                } else {
+                                    setOpenedSelect(0);
+                                }
+                            }}
+                            openedSelect={openedSelect}
+                            setOpenedSelect={setOpenedSelect}
+                        />
+                        <ConceptSelectBox
+                            state={selectedConcept}
+                            changeState={(each: any) => {
+                                if (selectedConcept.includes(each)) {
+                                    const changeConcept =
+                                        selectedConcept.filter(
+                                            (e) => e != each
+                                        );
+                                    setSelectedConcept(changeConcept);
+                                } else {
+                                    setSelectedConcept((prev) => [
+                                        ...prev,
+                                        each,
+                                    ]);
+                                }
+                            }}
+                            openId={2}
+                            handleOnclick={() => {
+                                if (openedSelect != 2) {
+                                    setOpenedSelect(2);
+                                } else {
+                                    setOpenedSelect(0);
+                                }
+                            }}
+                            openedSelect={openedSelect}
+                            setOpenedSelect={setOpenedSelect}
+                        />
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                        <button
+                            className={
+                                selectedAll
+                                    ? `${SelectStyle.clickableReportBtn} ${SelectStyle.reportBtn}`
+                                    : `${SelectStyle.reportBtn}`
                             }
-                            if (openedSelect != 1) {
-                                setOpenedSelect(1);
-                            } else {
+                            onClick={() => {
+                                setReportOpen(true);
                                 setOpenedSelect(0);
-                            }
-                        }}
-                        openedSelect={openedSelect}
-                        setOpenedSelect={setOpenedSelect}
-                    />
-                    <ConceptSelectBox
-                        state={selectedConcept}
-                        changeState={(each: any) => {
-                            if (selectedConcept.includes(each)) {
-                                const changeConcept = selectedConcept.filter(
-                                    (e) => e != each
-                                );
-                                setSelectedConcept(changeConcept);
-                            } else {
-                                setSelectedConcept((prev) => [...prev, each]);
-                            }
-                        }}
-                        openId={2}
-                        handleOnclick={() => {
-                            if (openedSelect != 2) {
-                                setOpenedSelect(2);
-                            } else {
-                                setOpenedSelect(0);
-                            }
-                        }}
-                        openedSelect={openedSelect}
-                        setOpenedSelect={setOpenedSelect}
-                    />
-                </div>
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                    <button
-                        className={
-                            selectedAll
-                                ? `${SelectStyle.clickableReportBtn} ${SelectStyle.reportBtn}`
-                                : `${SelectStyle.reportBtn}`
-                        }
-                        onClick={() => {
-                            setReportOpen(true);
-                            setOpenedSelect(0);
-                        }}
-                        disabled={!selectedAll}
-                    >
-                        분석하기
-                    </button>
+                            }}
+                            disabled={!selectedAll}
+                        >
+                            분석하기
+                        </button>
+                    </div>
+                    {reportOpen && (
+                        <div
+                            style={{
+                                background: "rgba(0,0,0,.1)",
+                                height: "1px",
+                                marginTop: "10px",
+                                width: "200%",
+                                position: "relative",
+                                left: "-50%",
+                            }}
+                        ></div>
+                    )}
                 </div>
             </>
         );
@@ -116,11 +157,13 @@ const Site = () => {
                     childrenSelectWrap={<SelectBlock />}
                 >
                     {reportOpen && (
-                        <div>
-                            여기는 리포트 - -{selectedStore}
-                            {selectedRestaurant}
-                            {selectedConcept}
-                        </div>
+                        <SiteReport
+                            scrollY={scrollY}
+                            setScrollY={setScrollY}
+                            menuFixed={menuFixed}
+                            setMenuFixed={setMenuFixed}
+                            handleScroll={handleScroll}
+                        />
                     )}
                 </ReportLayout>
             </Layout>

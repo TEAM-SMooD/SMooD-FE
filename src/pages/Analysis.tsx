@@ -72,21 +72,12 @@ const Analysis = () => {
             <>
                 <div
                     className={
-                        menuFixed ? `${AnalysisReportStyle.fixedMenu}` : ""
+                        menuFixed
+                            ? `${AnalysisReportStyle.fixedMenu} ${AnalysisReportStyle.Menu}`
+                            : `${AnalysisReportStyle.Menu}`
                     }
-                    style={{
-                        background: "white",
-                        padding: "10px 0px 10px 0px",
-                        height: "100px",
-                    }}
                 >
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "space-around",
-                        }}
-                    >
+                    <div className={AnalysisReportStyle.selectBoxWrap}>
                         <DistrictSelectBox
                             state={selectedDistrict}
                             changeState={(e: any) => setSelectedDistrict(e)}

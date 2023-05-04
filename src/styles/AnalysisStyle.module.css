@@ -7,14 +7,22 @@
     top: 70px;
     position: fixed;
 }
+.Menu {
+    background: white;
+    padding: 10px 0px 10px 0px;
+    height: 100px;
+}
 .fixedReportMenu {
     width: 70%;
     top: 170px;
     position: fixed;
 }
-/* .fixedReport {
-    padding-top: 140px;
-} */
+.selectBoxWrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 40px;
+}
 
 .reportTitle {
     display: flex;
