@@ -12,6 +12,13 @@
     top: 170px;
     position: fixed;
 }
-.fixedReport {
+/* .fixedReport {
     padding-top: 140px;
+} */
+
+.reportTitle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
 }

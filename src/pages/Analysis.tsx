@@ -33,10 +33,10 @@ const Analysis = () => {
 
     const [scrollY, setScrollY] = useState(0);
     const [menuFixed, setMenuFixed] = useState(false);
-    console.log(scrollY, menuFixed);
+
     function handleScroll() {
         setScrollY(window.pageYOffset);
-        if (scrollY > 90) {
+        if (scrollY >= 90) {
             setMenuFixed(true);
         } else {
             setMenuFixed(false);
@@ -54,17 +54,15 @@ const Analysis = () => {
 
     useEffect(() => {
         if (
-            (selectedStore == "카페" &&
-                selectedDistrict != "지역을 선택하세요") ||
-            (selectedRestaurant != "" &&
-                selectedDistrict != "지역을 선택하세요")
+            (selectedStore == "카페" && selectedDistrict2 != "") ||
+            (selectedRestaurant != "" && selectedDistrict2 != "")
         ) {
             setSelectedAll(true);
         } else {
             setSelectedAll(false);
         }
         setReportOpen(false);
-    }, [selectedStore, selectedRestaurant, selectedDistrict]);
+    }, [selectedStore, selectedRestaurant, selectedDistrict, selectedDistrict]);
 
     const SelectBlock = () => {
         const [openedSelect, setOpenedSelect] =
@@ -79,6 +77,7 @@ const Analysis = () => {
                     style={{
                         background: "white",
                         padding: "10px 0px 10px 0px",
+                        height: "100px",
                     }}
                 >
                     <div
@@ -159,15 +158,15 @@ const Analysis = () => {
                     title="지역별 상권 분석"
                     childrenSelectWrap={<SelectBlock />}
                 >
-                    {/* <div
-                        className={
-                            menuFixed
-                                ? `${AnalysisReportStyle.fixedReport}`
-                                : ""
-                        }
-                    > */}
-                    {reportOpen && <AnalysisReport />}
-                    {/* </div> */}
+                    {reportOpen && (
+                        <AnalysisReport
+                            scrollY={scrollY}
+                            setScrollY={setScrollY}
+                            menuFixed={menuFixed}
+                            setMenuFixed={setMenuFixed}
+                            handleScroll={handleScroll}
+                        />
+                    )}
                 </ReportLayout>
             </Layout>
         </>

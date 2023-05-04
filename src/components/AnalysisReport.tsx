@@ -8,6 +8,7 @@ import {
     AnalysisSelectedDistrict,
     AnalysisSelectedDistrict2,
 } from "../state/atom";
+import { colors } from "../styles/designSystem";
 
 const ReportPopulation = () => {
     return (
@@ -37,7 +38,14 @@ const ReportInfo = () => {
         </>
     );
 };
-const AnalysisReport = () => {
+interface scrollProps {
+    scrollY: number;
+    setScrollY: React.Dispatch<React.SetStateAction<number>>;
+    handleScroll: () => void;
+    menuFixed: boolean;
+    setMenuFixed: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const AnalysisReport = (props: scrollProps) => {
     const selectedDistrict = useRecoilValue(AnalysisSelectedDistrict);
     const selectedDistric2 = useRecoilValue(AnalysisSelectedDistrict2);
     const selectedStore = useRecoilValue(AnalysisSelectedStore);
@@ -45,31 +53,22 @@ const AnalysisReport = () => {
 
     const [selectedMenu, setSelectedMenu] = useState(1);
 
-    const [scrollY, setScrollY] = useState(0);
-    console.log("rererere", scrollY);
-    const [menuFixed, setMenuFixed] = useState(false);
-    function handleScroll() {
-        setScrollY(window.pageYOffset);
-        if (scrollY > 90) {
-            setMenuFixed(true);
-        } else {
-            setMenuFixed(false);
-        }
-    }
     useEffect(() => {
         function scrollListener() {
-            window.addEventListener("scroll", handleScroll);
+            window.addEventListener("scroll", props.handleScroll);
         }
         scrollListener();
         return () => {
-            window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("scroll", props.handleScroll);
         };
     });
     return (
         <div>
             <div
                 className={
-                    menuFixed ? `${AnalysisReportStyle.fixedReportMenu}` : ""
+                    props.menuFixed
+                        ? `${AnalysisReportStyle.fixedReportMenu}`
+                        : ""
                 }
                 style={{ background: "white" }}
             >
@@ -105,10 +104,27 @@ const AnalysisReport = () => {
                 </div>
             </div>
             <div
-                className={
-                    menuFixed ? `${AnalysisReportStyle.fixedReport}` : ""
-                }
+                style={{
+                    paddingTop: props.menuFixed ? "140px" : "10px",
+                }}
             >
+                <div className={AnalysisReportStyle.reportTitle}>
+                    <div>
+                        {selectedDistrict} {selectedDistric2}
+                    </div>
+                    <div style={{ fontSize: "1.5rem", color: colors.red }}>
+                        {selectedMenu == 1
+                            ? "인구"
+                            : selectedMenu == 2
+                            ? "주변시설 현황"
+                            : selectedMenu == 3
+                            ? "매출"
+                            : selectedMenu == 4
+                            ? "상권 정보"
+                            : ""}
+                    </div>
+                    <div>보고서</div>
+                </div>
                 {selectedMenu == 1 ? (
                     <ReportPopulation />
                 ) : selectedMenu == 2 ? (
@@ -120,8 +136,6 @@ const AnalysisReport = () => {
                 ) : (
                     ""
                 )}
-                <div>.</div>
-                <div>.</div>
                 <div>.</div>
                 <div>.</div>
                 <div>.</div>
