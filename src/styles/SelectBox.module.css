@@ -20,3 +20,12 @@
 .restaurant:nth-child(even) {
     border-left: 1px solid #b0b0b0;
 }
+.selectBoxScroll {
+    height: 40px;
+    overflow-y: scroll;
+    display: flex;
+    align-items: center;
+}
+.selectBoxScroll::-webkit-scrollbar {
+    display: none;
+}

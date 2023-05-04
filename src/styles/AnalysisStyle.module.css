@@ -1,0 +1,32 @@
+.reportMenuWrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.fixedMenu {
+    width: 70%;
+    top: 70px;
+    position: fixed;
+}
+.Menu {
+    background: white;
+    padding: 10px 0px 10px 0px;
+    height: 100px;
+}
+.fixedReportMenu {
+    width: 70%;
+    top: 170px;
+    position: fixed;
+}
+.selectBoxWrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 40px;
+}
+
+.reportTitle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
