@@ -16,7 +16,8 @@ const Login = () => {
                 setError(null);
                 setLoading(true);
                 const res = await axios.get(
-                    `${process.env.REACT_APP_SERVER_URL}/login/oauth/kakao`,
+                    // `${process.env.REACT_APP_SERVER_URL}/login/oauth/kakao`,
+                    "http://localhost:8080/oauth2/authorization/{provider-id}?redirect_uri=http://localhost:3000/oauth/redirect",
                     {
                         params: {
                             code: code,

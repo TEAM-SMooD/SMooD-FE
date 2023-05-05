@@ -45,3 +45,38 @@
     justify-content: center;
     align-items: center;
 }
+
+.myHeader {
+    background: white;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    width: 100%;
+    padding: 0 40px;
+    border-bottom: 1px solid #b0b0b0;
+}
+.myWrap {
+    padding-top: 70px;
+    margin-left: 15%;
+    margin-right: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.myTitle {
+    padding: 50px 12px 25px 12px;
+    font-size: 20px;
+    font-weight: bold;
+    border-bottom: 1px solid #c8c8c8;
+    width: 70%;
+    text-align: center;
+}
+.mySubTitle {
+    padding: 24px 0 50px 0;
+}
+.logoWrap {
+    display: grid;
+    gap: 10px;
+}

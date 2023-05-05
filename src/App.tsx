@@ -8,6 +8,8 @@ import Analysis from "./pages/Analysis";
 import NotFound from "./pages/NotFound";
 import { RecoilRoot } from "recoil";
 import Login from "./pages/Login";
+import MyLogin from "./pages/MyLogin";
+import Mypage from "./pages/Mypage";
 
 const router = createBrowserRouter([
     {
@@ -28,6 +30,16 @@ const router = createBrowserRouter([
     {
         path: "/analysis",
         element: <Analysis />,
+        errorElement: <NotFound />,
+    },
+    {
+        path: "/mylogin",
+        element: <MyLogin />,
+        errorElement: <NotFound />,
+    },
+    {
+        path: "/mypage",
+        element: <Mypage />,
         errorElement: <NotFound />,
     },
     {

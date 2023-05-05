@@ -13,7 +13,7 @@ export const STselectbox = styled.div<{ isOpen?: boolean; concept?: boolean }>`
     position: relative;
 `;
 export const STselectWrap = styled.div`
-    padding: 3% 5%;
+    padding: 0% 5%;
     display: grid;
     width: 100%;
     grid-template-columns: 25px auto 25px;
