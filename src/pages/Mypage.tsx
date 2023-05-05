@@ -1,11 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import headerStyle from "../styles/HeaderStyle.module.css";
 import main_logo from "../assets/main_logo.png";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 const Mypage = () => {
     const navigate = useNavigate();
-
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<any>(null);
+    useEffect(() => {
+        let params = new URL(document.URL).searchParams;
+        let token = params.get("token");
+        // console.log(token);
+        const postCode = async () => {
+            try {
+                setError(null);
+                setLoading(true);
+                const res = await axios.get(
+                    `${process.env.REACT_APP_SERVER_URL}/api/v1/users`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                console.log(res);
+                navigate("/mypage"); //주소창에 토큰보이던거 지우려고 다시 페이지이동
+            } catch (err) {
+                setError(err);
+            }
+        };
+        postCode();
+    }, []);
     return (
         <>
             <header className={headerStyle.myHeader}>

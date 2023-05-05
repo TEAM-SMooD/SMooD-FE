@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import headerStyle from "../styles/HeaderStyle.module.css";
 import main_logo from "../assets/main_logo.png";
 import { useNavigate } from "react-router";

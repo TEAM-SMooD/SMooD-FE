@@ -7,7 +7,7 @@ import Site from "./pages/Site";
 import Analysis from "./pages/Analysis";
 import NotFound from "./pages/NotFound";
 import { RecoilRoot } from "recoil";
-import Login from "./pages/Login";
+// import Login from "./pages/Login";
 import MyLogin from "./pages/MyLogin";
 import Mypage from "./pages/Mypage";
 
@@ -42,11 +42,11 @@ const router = createBrowserRouter([
         element: <Mypage />,
         errorElement: <NotFound />,
     },
-    {
-        path: "/login/oauth2/code/kakao",
-        element: <Login />,
-        errorElement: <NotFound />,
-    },
+    // {
+    //     path: "/login/oauth2/code/kakao",
+    //     element: <Login />,
+    //     errorElement: <NotFound />,
+    // },
 ]);
 function App() {
     return (
