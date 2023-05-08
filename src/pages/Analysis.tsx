@@ -14,6 +14,7 @@ import {
     AnalysisSelectedRestaurant,
 } from "../state/atom";
 import SelectStyle from "../styles/SelectBox.module.css";
+import { useNavigate } from "react-router-dom";
 
 const Analysis = () => {
     const [selectedDistrict, setSelectedDistrict] = useRecoilState(
@@ -67,7 +68,7 @@ const Analysis = () => {
     const SelectBlock = () => {
         const [openedSelect, setOpenedSelect] =
             useRecoilState(AnalysisOpenedSelect);
-
+        const navigate = useNavigate();
         return (
             <>
                 <div
@@ -130,8 +131,15 @@ const Analysis = () => {
                                     : `${SelectStyle.reportBtn}`
                             }
                             onClick={() => {
-                                setReportOpen(true);
-                                setOpenedSelect(0);
+                                if (!sessionStorage.getItem("userId")) {
+                                    alert(
+                                        "보고서를 보려면 먼저 로그인해주세요."
+                                    );
+                                    navigate("/mylogin");
+                                } else {
+                                    setReportOpen(true);
+                                    setOpenedSelect(0);
+                                }
                             }}
                             disabled={!selectedAll}
                         >

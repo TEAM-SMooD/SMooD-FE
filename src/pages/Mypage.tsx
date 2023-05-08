@@ -25,6 +25,8 @@ const Mypage = () => {
                     }
                 );
                 console.log(res);
+                sessionStorage.setItem("kakaoToken", res.data.accessToken);
+                sessionStorage.setItem("userId", res.data.id);
                 navigate("/mypage"); //주소창에 토큰보이던거 지우려고 다시 페이지이동
             } catch (err) {
                 setError(err);

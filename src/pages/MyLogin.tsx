@@ -44,17 +44,6 @@ const MyLogin = () => {
                         />
                     </a>
                 </div>
-                {/* {!sessionStorage.getItem("userId") ? (
-                    <div style={{ display: "flex", flexDirection: "row" }}>
-                        <a href={process.env.REACT_APP_KAKAO_AUTH_URL}>
-                            <img src={kakao_login} />
-                        </a>
-                    </div>
-                ) : (
-                    <div>
-                        로그인 아이디 : {sessionStorage.getItem("userId")}
-                    </div>
-                )} */}
             </div>
         </>
     );
