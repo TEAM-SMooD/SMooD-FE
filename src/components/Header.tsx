@@ -8,8 +8,13 @@ interface HeaderProps {
 }
 
 const Header = (props: HeaderProps) => {
-    const headermenu = ["컨셉 추천", "지역 추천", "지역별 상권분석"];
-    const headerPath = ["concept", "site", "analysis"];
+    const headermenu = [
+        "컨셉 추천",
+        "지역 추천",
+        "지역별 상권분석",
+        "커뮤니티",
+    ];
+    const headerPath = ["concept", "site", "analysis", "community"];
     const navigate = useNavigate();
     const path = useLocation();
 

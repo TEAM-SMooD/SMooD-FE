@@ -10,6 +10,8 @@ import { RecoilRoot } from "recoil";
 // import Login from "./pages/Login";
 import MyLogin from "./pages/MyLogin";
 import Mypage from "./pages/Mypage";
+import Community from "./pages/Community";
+import CommunityPostEach from "./components/CommuityPostEach";
 
 const router = createBrowserRouter([
     {
@@ -30,6 +32,16 @@ const router = createBrowserRouter([
     {
         path: "/analysis",
         element: <Analysis />,
+        errorElement: <NotFound />,
+    },
+    {
+        path: "/community/*",
+        element: <Community />,
+        errorElement: <NotFound />,
+    },
+    {
+        path: "/community/post/:postid",
+        element: <Community />,
         errorElement: <NotFound />,
     },
     {

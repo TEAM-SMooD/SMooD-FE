@@ -1,0 +1,81 @@
+.lineWrap {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Each */
+.eachTopWrap {
+    border-bottom: 1px solid var(--linegrey);
+}
+.eachTitle {
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+.eachWriter {
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+}
+.eachContentsWrap {
+    padding-bottom: 3px;
+    border-bottom: 1px solid var(--linegrey);
+}
+.eachContents {
+    min-height: 100px;
+    padding: 10px 0px;
+}
+.eachReplyWrap {
+    width: 95%;
+    margin: 0 auto;
+    font-size: 0.9rem;
+}
+.eachReplyBox {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--linegrey);
+    font-size: 0.9rem;
+}
+.eachReplyContents {
+    min-height: 40px;
+    padding-top: 5px;
+}
+.eachGoback {
+    width: fit-content;
+    background: var(--brightgrey);
+    padding: 5px 16px;
+    margin: 10px 0;
+    border-radius: 40px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+.eachForm {
+    padding: 10px 0;
+    position: relative;
+}
+.eachInputBox {
+    width: 100%;
+    min-height: 100px;
+    border: 1px solid var(--linegrey);
+    outline: none;
+}
+.eachButton {
+    position: absolute;
+    right: 20px;
+    bottom: 15px;
+    width: 50px;
+    height: 25px;
+    border-radius: 25px;
+    border: 0;
+    cursor: pointer;
+}
+/* COMMON */
+.storeTag {
+    color: var(--red);
+    border-radius: 8px;
+    font-size: 0.5rem;
+    padding: 3px 5px;
+    margin-left: 4px;
+    background-color: var(--lightgrey);
+}

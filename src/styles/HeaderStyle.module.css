@@ -1,5 +1,10 @@
 :root {
     --red: #ff504b;
+    --lightgrey: #f5f5f5;
+    --brightgrey: #f2f1f5;
+    --semigrey: #c8c8c8;
+    --grey: #b0b0b0;
+    --linegrey: #e3e1e1;
 }
 .header {
     background: white;
