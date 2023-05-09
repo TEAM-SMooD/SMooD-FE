@@ -5,64 +5,78 @@ const CommunityMain = (dummy: any) => {
     const navigate = useNavigate();
     return (
         <>
-            <div>
+            <div style={{ border: "1px solid var(--linegrey)" }}>
                 <div
                     style={{
                         display: "grid",
                         gridTemplateColumns: "repeat(5, 1fr)",
-                        borderBottom: "1px solid grey",
-                        paddingBottom: "10px",
+                        borderBottom: "1px solid var(--linegrey)",
                         justifyItems: "center",
+                        alignItems: "center",
+                        height: "45px",
                     }}
                 >
                     <div>전체</div>
                     <div>자유 게시판</div>
-                    <div>홍보</div>
-                    <div>질문</div>
+                    <div>홍보 게시판</div>
+                    <div>질문 게시판</div>
                     <div>글쓰기</div>
                 </div>
-                <div style={{ width: "95%", margin: "0 auto" }}>
+                <div
+                    style={{
+                        width: "95%",
+                        margin: "0 auto",
+                        maxHeight: "64vh",
+                        overflowY: "scroll",
+                    }}
+                    className={CommunityStyle.postListWrap}
+                >
                     {dummy.dummy.map((e: any, i: number) => (
                         <div
                             key={i}
                             style={{
                                 display: "grid",
-                                gridTemplateColumns: "100px 1fr 30px",
-                                gap: "10px",
-                                marginTop: "10px",
-                                paddingBottom: "10px",
-                                borderBottom: "1px solid grey",
+                                gap: "7px",
+                                padding: "13px 0px",
+                                borderBottom: "1px solid var(--linegrey)",
                             }}
                         >
-                            <div
-                                style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                }}
-                            >
-                                <div>{e.name}</div>
-                                <div
-                                    style={{
-                                        border: "1px solid red",
-                                        borderRadius: "40px",
-                                        padding: "3px",
-                                        display: "flex",
-                                        justifyContent: "center",
-                                    }}
-                                >
+                            <div className={CommunityStyle.eachWriter}>
+                                <div>👤 {e.name}</div>
+                                <div className={CommunityStyle.storeTag}>
                                     {e.store}
                                 </div>
                             </div>
-                            <div onClick={() => navigate(`./post/${e.postId}`)}>
-                                <div style={{ fontWeight: "bold" }}>
-                                    {e.title}
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                }}
+                            >
+                                <div
+                                    onClick={() =>
+                                        navigate(`./post/${e.postId}`)
+                                    }
+                                    style={{
+                                        paddingLeft: "1.3rem",
+                                        cursor: "pointer",
+                                        maxWidth: "90%",
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            fontWeight: "bold",
+                                            paddingBottom: "5px",
+                                        }}
+                                    >
+                                        {e.title}
+                                    </div>
+                                    <div className={CommunityStyle.lineWrap}>
+                                        {e.contents}
+                                    </div>
                                 </div>
-                                <div className={CommunityStyle.lineWrap}>
-                                    {e.contents}
-                                </div>
+                                <div>💬 {e.reply.length}</div>
                             </div>
-                            <div>💬 {e.reply.length}</div>
                         </div>
                     ))}
                 </div>

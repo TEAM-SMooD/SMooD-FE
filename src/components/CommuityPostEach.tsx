@@ -66,7 +66,7 @@ const CommunityPostEach = (dummy: any) => {
                                 ? "댓글을 남겨주세요"
                                 : "로그인 후 댓글을 남겨주세요"
                         }
-                        disabled={true}
+                        disabled={sessionStorage.getItem("userId") == null}
                     />
                     <button
                         onClick={(e: any) => {

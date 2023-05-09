@@ -5,6 +5,10 @@
     overflow: hidden;
 }
 
+.postListWrap::-webkit-scrollbar {
+    display: none;
+}
+
 /* Each */
 .eachTopWrap {
     border-bottom: 1px solid var(--linegrey);

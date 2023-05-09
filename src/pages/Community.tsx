@@ -84,6 +84,16 @@ const Community = () => {
                     ) : (
                         <>
                             <STtitle>커뮤니티</STtitle>
+                            <div
+                                style={{
+                                    width: "fit-content",
+                                    position: "absolute",
+                                    right: "20%",
+                                    top: "110px",
+                                }}
+                            >
+                                채팅
+                            </div>
                             <CommunityMain dummy={dummy.posts} />
                         </>
                     )}

@@ -16,7 +16,7 @@ const ReportPopulation = () => {
             <iframe
                 src="https://public.tableau.com/views/_16832725450190/1?:language=ko-KR&publish=yes&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true"
                 width="100%"
-                height="1000"
+                height="2000"
                 title="성수인구"
             />
         </>
