@@ -4,10 +4,31 @@ import chatlogo from "../assets/main_logo_smood.png";
 import mainchatlogo from "../assets/main_logo_chat.png";
 import { VscChromeClose, VscChevronLeft } from "react-icons/vsc";
 import { CgChevronLeft } from "react-icons/cg";
-import { BsChevronCompactRight } from "react-icons/bs";
+import Chatroom from "./Chatroom";
+import ChatLiEach from "./ChatLiEach";
 
 const chatListDummy = {
     data: [
+        {
+            chatroomId: 1,
+            chatroomTitle: "광진구연합",
+            chatroomText: "네 ~",
+        },
+        {
+            chatroomId: 1,
+            chatroomTitle: "광진구연합",
+            chatroomText: "네 ~",
+        },
+        {
+            chatroomId: 1,
+            chatroomTitle: "광진구연합",
+            chatroomText: "네 ~",
+        },
+        {
+            chatroomId: 1,
+            chatroomTitle: "광진구연합",
+            chatroomText: "네 ~",
+        },
         {
             chatroomId: 1,
             chatroomTitle: "광진구연합",
@@ -29,98 +50,18 @@ const chatListDummy = {
 const Chat = () => {
     const [chatopen, setChatopen] = useState(false);
     const [chatEach, setChatEach] = useState(0);
-    const ChatLiEach = (e: any) => {
-        return (
-            <div className={CommunityStyle.chatLiEach}>
-                <div
-                    style={{
-                        margin: "0 5px",
-                    }}
-                >
-                    👥
-                </div>
-                <div style={{ flex: "1 1 0px" }}>
-                    <div className={CommunityStyle.chatRoomTitle}>
-                        {e.e.chatroomTitle}
-                    </div>
-                    <div className={CommunityStyle.chatRoomText}>
-                        {e.e.chatroomText}
-                    </div>
-                </div>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                    <BsChevronCompactRight />
-                </div>
-            </div>
-        );
-    };
-    const ChatEachPage = () => {
-        const [inputchat, setInputchat] = useState("");
-        function handleChangeChat(e: React.FormEvent<HTMLInputElement>) {
-            setInputchat(e.currentTarget.value);
-        }
-        function handleSubmitChat(e: React.FormEvent<HTMLInputElement>) {
-            e.preventDefault();
-            console.log("채팅전송"); //서버연결 필요!
-            setInputchat("");
-        }
-        return (
-            <>
-                <div className={CommunityStyle.chatEachContents}>
-                    <div>시작</div>
-                    <div>1</div>
-                    <div>1</div>
-                    <div>1</div>
-                    <div>1</div>
-                    <div>1</div>
-                    <div>1</div>
-                    <div>1</div>
-                    <div>1</div>
-                    <div>1</div>
-                    <div>1</div>
-                    <div>1</div>
-                    <div>1</div>
-                    <div>1</div>
-                    <div>1</div>
-                    <div>1</div>
-                    <div>1</div>
-                    <div>1</div>
-                    <div>1</div>
-                    <div>끝</div>
-                </div>
 
-                <div className={CommunityStyle.chatEachInput}>
-                    <form>
-                        <input
-                            type="text"
-                            onChange={handleChangeChat}
-                            value={inputchat}
-                        ></input>
-                        <button
-                            type="submit"
-                            onClick={(e: any) => {
-                                handleSubmitChat(e);
-                            }}
-                        >
-                            전송
-                        </button>
-                    </form>
-                </div>
-            </>
-        );
-    };
     return (
         <>
             <div className={CommunityStyle.chatFloating}>
                 {chatopen ? (
                     <div className={CommunityStyle.chatScreenWrap}>
-                        <div className={CommunityStyle.chat1}>
+                        <div className={CommunityStyle.chatInnerWrap}>
                             <div className={CommunityStyle.chatHeader}>
                                 <div
-                                    style={{
-                                        position: "fixed",
-                                        background: "rgba(247, 247, 248, 1)",
-                                        width: "100%",
-                                    }}
+                                    className={
+                                        CommunityStyle.chatHeaderInnerWrap
+                                    }
                                 >
                                     <div
                                         className={
@@ -152,11 +93,7 @@ const Chat = () => {
                                         setChatopen(!chatopen);
                                         setChatEach(0);
                                     }}
-                                    style={{
-                                        cursor: "pointer",
-                                        position: "fixed",
-                                        right: "10px",
-                                    }}
+                                    className={CommunityStyle.chatClosebtnWrap}
                                 >
                                     <VscChromeClose />
                                 </div>
@@ -191,7 +128,7 @@ const Chat = () => {
                                     </div>
                                 </div>
                             ) : (
-                                <ChatEachPage />
+                                <Chatroom />
                             )}
                         </div>
                     </div>

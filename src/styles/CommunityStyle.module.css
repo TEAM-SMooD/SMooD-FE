@@ -84,7 +84,7 @@
     background-color: var(--lightgrey);
 }
 
-/* ChatIcon */
+/* ------------------------------------------- Chat ------------------------------------------- */
 .chatFloating {
     position: fixed;
     right: 32px;
@@ -102,12 +102,12 @@
     overflow: hidden !important;
     border-radius: 30px !important;
 }
-.chat1 {
+.chatInnerWrap {
     position: relative;
     height: 100%;
     overflow-y: scroll;
 }
-.chat1::-webkit-scrollbar {
+.chatInnerWrap::-webkit-scrollbar {
     display: none;
 }
 
@@ -118,8 +118,13 @@
     align-items: center;
     min-height: 60px;
     padding-right: 14px;
-    padding-bottom: 1px;
     overflow: hidden;
+}
+.chatHeaderInnerWrap {
+    position: fixed;
+    background: rgba(247, 247, 248, 1);
+    width: 100%;
+    z-index: 100;
 }
 .chatHeaderLeft {
     display: flex;
@@ -128,6 +133,13 @@
     width: 100%;
     overflow: hidden;
 }
+.chatClosebtnWrap {
+    cursor: pointer;
+    position: fixed;
+    right: 10px;
+    z-index: 101;
+}
+
 .chatBodyWrap {
     position: relative;
     padding: 0px 11px 20px;
@@ -172,24 +184,22 @@
 .chatLiEach:hover {
     background: var(--brightgrey);
 }
-.chatRoomTitle {
+.chatLiTitle {
     font-size: 0.7rem;
     font-weight: bold;
     margin-bottom: 3px;
 }
-.chatRoomText {
+.chatLiText {
     font-size: 0.9rem;
 }
 
-.chatEachContents {
+/* ------------------------------------------- Chatroom ------------------------------------------- */
+.chatroomContents {
     background: white;
     overflow-y: scroll;
     height: calc(100% - 100px);
 }
-/* .chatEachContents::-webkit-scrollbar {
-    display: none;
-} */
-.chatEachInput {
+.chatroomInputWrap {
     position: fixed;
     bottom: 0;
     background: white;
@@ -197,6 +207,8 @@
     width: 100%;
     border-top: 1px solid var(--linegrey);
 }
+
+/* ------------------------------------------- ChatIcon ------------------------------------------- */
 
 .chatIconWrap {
     width: 50px;
