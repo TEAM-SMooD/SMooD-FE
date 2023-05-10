@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import Layout from "./Layout";
 import { useNavigate } from "react-router-dom";
 import { STtitle, STcontentWrap } from "../styles/ReportLayoutST";
-import CommunityStyle from "../styles/CommunityStyle.module.css";
 import CommunityMain from "../components/CommuityMain";
 import { useParams } from "react-router-dom";
 import CommunityPostEach from "../components/CommuityPostEach";
+import Chat from "../components/Chat";
 
 const dummy = {
     posts: [
@@ -70,11 +70,6 @@ const dummy = {
 const Community = () => {
     // GET data from server
     const useparam = useParams();
-    const [postid, setPostid] = useState(0);
-    // useEffect(() => {
-    //     setPostid(useparam.postid);
-    //     console.log(useparam.postid, typeof useparam);
-    // },[useparam.postid]);
     return (
         <>
             <Layout idx={4}>
@@ -84,16 +79,7 @@ const Community = () => {
                     ) : (
                         <>
                             <STtitle>커뮤니티</STtitle>
-                            <div
-                                style={{
-                                    width: "fit-content",
-                                    position: "absolute",
-                                    right: "20%",
-                                    top: "110px",
-                                }}
-                            >
-                                채팅
-                            </div>
+                            <Chat />
                             <CommunityMain dummy={dummy.posts} />
                         </>
                     )}
