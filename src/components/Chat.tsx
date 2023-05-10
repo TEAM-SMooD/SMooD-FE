@@ -54,9 +54,57 @@ const Chat = () => {
         );
     };
     const ChatEachPage = () => {
+        const [inputchat, setInputchat] = useState("");
+        function handleChangeChat(e: React.FormEvent<HTMLInputElement>) {
+            setInputchat(e.currentTarget.value);
+        }
+        function handleSubmitChat(e: React.FormEvent<HTMLInputElement>) {
+            e.preventDefault();
+            console.log("채팅전송"); //서버연결 필요!
+            setInputchat("");
+        }
         return (
             <>
-                <div>{chatEach}</div>
+                <div className={CommunityStyle.chatEachContents}>
+                    <div>시작</div>
+                    <div>1</div>
+                    <div>1</div>
+                    <div>1</div>
+                    <div>1</div>
+                    <div>1</div>
+                    <div>1</div>
+                    <div>1</div>
+                    <div>1</div>
+                    <div>1</div>
+                    <div>1</div>
+                    <div>1</div>
+                    <div>1</div>
+                    <div>1</div>
+                    <div>1</div>
+                    <div>1</div>
+                    <div>1</div>
+                    <div>1</div>
+                    <div>1</div>
+                    <div>끝</div>
+                </div>
+
+                <div className={CommunityStyle.chatEachInput}>
+                    <form>
+                        <input
+                            type="text"
+                            onChange={handleChangeChat}
+                            value={inputchat}
+                        ></input>
+                        <button
+                            type="submit"
+                            onClick={(e: any) => {
+                                handleSubmitChat(e);
+                            }}
+                        >
+                            전송
+                        </button>
+                    </form>
+                </div>
             </>
         );
     };
@@ -67,32 +115,48 @@ const Chat = () => {
                     <div className={CommunityStyle.chatScreenWrap}>
                         <div className={CommunityStyle.chat1}>
                             <div className={CommunityStyle.chatHeader}>
-                                <div className={CommunityStyle.chatHeaderLeft}>
-                                    {chatEach == 0 ? (
-                                        <img
-                                            src={chatlogo}
-                                            style={{
-                                                width: "2rem",
-                                                marginRight: "0.5rem",
-                                            }}
-                                        />
-                                    ) : (
-                                        <CgChevronLeft
-                                            onClick={() => setChatEach(0)}
-                                            style={{
-                                                width: "2rem",
-                                                cursor: "pointer",
-                                            }}
-                                        />
-                                    )}
-                                    <h3>스무디톡</h3>
+                                <div
+                                    style={{
+                                        position: "fixed",
+                                        background: "rgba(247, 247, 248, 1)",
+                                        width: "100%",
+                                    }}
+                                >
+                                    <div
+                                        className={
+                                            CommunityStyle.chatHeaderLeft
+                                        }
+                                    >
+                                        {chatEach == 0 ? (
+                                            <img
+                                                src={chatlogo}
+                                                style={{
+                                                    width: "2rem",
+                                                    margin: " 0 0.5rem",
+                                                }}
+                                            />
+                                        ) : (
+                                            <CgChevronLeft
+                                                onClick={() => setChatEach(0)}
+                                                style={{
+                                                    width: "2rem",
+                                                    cursor: "pointer",
+                                                }}
+                                            />
+                                        )}
+                                        <h3>스무디톡</h3>
+                                    </div>
                                 </div>
                                 <div
                                     onClick={() => {
                                         setChatopen(!chatopen);
                                         setChatEach(0);
                                     }}
-                                    style={{ cursor: "pointer" }}
+                                    style={{
+                                        cursor: "pointer",
+                                        position: "fixed",
+                                        right: "10px",
+                                    }}
                                 >
                                     <VscChromeClose />
                                 </div>
@@ -113,7 +177,9 @@ const Chat = () => {
                                                 (e: any, i: number) => (
                                                     <li
                                                         onClick={() =>
-                                                            setChatEach(1)
+                                                            setChatEach(
+                                                                e.chatroomId
+                                                            )
                                                         }
                                                         key={i}
                                                     >
