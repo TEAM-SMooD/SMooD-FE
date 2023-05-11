@@ -6,6 +6,7 @@ import { VscChromeClose, VscChevronLeft } from "react-icons/vsc";
 import { CgChevronLeft } from "react-icons/cg";
 import Chatroom from "./Chatroom";
 import ChatLiEach from "./ChatLiEach";
+import ChatroomMake from "./ChatroomMake";
 
 const chatListDummy = {
     data: [
@@ -49,7 +50,7 @@ const chatListDummy = {
 
 const Chat = () => {
     const [chatopen, setChatopen] = useState(false);
-    const [chatEach, setChatEach] = useState(0);
+    const [chatEach, setChatEach] = useState(0); //목록화면에서 0 , 각각톡방안들어가면 톡방번호
 
     return (
         <>
@@ -99,35 +100,79 @@ const Chat = () => {
                                 </div>
                             </div>
                             {chatEach == 0 ? (
-                                <div className={CommunityStyle.chatBodyWrap}>
-                                    <div className={CommunityStyle.chatBody}>
+                                <>
+                                    <div
+                                        className={CommunityStyle.chatBodyWrap}
+                                    >
                                         <div
-                                            className={
-                                                CommunityStyle.chatBodyList
-                                            }
+                                            className={CommunityStyle.chatBody}
                                         >
-                                            <div>채팅방 목록</div>
-                                        </div>
+                                            <div
+                                                className={
+                                                    CommunityStyle.chatBodyList
+                                                }
+                                            >
+                                                <div>채팅방 목록</div>
+                                            </div>
 
-                                        <ol className={CommunityStyle.chatOl}>
-                                            {chatListDummy.data.map(
-                                                (e: any, i: number) => (
-                                                    <li
-                                                        onClick={() =>
-                                                            setChatEach(
-                                                                e.chatroomId
-                                                            )
-                                                        }
-                                                        key={i}
-                                                    >
-                                                        <ChatLiEach e={e} />
-                                                    </li>
-                                                )
-                                            )}
-                                        </ol>
+                                            <ol
+                                                className={
+                                                    CommunityStyle.chatOl
+                                                }
+                                            >
+                                                {chatListDummy.data.map(
+                                                    (e: any, i: number) => (
+                                                        <li
+                                                            onClick={() =>
+                                                                setChatEach(
+                                                                    e.chatroomId
+                                                                )
+                                                            }
+                                                            key={i}
+                                                        >
+                                                            <ChatLiEach e={e} />
+                                                        </li>
+                                                    )
+                                                )}
+                                            </ol>
+                                        </div>
                                     </div>
-                                </div>
+                                    <div
+                                        className={CommunityStyle.chatBodyWrap}
+                                    >
+                                        <div
+                                            className={CommunityStyle.chatBody}
+                                        >
+                                            <div
+                                                className={
+                                                    CommunityStyle.chatBodyList
+                                                }
+                                            >
+                                                새로운 채팅방을 만들 수 있어요!
+                                            </div>
+                                            <div>
+                                                <div
+                                                    onClick={() =>
+                                                        setChatEach(-1)
+                                                    }
+                                                    className={
+                                                        CommunityStyle.makenewchat
+                                                    }
+                                                >
+                                                    ➕ 새로운 채팅방 만들기
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            ) : chatEach == -1 ? (
+                                // 채팅방 만들기인경우
+                                <ChatroomMake
+                                    chatEach={chatEach}
+                                    setChatEach={setChatEach}
+                                />
                             ) : (
+                                // 어떤 채팅방 하나 들어간 경우
                                 <Chatroom />
                             )}
                         </div>
