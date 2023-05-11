@@ -17,7 +17,7 @@ const Mypage = () => {
                 setError(null);
                 setLoading(true);
                 const res = await axios.get(
-                    `${process.env.REACT_APP_SERVER_URL}/api/v1/users`,
+                    `${process.env.REACT_APP_SERVER_URL}/api/users`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -25,8 +25,11 @@ const Mypage = () => {
                     }
                 );
                 console.log(res);
-                sessionStorage.setItem("kakaoToken", res.data.accessToken);
-                sessionStorage.setItem("userId", res.data.id);
+                if (token) {
+                    sessionStorage.setItem("token", token);
+                }
+                sessionStorage.setItem("userId", res.data.body.user.userId);
+                sessionStorage.setItem("userName", res.data.body.user.username);
                 navigate("/mypage"); //주소창에 토큰보이던거 지우려고 다시 페이지이동
             } catch (err) {
                 setError(err);
