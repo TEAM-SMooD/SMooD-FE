@@ -27,3 +27,6 @@ yarn-error.log*
 
 
 setupProxy.js
+
+/src/socket
+# 테스트 후 이그노어해제

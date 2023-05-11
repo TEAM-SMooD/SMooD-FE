@@ -12,7 +12,7 @@ import MyLogin from "./pages/MyLogin";
 import Mypage from "./pages/Mypage";
 import Community from "./pages/Community";
 import CommunityPostEach from "./components/CommuityPostEach";
-import Chatting2 from "./socket/Chatting";
+import ChatTest from "./socket/ChatTest";
 
 const router = createBrowserRouter([
     {
@@ -57,7 +57,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/test",
-        element: <Chatting2 />,
+        element: <ChatTest />,
     },
     // {
     //     path: "/login/oauth2/code/kakao",
