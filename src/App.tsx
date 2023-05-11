@@ -12,6 +12,7 @@ import MyLogin from "./pages/MyLogin";
 import Mypage from "./pages/Mypage";
 import Community from "./pages/Community";
 import CommunityPostEach from "./components/CommuityPostEach";
+import Chatting2 from "./socket/Chatting";
 
 const router = createBrowserRouter([
     {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
         path: "/mypage",
         element: <Mypage />,
         errorElement: <NotFound />,
+    },
+    {
+        path: "/test",
+        element: <Chatting2 />,
     },
     // {
     //     path: "/login/oauth2/code/kakao",

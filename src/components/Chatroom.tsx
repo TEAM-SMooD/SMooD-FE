@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CommunityStyle from "../styles/CommunityStyle.module.css";
 
 const Chatroom = () => {
@@ -11,9 +11,23 @@ const Chatroom = () => {
         console.log("채팅전송"); //서버연결 필요!
         setInputchat("");
     }
+    const messageBoxRef = useRef<HTMLDivElement>(null);
+    // 채팅창은 항상 아래로
+    const scrollToBottom = () => {
+        if (messageBoxRef.current) {
+            messageBoxRef.current.scrollTop =
+                messageBoxRef.current.scrollHeight;
+        }
+    };
+    useEffect(() => {
+        scrollToBottom();
+    });
     return (
         <>
-            <div className={CommunityStyle.chatroomContents}>
+            <div
+                className={CommunityStyle.chatroomContents}
+                ref={messageBoxRef}
+            >
                 <div>시작</div>
                 <div>1</div>
                 <div>1</div>
