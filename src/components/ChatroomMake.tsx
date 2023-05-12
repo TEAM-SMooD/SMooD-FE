@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import CommunityStyle from "../styles/CommunityStyle.module.css";
 
 interface ChatroomProps {
@@ -20,15 +21,35 @@ const ChatroomMake = (props: ChatroomProps) => {
     const [chatStore, setChatstore] = useState("카페"); //디폴트
     const [chatName, setChatname] = useState("");
 
+    const postChatRoom = useCallback(async () => {
+        try {
+            const res = await axios.post(
+                `${process.env.REACT_APP_SERVER_URL}/chat/room`,
+                {
+                    category: chatStore,
+                    id: 1,
+                    roomId: "1",
+                    roomName: chatName,
+                    userId: 1,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+            props.setChatEach(0);
+            console.log(res.data);
+            return res;
+        } catch (err) {
+            console.log("postChatRoom ERR", err);
+        }
+    }, []);
     function handleSubmitInput(e: React.FormEvent<HTMLInputElement>) {
         e.preventDefault();
-        console.log("채팅방개설!"); //서버연결 필요!
-        console.log(
-            chatName,
-            chatStore,
-            sessionStorage.getItem("userId"),
-            sessionStorage.getItem("token")
-        );
+        postChatRoom();
         setChatname("");
     }
     return (
@@ -59,7 +80,6 @@ const ChatroomMake = (props: ChatroomProps) => {
                     <button
                         type="submit"
                         onClick={(e: any) => {
-                            props.setChatEach(0);
                             handleSubmitInput(e);
                         }}
                         disabled={chatName == ""}
