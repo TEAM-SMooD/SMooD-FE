@@ -57,14 +57,12 @@ const Chat = () => {
                 getLastchat("13719e27-b7c2-4235-9624-fbdfbc60de48");
             });
         } catch (err) {
-            console.log("ERR", err);
+            console.log("getChatRoomsERR", err);
         }
     }, []);
-    // useEffect(() => {
-    //     if (sessionStorage.getItem("token")) {
-    //         getChatRooms();
-    //     }
-    // }, [chatEach]);
+    useEffect(() => {
+        getChatRooms();
+    }, [chatEach]);
     // 플로팅 버튼 눌렀을때 로그인되잇는 상황이라면 getChatRooms()가 실행될수있게 이렇게 빼냄
 
     // useEffect(() => {
@@ -236,7 +234,6 @@ const Chat = () => {
                         onClick={() => {
                             if (sessionStorage.getItem("token")) {
                                 setChatopen(!chatopen);
-                                getChatRooms();
                             } else {
                                 alert(
                                     "로그인이 필요한 기능입니다. 로그인 페이지로 이동합니다"

@@ -54,37 +54,44 @@ const ChatroomMake = (props: ChatroomProps) => {
     return (
         <>
             <div style={{ background: "white", height: "340px" }}>
-                <form>
-                    <select
-                        onChange={(e: any) =>
-                            setChatstore(e.currentTarget.value)
-                        }
-                        // value={chatStore}
-                    >
-                        {storeOption.map((e: any) => (
-                            <option key={e.id} value={e.store}>
-                                {e.store}
-                            </option>
-                        ))}
-                    </select>
-                    <input
-                        name="chatName"
-                        value={chatName}
-                        type="text"
-                        onChange={(e) => {
-                            setChatname(e.currentTarget.value);
-                        }}
-                        placeholder="채팅방 이름을 지어주세요"
-                    />
-                    <button
-                        type="submit"
-                        onClick={(e: any) => {
-                            handleSubmitInput(e);
-                        }}
-                        disabled={chatName == ""}
-                    >
-                        전송
-                    </button>
+                <form className={CommunityStyle.makeForm}>
+                    <div className={CommunityStyle.makeSelectInputWrap}>
+                        <select
+                            className={CommunityStyle.makeSelect}
+                            onChange={(e: any) =>
+                                setChatstore(e.currentTarget.value)
+                            }
+                            // value={chatStore}
+                        >
+                            {storeOption.map((e: any) => (
+                                <option key={e.id} value={e.store}>
+                                    {e.store}
+                                </option>
+                            ))}
+                        </select>
+                        <input
+                            className={CommunityStyle.makeInput}
+                            name="chatName"
+                            value={chatName}
+                            type="text"
+                            onChange={(e) => {
+                                setChatname(e.currentTarget.value);
+                            }}
+                            placeholder="채팅방 이름을 지어주세요"
+                        />
+                    </div>
+                    <div className={CommunityStyle.btnWrap}>
+                        <button
+                            className={CommunityStyle.makeBtn}
+                            type="submit"
+                            onClick={(e: any) => {
+                                handleSubmitInput(e);
+                            }}
+                            disabled={chatName == ""}
+                        >
+                            만들기
+                        </button>
+                    </div>
                 </form>
             </div>
         </>

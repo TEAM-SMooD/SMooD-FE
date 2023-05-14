@@ -284,6 +284,47 @@
     padding: 2px 8px;
     border-radius: 4px;
 }
+
+/* ------------------------------------------- ChatMake ------------------------------------------- */
+.makeForm {
+    padding: 8px;
+}
+.makeSelectInputWrap {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.makeSelect {
+    border: none;
+    border-bottom: 1px solid rgb(255 80 75 / 55%) !important;
+    width: fit-content;
+    outline: none;
+    padding: 3px;
+}
+.makeInput {
+    border: none;
+    border-bottom: 1px solid rgb(255 80 75 / 55%) !important;
+    padding: 3px;
+    outline: none;
+}
+.btnWrap {
+    display: flex;
+    justify-content: center;
+}
+.makeBtn {
+    background: none;
+    border: 1px solid var(--linegrey);
+    padding: 4px 10px;
+    border-radius: 10px;
+    width: 30%;
+}
+
+.makeBtn:enabled:hover {
+    border: none;
+    background-color: rgb(255 80 75 / 55%);
+    cursor: pointer;
+}
+
 /* ------------------------------------------- ChatIcon ------------------------------------------- */
 
 .chatIconWrap {
