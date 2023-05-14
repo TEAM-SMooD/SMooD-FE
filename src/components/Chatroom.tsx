@@ -33,6 +33,7 @@ const Chatroom = () => {
                 <div>1</div>
                 <div>1</div>
                 <div>1</div>
+
                 <div>1</div>
                 <div>1</div>
                 <div>1</div>
@@ -40,7 +41,15 @@ const Chatroom = () => {
                 <div>1</div>
                 <div>1</div>
                 <div>1</div>
-                <div>1</div>
+                <div className={CommunityStyle.chatMeWrap}>
+                    <div className={CommunityStyle.chatMe}>내가하는말</div>
+                </div>
+                <div className={CommunityStyle.chatTheyWrap}>
+                    <div className={CommunityStyle.chatThey}>1</div>
+                    <div className={CommunityStyle.chatThey}>2</div>
+                    <div className={CommunityStyle.chatThey}>3</div>
+                    <div className={CommunityStyle.chatThey}>14</div>
+                </div>
                 <div>1</div>
                 <div>1</div>
                 <div>1</div>
@@ -51,17 +60,19 @@ const Chatroom = () => {
             </div>
 
             <div className={CommunityStyle.chatroomInputWrap}>
-                <form>
+                <form style={{ height: "100%" }}>
                     <input
                         type="text"
                         onChange={handleChangeChat}
                         value={inputchat}
+                        className={CommunityStyle.sendInput}
                     ></input>
                     <button
                         type="submit"
                         onClick={(e: any) => {
                             handleSubmitChat(e);
                         }}
+                        className={CommunityStyle.sendBtn}
                     >
                         전송
                     </button>

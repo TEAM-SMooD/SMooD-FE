@@ -21,7 +21,7 @@ const ChatroomMake = (props: ChatroomProps) => {
     const [chatStore, setChatstore] = useState("카페"); //디폴트
     const [chatName, setChatname] = useState("");
 
-    const postChatRoom = useCallback(async () => {
+    const postChatRoom = async () => {
         try {
             const res = await axios.post(
                 `${process.env.REACT_APP_SERVER_URL}/chat/room`,
@@ -46,11 +46,10 @@ const ChatroomMake = (props: ChatroomProps) => {
         } catch (err) {
             console.log("postChatRoom ERR", err);
         }
-    }, []);
+    }; // 이건 useCallback 처리하면 chatName 변경을 감지를 못함 !
     function handleSubmitInput(e: React.FormEvent<HTMLInputElement>) {
         e.preventDefault();
         postChatRoom();
-        setChatname("");
     }
     return (
         <>

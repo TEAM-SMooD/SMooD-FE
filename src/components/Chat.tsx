@@ -13,46 +13,6 @@ import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import axios from "axios";
 
-const chatListDummy = {
-    data: [
-        {
-            chatroomId: 1,
-            chatroomTitle: "광진구연합",
-            chatroomText: "네 ~",
-        },
-        {
-            chatroomId: 1,
-            chatroomTitle: "광진구연합",
-            chatroomText: "네 ~",
-        },
-        {
-            chatroomId: 1,
-            chatroomTitle: "광진구연합",
-            chatroomText: "네 ~",
-        },
-        {
-            chatroomId: 1,
-            chatroomTitle: "광진구연합",
-            chatroomText: "네 ~",
-        },
-        {
-            chatroomId: 1,
-            chatroomTitle: "광진구연합",
-            chatroomText: "네 ~",
-        },
-        {
-            chatroomId: 2,
-            chatroomTitle: "카페사장모임",
-            chatroomText: "ㅇㅋ",
-        },
-        {
-            chatroomId: 3,
-            chatroomTitle: "20대",
-            chatroomText: "이공이공",
-        },
-    ],
-};
-
 const stompClient = Stomp.over(
     () => new SockJS(`${process.env.REACT_APP_WS_URL}`)
 );
@@ -60,6 +20,24 @@ const Chat = () => {
     const [chatopen, setChatopen] = useState(false);
     const [chatEach, setChatEach] = useState(0); //목록화면에서 0 , 각각톡방안들어가면 톡방번호
     const navigate = useNavigate();
+    const [chatRooms, setChatRooms] = useState([]);
+    const [chatLastChat, setchatLastChat] = useState<string[]>(["!"]);
+    const getLastchat = async (eachRoomId: string) => {
+        const resLast = await axios.get(
+            `${process.env.REACT_APP_SERVER_URL}/api/chatting`,
+            {
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+                },
+                params: {
+                    roomId: eachRoomId,
+                },
+            }
+        );
+        setchatLastChat([...chatLastChat, "aasdf"]);
+        // setchatLastChat([...chatLastChat, resLast.data.body.messages]);
+    };
+
     const getChatRooms = useCallback(async () => {
         try {
             const res = await axios.get(
@@ -73,15 +51,20 @@ const Chat = () => {
                 }
             );
             console.log(res.data.body);
+            setChatRooms(res.data.body.chatRooms);
+            res.data.body.chatRooms.map((e: any, i: number) => {
+                console.log("e.roomID :", e.roomId);
+                getLastchat("13719e27-b7c2-4235-9624-fbdfbc60de48");
+            });
         } catch (err) {
             console.log("ERR", err);
         }
     }, []);
-    useEffect(() => {
-        if (sessionStorage.getItem("token")) {
-            getChatRooms();
-        }
-    }, [chatEach]);
+    // useEffect(() => {
+    //     if (sessionStorage.getItem("token")) {
+    //         getChatRooms();
+    //     }
+    // }, [chatEach]);
     // 플로팅 버튼 눌렀을때 로그인되잇는 상황이라면 getChatRooms()가 실행될수있게 이렇게 빼냄
 
     // useEffect(() => {
@@ -172,20 +155,24 @@ const Chat = () => {
                                                     CommunityStyle.chatOl
                                                 }
                                             >
-                                                {chatListDummy.data.map(
-                                                    (e: any, i: number) => (
-                                                        <li
-                                                            onClick={() =>
-                                                                setChatEach(
-                                                                    e.chatroomId
-                                                                )
-                                                            }
-                                                            key={i}
-                                                        >
-                                                            <ChatLiEach e={e} />
-                                                        </li>
-                                                    )
-                                                )}
+                                                {chatRooms &&
+                                                    chatRooms.map(
+                                                        (e: any, i: number) => (
+                                                            <li
+                                                                onClick={() =>
+                                                                    setChatEach(
+                                                                        i + 1
+                                                                        // !!!!!!!!!!!룸아이디고쳐조 근데 인덱스시작 0부터면 안됨.. chatEach==0인건 채팅첫화면이라고 설정해서
+                                                                    )
+                                                                }
+                                                                key={i}
+                                                            >
+                                                                <ChatLiEach
+                                                                    e={e}
+                                                                />
+                                                            </li>
+                                                        )
+                                                    )}
                                             </ol>
                                         </div>
                                     </div>
