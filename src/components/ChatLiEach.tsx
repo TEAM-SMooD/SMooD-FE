@@ -2,8 +2,13 @@ import React, { useEffect, useState } from "react";
 import CommunityStyle from "../styles/CommunityStyle.module.css";
 import { BsChevronCompactRight } from "react-icons/bs";
 import axios from "axios";
+import { Stomp } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 
-const ChatLiEach = (e: any, i: number) => {
+const stompClient = Stomp.over(
+    () => new SockJS(`${process.env.REACT_APP_WS_URL}`)
+);
+const ChatLiEach = (e: any) => {
     const [chatLastChat, setchatLastChat] = useState<string[]>([]);
 
     // const getLastchat = async (e: any) => {
