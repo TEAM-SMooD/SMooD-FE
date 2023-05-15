@@ -116,15 +116,22 @@ const Chatroom = (chatEach: any) => {
                     <div className={CommunityStyle.chatThey}>14</div>
                 </div>
                 {chatAll &&
-                    chatAll.map((e: any) =>
+                    chatAll.map((e: any, i: number) =>
                         e.senderLoginId == sessionStorage.getItem("userId") ? (
-                            <div className={CommunityStyle.chatMeWrap}>
+                            <div className={CommunityStyle.chatMeWrap} key={i}>
                                 <div className={CommunityStyle.chatMe}>
                                     {e.message}
                                 </div>
                             </div>
                         ) : (
-                            <div>ㅋ</div>
+                            <div
+                                className={CommunityStyle.chatTheyWrap}
+                                key={i}
+                            >
+                                <div className={CommunityStyle.chatThey}>
+                                    {e.message}
+                                </div>
+                            </div>
                         )
                     )}
 

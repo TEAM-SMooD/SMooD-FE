@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import axios from "axios";
+import { BsChevronCompactRight } from "react-icons/bs";
 
 const stompClient = Stomp.over(
     () => new SockJS(`${process.env.REACT_APP_WS_URL}`)
@@ -35,8 +36,16 @@ const Chat = () => {
                 },
             }
         );
-        setchatLastChat([...chatLastChat, "aasdf"]);
-        console.log("resLastRESR 마지막톡res", resLast.data.body.result);
+        setchatLastChat([
+            ...chatLastChat,
+            resLast.data.body.result[resLast.data.body.result.length - 1]
+                .message,
+        ]);
+        console.log(
+            "resLastRESR 마지막톡res",
+            resLast.data.body.result[resLast.data.body.result.length - 1]
+                .message
+        );
         // setchatLastChat([...chatLastChat, resLast.data.body.messages]);
     };
 
@@ -197,16 +206,56 @@ const Chat = () => {
                                                                     joinChatting(
                                                                         e
                                                                     );
-                                                                    // setChatEach(
-                                                                    //     e.roomId
-                                                                    //     // !!!!!!!!!!!룸아이디고쳐조 근데 인덱스시작 0부터면 안됨.. chatEach==0인건 채팅첫화면이라고 설정해서
-                                                                    // );
                                                                 }}
                                                                 key={i}
                                                             >
-                                                                <ChatLiEach
-                                                                    e={e}
-                                                                />
+                                                                <div
+                                                                    className={
+                                                                        CommunityStyle.chatLiEach
+                                                                    }
+                                                                >
+                                                                    <div
+                                                                        style={{
+                                                                            margin: "0 5px",
+                                                                        }}
+                                                                    >
+                                                                        👥
+                                                                    </div>
+                                                                    <div
+                                                                        style={{
+                                                                            flex: "1 1 0px",
+                                                                        }}
+                                                                    >
+                                                                        <div
+                                                                            className={
+                                                                                CommunityStyle.chatLiTitle
+                                                                            }
+                                                                        >
+                                                                            {
+                                                                                e.roomName
+                                                                            }
+                                                                        </div>
+                                                                        <div
+                                                                            className={
+                                                                                CommunityStyle.chatLiText
+                                                                            }
+                                                                        >
+                                                                            {
+                                                                                chatLastChat[1]
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        style={{
+                                                                            display:
+                                                                                "flex",
+                                                                            alignItems:
+                                                                                "center",
+                                                                        }}
+                                                                    >
+                                                                        <BsChevronCompactRight />
+                                                                    </div>
+                                                                </div>
                                                             </li>
                                                         )
                                                     )}
