@@ -294,11 +294,11 @@ select {
 }
 .chatTheyWrap {
     margin-top: 3px;
-    margin-left: 1px;
-
+    margin-left: 10px;
     gap: 1px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: flex-end;
 }
 .chatThey {
     width: fit-content;
@@ -310,8 +310,15 @@ select {
 .chatMeWrap {
     display: flex;
     flex-direction: row-reverse;
+    align-items: flex-end;
     margin-top: 3px;
     margin-right: 10px;
+}
+.chatMeTime,
+.chatTheyTime {
+    color: var(--grey);
+    font-size: xx-small;
+    margin: 0px 1px;
 }
 .chatMe {
     display: flex;

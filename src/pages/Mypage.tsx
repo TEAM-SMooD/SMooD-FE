@@ -9,7 +9,7 @@ const Mypage = () => {
     useEffect(() => {
         let params = new URL(document.URL).searchParams;
         let token = params.get("token");
-        const postCode = async () => {
+        const postLogin = async () => {
             try {
                 const res = await axios.get(
                     `${process.env.REACT_APP_SERVER_URL}/api/users`,
@@ -23,14 +23,21 @@ const Mypage = () => {
                 if (token) {
                     sessionStorage.setItem("token", token);
                 }
-                sessionStorage.setItem("userId", res.data.body.user.userId);
-                sessionStorage.setItem("userName", res.data.body.user.username);
+                sessionStorage.setItem("userId", res.data.body.result.userId);
+                sessionStorage.setItem(
+                    "userName",
+                    res.data.body.result.username
+                );
+                sessionStorage.setItem(
+                    "nickname",
+                    res.data.body.result.nickname
+                );
                 navigate("/mypage"); //주소창에 토큰보이던거 지우려고 다시 페이지이동
             } catch (err) {
-                console.log("postCODEERR", err);
+                console.log("postLogin_ERR", err);
             }
         };
-        postCode();
+        postLogin();
     }, []);
     return (
         <>

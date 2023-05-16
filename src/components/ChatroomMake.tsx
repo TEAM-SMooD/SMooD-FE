@@ -5,6 +5,7 @@ import CommunityStyle from "../styles/CommunityStyle.module.css";
 interface ChatroomProps {
     chatEach: number;
     setChatEach: React.Dispatch<React.SetStateAction<number>>;
+    setReloading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const ChatroomMake = (props: ChatroomProps) => {
     const storeOption = [
@@ -41,6 +42,7 @@ const ChatroomMake = (props: ChatroomProps) => {
                 }
             );
             props.setChatEach(0);
+            props.setReloading(true);
             console.log(res.data);
             return res;
         } catch (err) {

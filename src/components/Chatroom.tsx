@@ -28,13 +28,15 @@ const Chatroom = (chatEach: any) => {
         }
     };
     useEffect(() => {
+        console.log("지금실행");
         scrollToBottom();
-    });
+    }, []);
     const stompClient = Stomp.over(
         () => new SockJS(`${process.env.REACT_APP_WS_URL}`)
     );
 
     const sendMessage = (e: any) => {
+        e.preventDefault();
         stompClient.connect(
             {},
             () => {
@@ -45,21 +47,18 @@ const Chatroom = (chatEach: any) => {
                         {},
                         JSON.stringify({
                             senderLoginId: sessionStorage.getItem("userId"),
-                            nickname: "nicknnn",
+                            nickname: sessionStorage.getItem("nickname"),
                             message: inputchat,
                             roomId: chatEach.chatEach,
                         })
                     );
                 }
-                getChatting();
+                // getChatting();
             },
             () => {
                 console.log("senMEssageconnect에러");
             }
         );
-        e.preventDefault();
-        console.log("stompClient", stompClient);
-        // refMessageInput.current.focus(); ///굳이 포커스를 한번 더 해야할까?
     };
 
     const getChatting = async () => {
@@ -83,9 +82,10 @@ const Chatroom = (chatEach: any) => {
             console.log("getChatRoomsERR", err);
         }
     };
-    useEffect(() => {
-        getChatting();
-    }, []);
+    // useEffect(() => {
+    //     getChatting();
+    // }, []);
+    // getChatting();
     return (
         <>
             <div
@@ -122,6 +122,9 @@ const Chatroom = (chatEach: any) => {
                                 <div className={CommunityStyle.chatMe}>
                                     {e.message}
                                 </div>
+                                <div className={CommunityStyle.chatMeTime}>
+                                    {e.dateTime}
+                                </div>
                             </div>
                         ) : (
                             <div
@@ -130,6 +133,9 @@ const Chatroom = (chatEach: any) => {
                             >
                                 <div className={CommunityStyle.chatThey}>
                                     {e.message}
+                                </div>
+                                <div className={CommunityStyle.chatTheyTime}>
+                                    {e.dateTime}
                                 </div>
                             </div>
                         )

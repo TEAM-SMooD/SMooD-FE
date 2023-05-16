@@ -8,48 +8,25 @@ import Chatroom from "./Chatroom";
 import ChatLiEach from "./ChatLiEach";
 import ChatroomMake from "./ChatroomMake";
 import { useNavigate } from "react-router-dom";
-
-import { Stomp } from "@stomp/stompjs";
-import SockJS from "sockjs-client";
 import axios from "axios";
 import { BsChevronCompactRight } from "react-icons/bs";
 
+import { Stomp } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 const stompClient = Stomp.over(
     () => new SockJS(`${process.env.REACT_APP_WS_URL}`)
 );
+
 const Chat = () => {
     const [chatopen, setChatopen] = useState(false);
     const [chatEach, setChatEach] = useState(0); //목록화면에서 0 , 각각톡방안들어가면 톡방번호
     const navigate = useNavigate();
     const [chatRooms, setChatRooms] = useState([]);
     const [chatLastChat, setchatLastChat] = useState<string[]>(["!"]);
+    const [reloading, setReloading] = useState(true);
     console.log("chatLastChat", chatLastChat);
-    const getLastchat = async (eachRoomId: string) => {
-        const resLast = await axios.get(
-            `${process.env.REACT_APP_SERVER_URL}/api/chatting`,
-            {
-                headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-                },
-                params: {
-                    roomId: eachRoomId,
-                },
-            }
-        );
-        setchatLastChat([
-            ...chatLastChat,
-            resLast.data.body.result[resLast.data.body.result.length - 1]
-                .message,
-        ]);
-        console.log(
-            "resLastRESR 마지막톡res",
-            resLast.data.body.result[resLast.data.body.result.length - 1]
-                .message
-        );
-        // setchatLastChat([...chatLastChat, resLast.data.body.messages]);
-    };
 
-    const getChatRooms = useCallback(async () => {
+    const getChatRooms = async () => {
         try {
             const res = await axios.get(
                 `${process.env.REACT_APP_SERVER_URL}/chat/rooms`,
@@ -65,49 +42,42 @@ const Chat = () => {
             setChatRooms(res.data.body.result);
             res.data.body.result.map((e: any, i: number) => {
                 console.log("e.roomID :", e.roomId);
-                getLastchat(e.roomId);
+                // getLastchat(e.roomId);
             });
         } catch (err) {
             console.log("getChatRoomsERR", err);
         }
-    }, []);
+    };
     const joinChatting = useCallback((e: any) => {
         console.log("JJJONOONININI", e);
-        stompClient.connect({}, onConnected, onError);
+        stompClient.connect({}, () => onConnected(e.roomId), onError);
         setChatEach(
             e.roomId
             // !!!!!!!!!!!룸아이디고쳐조 근데 인덱스시작 0부터면 안됨.. chatEach==0인건 채팅첫화면이라고 설정해서
         );
-        // stompClient.connect({}, onConnected(e.roomId), onError);
-        ///  연결시도. 첫인자: 같이전송할헤더, 성공하면실행할콜백함수, 실패시콜백함수
     }, []);
 
     // 연결에 성공한 경우
-    const onConnected = useCallback((roomId: any) => {
+    const onConnected = (roomId: any) => {
         console.log("채팅방 onConnected!");
-        stompClient.subscribe("/sub/chatting/", onMessageReceived);
-    }, []);
-    const onMessageReceived = useCallback((payload: any) => {
-        /////////payload의 타입이 무엇일까
-        const message = JSON.parse(payload.body);
-        console.log("onMessageReceived ㅅㅅ서ㅓㅇ공");
-        // if (message.type === "JOIN" && message.sender === sender) {
-        //     setIsJoin(true);
-        //     message.history.map((msg: string) =>
-        //         setChatHistory((chatHistory) => [...chatHistory, msg])
-        //     );
-        // } else {
-        //     setChatHistory((chatHistory) => [...chatHistory, message]);
-        // }
-    }, []);
+        stompClient.subscribe("/sub/chatting/" + roomId, onMessageReceived);
+    };
+    const onMessageReceived = (payload: any) => {
+        console.log(JSON.parse(payload.body).message);
+        console.log("구독했잖아 !!!!!!!!!!!");
+    };
+
     // 연결에 실패한 경우
     const onError = useCallback((error: any) => {
         console.log("연결실패", error);
     }, []);
 
-    useEffect(() => {
+    if (reloading) {
         getChatRooms();
-    }, [chatEach]);
+        setReloading(false);
+    }
+
+    // console.log("--------", chatEach);
     // 플로팅 버튼 눌렀을때 로그인되잇는 상황이라면 getChatRooms()가 실행될수있게 이렇게 빼냄
 
     // useEffect(() => {
@@ -148,13 +118,8 @@ const Chat = () => {
                                         }
                                     >
                                         {chatEach == 0 ? (
-                                            <img
-                                                src={chatlogo}
-                                                style={{
-                                                    width: "2rem",
-                                                    margin: " 0 0.5rem",
-                                                }}
-                                            />
+                                            //prettier-ignore
+                                            <img src={chatlogo} style={{ width: "2rem", margin: " 0 0.5rem", }}/>
                                         ) : (
                                             <CgChevronLeft
                                                 onClick={() => setChatEach(0)}
@@ -206,56 +171,15 @@ const Chat = () => {
                                                                     joinChatting(
                                                                         e
                                                                     );
+                                                                    setReloading(
+                                                                        true
+                                                                    );
                                                                 }}
                                                                 key={i}
                                                             >
-                                                                <div
-                                                                    className={
-                                                                        CommunityStyle.chatLiEach
-                                                                    }
-                                                                >
-                                                                    <div
-                                                                        style={{
-                                                                            margin: "0 5px",
-                                                                        }}
-                                                                    >
-                                                                        👥
-                                                                    </div>
-                                                                    <div
-                                                                        style={{
-                                                                            flex: "1 1 0px",
-                                                                        }}
-                                                                    >
-                                                                        <div
-                                                                            className={
-                                                                                CommunityStyle.chatLiTitle
-                                                                            }
-                                                                        >
-                                                                            {
-                                                                                e.roomName
-                                                                            }
-                                                                        </div>
-                                                                        <div
-                                                                            className={
-                                                                                CommunityStyle.chatLiText
-                                                                            }
-                                                                        >
-                                                                            {
-                                                                                chatLastChat[1]
-                                                                            }
-                                                                        </div>
-                                                                    </div>
-                                                                    <div
-                                                                        style={{
-                                                                            display:
-                                                                                "flex",
-                                                                            alignItems:
-                                                                                "center",
-                                                                        }}
-                                                                    >
-                                                                        <BsChevronCompactRight />
-                                                                    </div>
-                                                                </div>
+                                                                <ChatLiEach
+                                                                    e={e}
+                                                                />
                                                             </li>
                                                         )
                                                     )}
@@ -308,6 +232,7 @@ const Chat = () => {
                                 <ChatroomMake
                                     chatEach={chatEach}
                                     setChatEach={setChatEach}
+                                    setReloading={setReloading}
                                 />
                             ) : (
                                 // 어떤 채팅방 하나 들어간 경우
