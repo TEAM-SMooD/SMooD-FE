@@ -262,6 +262,16 @@ select {
     overflow-y: scroll;
     height: calc(100% - 100px);
 }
+.chatroomContents::-webkit-scrollbar {
+    /* background-color: pink; */
+    border: none;
+    width: 10px;
+}
+.chatroomContents::-webkit-scrollbar-thumb {
+    background-color: rgb(255 80 75 / 30%);
+    border-radius: 30px;
+    width: 3px;
+}
 .chatroomInputWrap {
     position: fixed;
     bottom: 0;
@@ -293,26 +303,41 @@ select {
     opacity: 0.8;
 }
 .chatTheyWrap {
-    margin-top: 3px;
-    margin-left: 10px;
+    margin: 3px 0px 3px 10px;
     gap: 1px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+}
+.chatTheyWho {
+    font-size: 0.7rem;
+    color: #717171;
+}
+.chatTheyContents {
+    display: flex;
     align-items: flex-end;
+    max-width: 70%;
 }
 .chatThey {
     width: fit-content;
-    max-width: 70%;
     background: rgb(255 80 75 / 55%);
     padding: 2px 8px;
     border-radius: 4px;
 }
 .chatMeWrap {
+    margin: 3px 3px 3px 0px;
+    gap: 1px;
     display: flex;
     flex-direction: row-reverse;
     align-items: flex-end;
-    margin-top: 3px;
-    margin-right: 10px;
+}
+.chatMeContents {
+    display: flex;
+    align-items: flex-end;
+    max-width: 70%;
+}
+.chatMe,
+.chatThey {
+    font-size: 0.9rem;
 }
 .chatMeTime,
 .chatTheyTime {
@@ -328,6 +353,7 @@ select {
     background: var(--brightgrey);
     padding: 2px 8px;
     border-radius: 4px;
+    word-break: break-all;
 }
 
 /* ------------------------------------------- ChatMake ------------------------------------------- */

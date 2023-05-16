@@ -50,7 +50,7 @@ const Chat = () => {
     };
     const joinChatting = useCallback((e: any) => {
         console.log("JJJONOONININI", e);
-        stompClient.connect({}, () => onConnected(e.roomId), onError);
+        // stompClient.connect({}, () => onConnected(e.roomId), onError);
         setChatEach(
             e.roomId
             // !!!!!!!!!!!룸아이디고쳐조 근데 인덱스시작 0부터면 안됨.. chatEach==0인건 채팅첫화면이라고 설정해서

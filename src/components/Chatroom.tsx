@@ -16,27 +16,64 @@ const Chatroom = (chatEach: any) => {
         e.preventDefault();
         sendMessage(e);
         console.log("채팅전송"); //서버연결 필요!
-        // getChatting();
         setInputchat("");
     }
     const messageBoxRef = useRef<HTMLDivElement>(null);
+    const here = useRef<HTMLDivElement>(null);
+    const inputfocusRef = useRef<HTMLInputElement>(null);
+    if (inputfocusRef.current) {
+        inputfocusRef.current.focus();
+    }
     // 채팅창은 항상 아래로
     const scrollToBottom = () => {
-        if (messageBoxRef.current) {
-            messageBoxRef.current.scrollTop =
-                messageBoxRef.current.scrollHeight;
-        }
+        console.log("ASDFADFDSAFASDFD", here.current);
+        // if (here.current) {
+        //     here.current.scrollIntoView();
+        // }
+        // console.log(messageBoxRef.current, "CCCUCUCUUCUCUC");
+        // if (messageBoxRef.current) {
+        //     console.log(messageBoxRef.current.scrollTop);
+        //     console.log(messageBoxRef.current.scrollHeight);
+
+        //     messageBoxRef.current.scrollTop = 300;
+        //     // messageBoxRef.current.scrollHeight;
+        //     console.log(messageBoxRef.current.scrollTop);
+        // }
     };
-    useEffect(() => {
-        console.log("지금실행");
-        scrollToBottom();
-    }, []);
+
+    if (messageBoxRef.current) {
+        console.log(messageBoxRef.current, "CCCUCUCUUCUCUC");
+        console.log(messageBoxRef.current.scrollTop);
+        console.log(messageBoxRef.current.scrollHeight);
+        messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
+    }
     const stompClient = Stomp.over(
         () => new SockJS(`${process.env.REACT_APP_WS_URL}`)
     );
 
+    // 연결에 성공한 경우
+    const onConnected = (roomId: any) => {
+        console.log("채팅방 onConnected!");
+        getChatting();
+        stompClient.subscribe("/sub/chatting/" + roomId, onMessageReceived);
+    };
+    const onMessageReceived = (payload: any) => {
+        console.log(JSON.parse(payload.body).message);
+        console.log("구독했잖아 !!!!!!!!!!!");
+        getChatting();
+    };
+
+    // 연결에 실패한 경우
+    const onError = useCallback((error: any) => {
+        console.log("연결실패", error);
+    }, []);
+    useEffect(() => {
+        stompClient.connect({}, () => onConnected(chatEach.chatEach), onError);
+    }, []);
+
     const sendMessage = (e: any) => {
         e.preventDefault();
+
         stompClient.connect(
             {},
             () => {
@@ -53,7 +90,6 @@ const Chatroom = (chatEach: any) => {
                         })
                     );
                 }
-                // getChatting();
             },
             () => {
                 console.log("senMEssageconnect에러");
@@ -73,6 +109,7 @@ const Chatroom = (chatEach: any) => {
                     },
                     params: {
                         roomId: chatEach.chatEach,
+                        size: 30,
                     },
                 }
             );
@@ -82,39 +119,12 @@ const Chatroom = (chatEach: any) => {
             console.log("getChatRoomsERR", err);
         }
     };
-    // useEffect(() => {
-    //     getChatting();
-    // }, []);
-    // getChatting();
     return (
         <>
             <div
                 className={CommunityStyle.chatroomContents}
                 ref={messageBoxRef}
             >
-                <div>시작</div>
-                <div>1</div>
-                <div>1</div>
-                <div>1</div>
-                <div>1</div>
-
-                <div>1</div>
-                <div>1</div>
-                <div>1</div>
-                <div>1</div>
-                <div>1</div>
-                <div>1</div>
-
-                <div>1</div>
-                <div className={CommunityStyle.chatMeWrap}>
-                    <div className={CommunityStyle.chatMe}>zxczx</div>
-                </div>
-                <div className={CommunityStyle.chatTheyWrap}>
-                    <div className={CommunityStyle.chatThey}>1</div>
-                    <div className={CommunityStyle.chatThey}>2</div>
-                    <div className={CommunityStyle.chatThey}>3</div>
-                    <div className={CommunityStyle.chatThey}>14</div>
-                </div>
                 {chatAll &&
                     chatAll.map((e: any, i: number) =>
                         e.senderLoginId == sessionStorage.getItem("userId") ? (
@@ -131,20 +141,24 @@ const Chatroom = (chatEach: any) => {
                                 className={CommunityStyle.chatTheyWrap}
                                 key={i}
                             >
-                                <div className={CommunityStyle.chatThey}>
-                                    {e.message}
+                                <div className={CommunityStyle.chatTheyWho}>
+                                    {e.nickname}
                                 </div>
-                                <div className={CommunityStyle.chatTheyTime}>
-                                    {e.dateTime}
+                                <div
+                                    className={CommunityStyle.chatTheyContents}
+                                >
+                                    <div className={CommunityStyle.chatThey}>
+                                        {e.message}
+                                    </div>
+                                    <div
+                                        className={CommunityStyle.chatTheyTime}
+                                    >
+                                        {e.dateTime}
+                                    </div>
                                 </div>
                             </div>
                         )
                     )}
-
-                <div>1</div>
-                <div>1</div>
-                <div>1</div>
-                <div>끝</div>
             </div>
 
             <div className={CommunityStyle.chatroomInputWrap}>
@@ -154,6 +168,7 @@ const Chatroom = (chatEach: any) => {
                         onChange={handleChangeChat}
                         value={inputchat}
                         className={CommunityStyle.sendInput}
+                        ref={inputfocusRef}
                     ></input>
                     <button
                         type="submit"
@@ -161,6 +176,7 @@ const Chatroom = (chatEach: any) => {
                             handleSubmitChat(e);
                         }}
                         className={CommunityStyle.sendBtn}
+                        disabled={inputchat == ""}
                     >
                         전송
                     </button>
