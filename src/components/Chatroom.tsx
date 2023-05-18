@@ -100,7 +100,7 @@ const Chatroom = (chatEach: any) => {
     const getChatting = async () => {
         try {
             const res = await axios.get(
-                `${process.env.REACT_APP_SERVER_URL}/api/chatting`,
+                `${process.env.REACT_APP_SERVER_URL}/chatting`,
                 {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem(

@@ -11,7 +11,7 @@ const Mypage = () => {
     const putNickname = async () => {
         try {
             const resnickname = await axios.put(
-                `${process.env.REACT_APP_SERVER_URL}/api/user`,
+                `${process.env.REACT_APP_SERVER_URL}/user`,
                 {
                     nickname: nickname,
                 },
@@ -31,7 +31,7 @@ const Mypage = () => {
     function handleSubmitInput(e: React.FormEvent<HTMLInputElement>) {
         e.preventDefault();
         putNickname();
-        navigate(-1);
+        navigate("/home");
     }
     useEffect(() => {
         let params = new URL(document.URL).searchParams;
@@ -39,7 +39,7 @@ const Mypage = () => {
         const postLogin = async () => {
             try {
                 const res = await axios.get(
-                    `${process.env.REACT_APP_SERVER_URL}/api/users`,
+                    `${process.env.REACT_APP_SERVER_URL}/users`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,

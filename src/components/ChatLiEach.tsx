@@ -15,7 +15,7 @@ const ChatLiEach = (e: any) => {
     const getLastchat = async (eachRoomId: string) => {
         try {
             const resLast = await axios.get(
-                `${process.env.REACT_APP_SERVER_URL}/api/chatting`,
+                `${process.env.REACT_APP_SERVER_URL}/chatting`,
                 {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem(
