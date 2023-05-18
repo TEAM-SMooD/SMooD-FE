@@ -8,6 +8,7 @@ import {
     SiteSelectedConcept,
 } from "../state/atom";
 import { colors } from "../styles/designSystem";
+import { PieChart } from "react-minimal-pie-chart";
 
 interface scrollProps {
     scrollY: number;
@@ -45,10 +46,30 @@ const SiteReport = (props: scrollProps) => {
                     </div>
                     <div>보고서</div>
                 </div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
+
+                <PieChart
+                    style={{ width: "20%" }}
+                    data={[
+                        {
+                            value: 20,
+                            color: "rgba(255,80,75,0.8)",
+                            name: "name1",
+                        },
+                    ]}
+                    reveal={20}
+                    lineWidth={40}
+                    background="#f3f3f3"
+                    lengthAngle={360}
+                    // animate
+                    startAngle={-90}
+                    label={({ dataEntry }) => dataEntry.value + "%"}
+                    labelStyle={{
+                        fontSize: "20px",
+                        fill: "#33333",
+                    }}
+                    labelPosition={0}
+                    rounded={true}
+                />
                 <div>.</div>
                 <div>.</div>
                 <div>.</div>

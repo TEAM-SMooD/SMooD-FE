@@ -173,11 +173,11 @@ const CommunityMain = (dummy: any) => {
                     {selectedBoard == 0 ? (
                         <CommunityBoardAll dummy={dummy} />
                     ) : selectedBoard == 1 ? (
-                        ""
+                        <CommunityBoardAll dummy={dummy} />
                     ) : selectedBoard == 2 ? (
-                        ""
+                        <CommunityBoardAll dummy={dummy} />
                     ) : selectedBoard == 3 ? (
-                        ""
+                        <CommunityBoardAll dummy={dummy} />
                     ) : (
                         <CommunityBoarWrite />
                     )}

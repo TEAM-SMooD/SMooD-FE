@@ -129,10 +129,12 @@ const Site = () => {
                             }
                             onClick={() => {
                                 if (!sessionStorage.getItem("userId")) {
-                                    alert(
-                                        "보고서를 보려면 먼저 로그인해주세요."
-                                    );
-                                    navigate("/mylogin");
+                                    setReportOpen(true);
+                                    setOpenedSelect(0);
+                                    // alert(
+                                    //     "보고서를 보려면 먼저 로그인해주세요."
+                                    // );
+                                    // navigate("/mylogin");
                                 } else {
                                     setReportOpen(true);
                                     setOpenedSelect(0);

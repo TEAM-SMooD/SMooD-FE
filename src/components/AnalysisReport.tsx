@@ -11,13 +11,21 @@ import {
 import { colors } from "../styles/designSystem";
 
 const ReportPopulation = () => {
+    if (document.querySelector("iframe")) {
+        // console.log(document.querySelector("iframe").contentWindow.document);
+    }
+
     return (
         <>
             <iframe
+                id="myframe"
                 src="https://public.tableau.com/views/_16832725450190/1?:language=ko-KR&publish=yes&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true"
                 width="100%"
                 height="2000"
                 title="성수인구"
+                onClick={(e: any) => {
+                    console.log("eee'", e.target);
+                }}
             />
         </>
     );
@@ -128,7 +136,13 @@ const AnalysisReport = (props: scrollProps) => {
                             ? "상권 정보"
                             : ""}
                     </div>
-                    <div>보고서</div>
+                    <div
+                        onClick={(e: any) => {
+                            console.log("eee'", e.target);
+                        }}
+                    >
+                        보고서
+                    </div>
                 </div>
                 {selectedMenu == 1 ? (
                     <ReportPopulation />
