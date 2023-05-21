@@ -31,7 +31,7 @@ const Mypage = () => {
     function handleSubmitInput(e: React.FormEvent<HTMLInputElement>) {
         e.preventDefault();
         putNickname();
-        navigate("/home");
+        navigate("/concept");
     }
     useEffect(() => {
         let params = new URL(document.URL).searchParams;
@@ -50,7 +50,7 @@ const Mypage = () => {
                 if (token) {
                     sessionStorage.setItem("token", token);
                 }
-                sessionStorage.setItem("userId", res.data.body.result.userId);
+                sessionStorage.setItem("userId", res.data.body.result.userSeq);
                 sessionStorage.setItem(
                     "userName",
                     res.data.body.result.username

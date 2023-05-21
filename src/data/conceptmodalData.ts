@@ -5,16 +5,13 @@ export const shinchonArr = ["신촌동"];
 export const storeArr = ["카페", "음식점"];
 export const restaurantArr = [
     "한식",
-    "유흥주점",
-    "분식",
-    "일식/수산물",
-    "양식",
-    "패스트푸드",
-    "닭/오리요리",
-    "제과제빵/떡/케익",
     "중식",
-    "별식/퓨전요리",
-    "음식배달 서비스",
+    "일식",
+    "서양식",
+    "분식",
+    "패스트푸드",
+    "동남아시아",
+    "주점",
 ];
 //prettier-ignore
 export const conceptArr = [

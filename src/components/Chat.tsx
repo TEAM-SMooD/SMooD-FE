@@ -22,9 +22,7 @@ const Chat = () => {
     const [chatEach, setChatEach] = useState(0); //목록화면에서 0 , 각각톡방안들어가면 톡방번호
     const navigate = useNavigate();
     const [chatRooms, setChatRooms] = useState([]);
-    const [chatLastChat, setchatLastChat] = useState<string[]>(["!"]);
     const [reloading, setReloading] = useState(true);
-    console.log("chatLastChat", chatLastChat);
 
     const getChatRooms = async () => {
         try {
@@ -72,7 +70,7 @@ const Chat = () => {
         console.log("연결실패", error);
     }, []);
 
-    if (reloading) {
+    if (reloading && sessionStorage.getItem("token")) {
         getChatRooms();
         setReloading(false);
     }

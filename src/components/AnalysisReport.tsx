@@ -10,7 +10,7 @@ import {
 } from "../state/atom";
 import { colors } from "../styles/designSystem";
 
-const ReportPopulation = () => {
+const ReportTableau = (props: { loc: string; store: string }) => {
     if (document.querySelector("iframe")) {
         // console.log(document.querySelector("iframe").contentWindow.document);
     }
@@ -19,7 +19,7 @@ const ReportPopulation = () => {
         <>
             <iframe
                 id="myframe"
-                src="https://public.tableau.com/views/_16832725450190/1?:language=ko-KR&publish=yes&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true"
+                src={`https://public.tableau.com/views/_16843934504640/sheet17?:language=ko-KR&publish=yes&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true&행정동=${props.loc}&업종=${props.store}`}
                 width="100%"
                 height="2000"
                 title="성수인구"
@@ -145,49 +145,16 @@ const AnalysisReport = (props: scrollProps) => {
                     </div>
                 </div>
                 {selectedMenu == 1 ? (
-                    <ReportPopulation />
+                    <ReportTableau loc="성수1가제2동" store="한식" />
                 ) : selectedMenu == 2 ? (
-                    <ReportFacility />
+                    <ReportTableau loc="성수1가제2동" store="한식" />
                 ) : selectedMenu == 3 ? (
-                    <ReportSale />
+                    <ReportTableau loc="성수1가제2동" store="한식" />
                 ) : selectedMenu == 4 ? (
-                    <ReportInfo />
+                    <ReportTableau loc="성수1가제2동" store="한식" />
                 ) : (
                     ""
                 )}
-
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
             </div>
         </div>
     );
