@@ -5,6 +5,7 @@ import ConceptSlideReport from "../components/reports/ConceptSlideReport";
 import { useRecoilState } from "recoil";
 import { selectedDistrictCrdnt } from "../state/atom";
 import KakaoMap from "../components/KakaoMap";
+import useTitle from "../hooks/useTitle";
 
 const Concept = () => {
     const [innerWidth, setInnerWidth] = useState(window.innerWidth);
@@ -17,7 +18,10 @@ const Concept = () => {
         setInnerHeight(window.innerHeight);
     };
     window.addEventListener("resize", resizeListener);
-
+    const changeTitle = useTitle("");
+    useEffect(() => {
+        changeTitle("SMooD - 컨셉 추천");
+    });
     return (
         <>
             <Layout idx={1}>

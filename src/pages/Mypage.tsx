@@ -3,8 +3,13 @@ import headerStyle from "../styles/HeaderStyle.module.css";
 import main_logo from "../assets/main_logo.png";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import useTitle from "../hooks/useTitle";
 
 const Mypage = () => {
+    const changeTitle = useTitle("");
+    useEffect(() => {
+        changeTitle("마이페이지");
+    });
     const navigate = useNavigate();
     const [nickname, setNickname] = useState("");
     console.log(nickname);

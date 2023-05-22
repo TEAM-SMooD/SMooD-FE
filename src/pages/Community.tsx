@@ -7,75 +7,13 @@ import { useParams } from "react-router-dom";
 import CommunityPostEach from "../components/CommuityPostEach";
 import Chat from "../components/Chat";
 import axios from "axios";
+import useTitle from "../hooks/useTitle";
 
-const dummy = {
-    posts: [
-        {
-            postId: 1,
-            userId: 1,
-            name: "이사장",
-            store: "카페",
-            title: "카페창업후기",
-            contents:
-                "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ. 본문이 길어요 길ㄹ릴ㄹㄹㄹㄹㄹㄹ어",
-            category: "자유",
-            dateTime: "2023-05-18 16:53",
-            reply: [
-                {
-                    replyUserId: 2,
-                    replyName: "ss",
-                    replyContents: "ㄱㅅㄱㅅ",
-                    replyDateTime: "2023-05-18 16:53",
-                },
-            ],
-        },
-        {
-            postId: 2,
-            userId: 2,
-            name: "김사장",
-            store: "패스트푸드",
-            title: "알바괌",
-            contents:
-                "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ",
-            category: "홍보",
-            dateTime: "2023-05-18 16:53",
-            reply: [
-                {
-                    replyUserId: 2,
-                    replyName: "ss",
-                    replyContents: "ㄱㅅㄱㅅ",
-                    replyDateTime: "2023-05-18 16:53",
-                },
-                {
-                    replyUserId: 4,
-                    replyName: "sk",
-                    replyContents: "?SD?D?S",
-                    replyDateTime: "2023-05-18 16:53",
-                },
-            ],
-        },
-        {
-            postId: 3,
-            userId: 3,
-            name: "박사장",
-            store: "카페",
-            title: "카페창업후기3",
-            contents:
-                "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ",
-            category: "홍보",
-            dateTime: "2023-05-18 16:53",
-            reply: [
-                {
-                    replyUserId: 2,
-                    replyName: "ss",
-                    replyContents: "ㄱㅅㄱㅅ",
-                    replyDateTime: "2023-05-18 16:53",
-                },
-            ],
-        },
-    ],
-};
 const Community = () => {
+    const changeTitle = useTitle("");
+    useEffect(() => {
+        changeTitle("SMooD - 커뮤니티");
+    });
     const [postall, setPostall] = useState([]);
     const useparam = useParams();
 

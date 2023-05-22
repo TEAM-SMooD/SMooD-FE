@@ -13,8 +13,13 @@ import SelectStyle from "../styles/SelectBox.module.css";
 import SiteReport from "../components/SiteReport";
 import AnalysisReportStyle from "../styles/AnalysisStyle.module.css";
 import { useNavigate } from "react-router-dom";
+import useTitle from "../hooks/useTitle";
 
 const Site = () => {
+    const changeTitle = useTitle("");
+    useEffect(() => {
+        changeTitle("SMooD - 지역 추천");
+    });
     const [selectedStore, setSelectedStore] = useRecoilState(SiteSelectedStore);
     const [selectedConcept, setSelectedConcept] =
         useRecoilState(SiteSelectedConcept);

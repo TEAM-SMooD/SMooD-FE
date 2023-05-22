@@ -59,11 +59,6 @@ const router = createBrowserRouter([
         path: "/test",
         element: <ChatTest />,
     },
-    // {
-    //     path: "/login/oauth2/code/kakao",
-    //     element: <Login />,
-    //     errorElement: <NotFound />,
-    // },
 ]);
 function App() {
     return (

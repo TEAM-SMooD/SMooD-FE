@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import home_cream from "../assets/home_cream.jpg";
 import home_logo from "../assets/home_logo.png";
@@ -13,10 +13,15 @@ import {
     SThomeBtn,
     SThomeIc,
 } from "../styles/HomeST";
+import useTitle from "../hooks/useTitle";
 
 const Home = () => {
     const navigate = useNavigate();
     const [isHover, setIsHover] = useState(0);
+    const changeTitle = useTitle("");
+    useEffect(() => {
+        changeTitle("SMooD");
+    });
     return (
         <StHome>
             <StCreamImg src={home_cream} />

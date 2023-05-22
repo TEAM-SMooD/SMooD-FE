@@ -7,6 +7,17 @@ import ConceptSlideReportStyle from "../../styles/ConceptSlideReport.module.css"
 import ic_arrow from "../../assets/ic_arrow.png";
 import StoreModal from "../StoreModal";
 import { useObserver } from "../../hooks/useObserver";
+import {
+    ConceptOpenedSelect,
+    ConceptSelectedRestaurant,
+    ConceptSelectedStore,
+    ConceptSelectedDistrict,
+    ConceptSelectedDistrict2,
+    selectedDistrictCrdnt,
+} from "../../state/atom";
+import { useRecoilValue } from "recoil";
+import ic_loc from "../../assets/ic_location.png";
+import ic_store from "../../assets/ic_store.png";
 
 interface btnActiveProps {
     isBtnClicked: boolean;
@@ -22,6 +33,10 @@ const ConceptSlideReport = (props: btnActiveProps) => {
     const refCategory = useObserver(2, setIsfocused);
     const refClosed = useObserver(3, setIsfocused);
 
+    const selectedStore = useRecoilValue(ConceptSelectedStore);
+    const selectedRestaurant = useRecoilValue(ConceptSelectedRestaurant);
+    const selectedDistrict = useRecoilValue(ConceptSelectedDistrict);
+    const selectedDistrict2 = useRecoilValue(ConceptSelectedDistrict2);
     const onScroll = (
         refcurrent: React.RefObject<HTMLDivElement>,
         e: number
@@ -78,57 +93,62 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                     style={{
                         width: "100%",
                         background: "white",
-                        boxShadow: " 0 2px 4px 0 rgba(0,0,0,.1)",
+                        boxShadow: " 0px 2px rgba(0,0,0,.1)",
                     }}
                     className={ConceptSlideReportStyle.h50center}
                 >
-                    선택한것들 보여줘야지
+                    <img src={ic_loc} style={{ width: "1rem" }} />
+                    {selectedDistrict}
+                    <img src={ic_loc} style={{ width: "1rem" }} />
+                    {selectedStore}
                 </div>
 
-                <button onClick={() => setModalOpen(true)}>모달오픈!</button>
                 <div className={ConceptSlideReportStyle.reportContentWrap}>
-                    본문
                     <div ref={refKeyword}>키워드분석</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
+
+                    <div className={ConceptSlideReportStyle.borderBox}>
+                        <div>2023suseh z해핵심 키워드</div>
+                        <div>
+                            <div>워클</div>
+                            <div>표</div>
+                        </div>
+                    </div>
+                    <div className={ConceptSlideReportStyle.borderBox}>
+                        <div>인스타가 포함된 키워드</div>
+                        <div>
+                            <div>가게1</div>
+                            <div>가게2</div>
+                        </div>
+                    </div>
+                    <div className={ConceptSlideReportStyle.borderBox}>
+                        <div>핵심 키워드 변화</div>
+                        <div>표</div>
+                    </div>
                     <div ref={refCategory}>카테고리별키워드분석</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div ref={refClosed}>폐업</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
-                    <div>.</div>
+                    <div>
+                        <div>긍정리뷰</div>
+                        <div>긍정리뷰</div>
+                        <div>긍정리뷰</div>
+                    </div>
+                    <div className={ConceptSlideReportStyle.borderBox}>
+                        <div>키워드 순위</div>
+                        <div>비율 순위의 높은 가게의 </div>
+                        <div>표</div>
+                    </div>
+                    <div className={ConceptSlideReportStyle.borderBox}>
+                        긍정 리뷰가 많은 가게
+                        <div>
+                            <button onClick={() => setModalOpen(true)}>
+                                모달오픈!
+                            </button>
+                        </div>
+                    </div>
+                    <div ref={refClosed}>폐업 가게 분석</div>
+                    <div className={ConceptSlideReportStyle.borderBox}>
+                        <div>잘나가는 vs</div>
+                        <div>태블로 </div>
+                    </div>
+
                     <div>.</div>
                 </div>
 

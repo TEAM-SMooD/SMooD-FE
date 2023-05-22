@@ -5,7 +5,12 @@ import { useNavigate } from "react-router";
 import kakao_login from "../assets/kakao_login.png";
 import naver_login from "../assets/naver_login.png";
 import google_login from "../assets/google_login.png";
+import useTitle from "../hooks/useTitle";
 const MyLogin = () => {
+    const changeTitle = useTitle("");
+    useEffect(() => {
+        changeTitle("로그인");
+    });
     const navigate = useNavigate();
 
     return (

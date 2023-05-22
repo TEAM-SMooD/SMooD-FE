@@ -1,56 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
 import AnalysisReportStyle from "../styles/AnalysisStyle.module.css";
 import { STreportMenuEach } from "../styles/AnalysisST";
-import {
-    AnalysisSelectedStore,
-    AnalysisSelectedRestaurant,
-    AnalysisSelectedDistrict,
-    AnalysisSelectedDistrict2,
-} from "../state/atom";
-import { colors } from "../styles/designSystem";
+import axios from "axios";
 
-const ReportTableau = (props: { loc: string; store: string }) => {
-    if (document.querySelector("iframe")) {
-        // console.log(document.querySelector("iframe").contentWindow.document);
-    }
-
-    return (
-        <>
-            <iframe
-                id="myframe"
-                src={`https://public.tableau.com/views/_16843934504640/sheet17?:language=ko-KR&publish=yes&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true&행정동=${props.loc}&업종=${props.store}`}
-                width="100%"
-                height="2000"
-                title="성수인구"
-                onClick={(e: any) => {
-                    console.log("eee'", e.target);
-                }}
-            />
-        </>
-    );
-};
-const ReportFacility = () => {
-    return (
-        <>
-            <div>reportFacility </div>
-        </>
-    );
-};
-const ReportSale = () => {
-    return (
-        <>
-            <div>reportSale </div>
-        </>
-    );
-};
-const ReportInfo = () => {
-    return (
-        <>
-            <div>reportInfo </div>
-        </>
-    );
-};
 interface scrollProps {
     scrollY: number;
     setScrollY: React.Dispatch<React.SetStateAction<number>>;
@@ -59,13 +11,20 @@ interface scrollProps {
     setMenuFixed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const AnalysisReport = (props: scrollProps) => {
-    const selectedDistrict = useRecoilValue(AnalysisSelectedDistrict);
-    const selectedDistric2 = useRecoilValue(AnalysisSelectedDistrict2);
-    const selectedStore = useRecoilValue(AnalysisSelectedStore);
-    const selectedRestaurant = useRecoilValue(AnalysisSelectedRestaurant);
-
     const [selectedMenu, setSelectedMenu] = useState(1);
-
+    const [tableauUrl, setTableauUrl] = useState<any>([]);
+    const getAnalysisTableau = async () => {
+        try {
+            const res = await axios.get(
+                ""
+                // `${process.env.REACT_APP_SERVER_URL}/` // api 맹글어주면~
+            );
+            console.log("getAnalysisTableau res", res.data.body.result);
+            setTableauUrl(res);
+        } catch (err) {
+            console.log("getPostsERR", err);
+        }
+    };
     useEffect(() => {
         function scrollListener() {
             window.addEventListener("scroll", props.handleScroll);
@@ -74,6 +33,7 @@ const AnalysisReport = (props: scrollProps) => {
         return () => {
             window.removeEventListener("scroll", props.handleScroll);
         };
+        getAnalysisTableau(); ///
     });
     return (
         <div>
@@ -121,39 +81,20 @@ const AnalysisReport = (props: scrollProps) => {
                     paddingTop: props.menuFixed ? "140px" : "10px",
                 }}
             >
-                <div className={AnalysisReportStyle.reportTitle}>
-                    <div>
-                        {selectedDistrict} {selectedDistric2}
-                    </div>
-                    <div style={{ fontSize: "1.5rem", color: colors.red }}>
-                        {selectedMenu == 1
-                            ? "인구"
-                            : selectedMenu == 2
-                            ? "주변시설 현황"
-                            : selectedMenu == 3
-                            ? "매출"
-                            : selectedMenu == 4
-                            ? "상권 정보"
-                            : ""}
-                    </div>
-                    <div
+                {tableauUrl && (
+                    <iframe
+                        id="myframe"
+                        // src={tableauUrl[selectedMenu]}
+                        src={
+                            "https://public.tableau.com/views/_16843934504640/sheet17?:language=ko-KR&publish=yes&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true&%ED%96%89%EC%A0%95%EB%8F%99=%EC%84%B1%EC%88%981%EA%B0%80%EC%A0%9C2%EB%8F%99&%EC%97%85%EC%A2%85=%EB%B6%84%EC%8B%9D"
+                        }
+                        width="100%"
+                        height="2000"
+                        title="성수인구"
                         onClick={(e: any) => {
                             console.log("eee'", e.target);
                         }}
-                    >
-                        보고서
-                    </div>
-                </div>
-                {selectedMenu == 1 ? (
-                    <ReportTableau loc="성수1가제2동" store="한식" />
-                ) : selectedMenu == 2 ? (
-                    <ReportTableau loc="성수1가제2동" store="한식" />
-                ) : selectedMenu == 3 ? (
-                    <ReportTableau loc="성수1가제2동" store="한식" />
-                ) : selectedMenu == 4 ? (
-                    <ReportTableau loc="성수1가제2동" store="한식" />
-                ) : (
-                    ""
+                    />
                 )}
             </div>
         </div>
