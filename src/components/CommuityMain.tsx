@@ -63,10 +63,10 @@ const CommunityBoard = (posts: any) => {
                             </div>
                         </div>
                         {sessionStorage.getItem("token") &&
-                            sessionStorage.getItem("userName") ==
+                            sessionStorage.getItem("nickname") ==
                                 e.nickname && (
                                 <div className={CommunityStyle.editDelete}>
-                                    <div onClick={handleEditPost}>수정</div>
+                                    {/* <div onClick={handleEditPost}>수정</div> */}
                                     <div
                                         onClick={() =>
                                             handleDeletePost(e.postId)

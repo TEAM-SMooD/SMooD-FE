@@ -135,6 +135,13 @@ select {
 .writeBlock input:focus {
     border: 1px solid var(--red);
 }
+.rereplyBtn {
+    background: var(--lightgrey);
+    border: 1px solid var(--semigrey);
+    border-radius: 4px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
 /* ------------------------------------------- Chat ------------------------------------------- */
 .chatFloating {
     position: fixed;
