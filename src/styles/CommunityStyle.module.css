@@ -61,6 +61,7 @@
 .eachReplyContents {
     min-height: 40px;
     padding-top: 5px;
+    padding-left: 1.3rem;
 }
 .eachGoback {
     width: fit-content;

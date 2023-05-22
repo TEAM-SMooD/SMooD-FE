@@ -10,6 +10,25 @@ const CommunityPostEach = (posts: any) => {
     const data = posts.posts.filter((e: any) => e.postId == pathid)[0];
     const navigate = useNavigate();
     const [newreply, setNewreply] = useState("");
+    const [comments, setComments] = useState([]);
+    const getComments = async () => {
+        try {
+            const commentsRes = await axios.get(
+                `${process.env.REACT_APP_SERVER_URL}/comments/${pathid}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+            console.log("OCMMMENTS", commentsRes);
+            setComments(commentsRes.data.body.result);
+        } catch (err) {
+            console.log("getcommentsErr", err);
+        }
+    };
     function onchangeNewreply(e: React.FormEvent<HTMLInputElement>) {
         setNewreply(e.currentTarget.value);
     }
@@ -20,9 +39,9 @@ const CommunityPostEach = (posts: any) => {
                 const res = await axios.post(
                     `${
                         process.env.REACT_APP_SERVER_URL
-                    }/comment/${sessionStorage.getItem("userId")}`,
+                    }/comment/${sessionStorage.getItem("userId")}/${pathid}`,
                     {
-                        contents: "",
+                        contents: newreply,
                     },
                     {
                         headers: {
@@ -32,6 +51,7 @@ const CommunityPostEach = (posts: any) => {
                         },
                     }
                 );
+                window.location.replace(`/community/post/${pathid}`);
                 return res;
             } catch (err) {
                 console.log("postChatRoom ERR", err);
@@ -40,10 +60,13 @@ const CommunityPostEach = (posts: any) => {
         postNewComment();
         setNewreply("");
     }
-
+    useEffect(() => {
+        getComments();
+    }, []);
+    console.log(comments);
     return (
         <>
-            {data && (
+            {data && comments && (
                 <>
                     <div style={{ marginTop: "1rem" }}>
                         <div className={CommunityStyle.eachTopWrap}>
@@ -84,30 +107,43 @@ const CommunityPostEach = (posts: any) => {
                             </div>
                             {/* <div>💬 {data.reply.length}</div> */}
                         </div>
-                        {/* <div className={CommunityStyle.eachReplyWrap}>
-                    {data.reply.map((e: any, i: number) => (
-                        <div key={i} className={CommunityStyle.eachReplyBox}>
-                            <div className={CommunityStyle.eachWriter}>
-                                <div style={{ width: "1.3rem" }}>🗣️ </div>
-                                <div className={CommunityStyle.eachWriterInfo}>
-                                    <div>{e.replyName}</div>
+                        <div className={CommunityStyle.eachReplyWrap}>
+                            {comments.map((e: any, i: number) => (
+                                <div
+                                    key={i}
+                                    className={CommunityStyle.eachReplyBox}
+                                >
+                                    <div className={CommunityStyle.eachWriter}>
+                                        <div style={{ width: "1.3rem" }}>
+                                            🗣️{" "}
+                                        </div>
+                                        <div
+                                            className={
+                                                CommunityStyle.eachWriterInfo
+                                            }
+                                        >
+                                            <div>{e.nickname}</div>
+                                            <div
+                                                style={{
+                                                    fontSize: "0.7rem",
+                                                    color: "var(--grey)",
+                                                }}
+                                            >
+                                                {e.date} {e.time}
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div
-                                        style={{
-                                            fontSize: "0.7rem",
-                                            color: "var(--grey)",
-                                        }}
+                                        className={
+                                            CommunityStyle.eachReplyContents
+                                        }
                                     >
-                                        {e.replyDateTime}
+                                        {e.contents}
                                     </div>
                                 </div>
-                            </div>
-
-                            <div className={CommunityStyle.eachReplyContents}>
-                                {e.replyContents}
-                            </div>
+                            ))}
                         </div>
-                    ))}
-                </div> */}
                     </div>
                     <div>
                         <form
