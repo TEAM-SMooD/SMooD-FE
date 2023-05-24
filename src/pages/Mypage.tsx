@@ -3,6 +3,7 @@ import headerStyle from "../styles/HeaderStyle.module.css";
 import main_logo from "../assets/main_logo.png";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import { customAxios } from "../api/customAxios";
 import useTitle from "../hooks/useTitle";
 
 const Mypage = () => {
@@ -12,10 +13,10 @@ const Mypage = () => {
     });
     const navigate = useNavigate();
     const [nickname, setNickname] = useState("");
-    console.log(nickname);
+
     const putNickname = async () => {
         try {
-            const resnickname = await axios.put(
+            const resnickname = await customAxios().put(
                 `${process.env.REACT_APP_SERVER_URL}/user`,
                 {
                     nickname: nickname,
@@ -28,6 +29,7 @@ const Mypage = () => {
                     },
                 }
             );
+            // 닉네임 풋하고 반환값인 resnickname를 따로 쓰진 않는듯.
             sessionStorage.setItem("nickname", nickname);
         } catch (err) {
             console.log("PUTERR", err);
@@ -41,9 +43,10 @@ const Mypage = () => {
     useEffect(() => {
         let params = new URL(document.URL).searchParams;
         let token = params.get("token");
+
         const postLogin = async () => {
             try {
-                const res = await axios.get(
+                const res = await customAxios().get(
                     `${process.env.REACT_APP_SERVER_URL}/users`,
                     {
                         headers: {
