@@ -3,7 +3,7 @@ import headerStyle from "../styles/HeaderStyle.module.css";
 import main_logo from "../assets/main_logo.png";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import { customAxios } from "../api/customAxios";
+import { customAxios, getSessionToken } from "../api/customAxios";
 import useTitle from "../hooks/useTitle";
 
 const Mypage = () => {
@@ -41,10 +41,10 @@ const Mypage = () => {
         navigate("/concept");
     }
     useEffect(() => {
-        let params = new URL(document.URL).searchParams;
-        let token = params.get("token");
-
         const postLogin = async () => {
+            let token = await getSessionToken();
+
+            await console.log(token);
             try {
                 const res = await customAxios().get(
                     `${process.env.REACT_APP_SERVER_URL}/users`,

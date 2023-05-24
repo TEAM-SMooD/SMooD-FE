@@ -1,10 +1,15 @@
 import axios, { AxiosInstance } from "axios";
 
-const getSessionToken = async () => {
+export const getSessionToken = async () => {
     try {
-        const value = await sessionStorage.getItem("token");
-        if (value !== null) {
-            return value;
+        let params = new URL(document.URL).searchParams;
+        let token = params.get("token");
+        if (token == null) {
+            // 로그인후 마이페이지리다이렉트 말고 바로 마이페이지로 접근했을 상황에선 URL에서 파라미터 겟을 못하니까 예외처리
+            token = sessionStorage.getItem("token");
+        }
+        if (token !== null) {
+            return token;
         }
     } catch (e) {
         console.log("getSessionTokenERROR", e);
@@ -25,6 +30,7 @@ export const customAxios = (): AxiosInstance => {
         function (error) {
             // Do something with request error
             // 요청 시 에러 처리
+            console.log("customAxiosInterceptorsRequestERR", error);
             return Promise.reject(error);
         }
     );
@@ -40,22 +46,19 @@ export const customAxios = (): AxiosInstance => {
             } = error;
             if (status === 401) {
                 const token = await getSessionToken();
-                //   const refreshToken = await getRefreshToken();
                 const originalRequest = config;
+
                 // token refresh 요청
                 const { data } = await axios.get(
                     `${process.env.REACT_APP_SERVER_URL}/auth/refresh`, // token refresh api
                     {
-                        headers: { authorization: `Bearer ${token}` },
+                        headers: { Authorization: `Bearer ${token}` },
                         withCredentials: true,
                     }
                 );
                 // 새로운 토큰 저장
-                console.log(
-                    "토큰이 만료 되어 토큰 갱신한 데이터: 이게 res 비구조호할당 한것 입니다요요요요요요요요용ㅇ ",
-                    data
-                );
-                const newToken = data.body.result.token; // JSON형식 이거 맞는지 확인 !!! 이 newToken이 refreshToken
+                const newToken = data.body.result;
+                sessionStorage.setItem("token", newToken); //
                 axios.defaults.headers.common.Authorization = `Bearer ${newToken}`;
                 originalRequest.headers.Authorization = `Bearer ${newToken}`;
                 // 401로 요청 실패했던 요청 새로운 accessToken으로 재요청
