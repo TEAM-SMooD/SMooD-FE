@@ -1,6 +1,6 @@
-import axios from "axios";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import CommunityStyle from "../styles/CommunityStyle.module.css";
+import { postChatRoom } from "../api/chatAxios";
 
 interface ChatroomProps {
     chatEach: number;
@@ -20,38 +20,11 @@ const ChatroomMake = (props: ChatroomProps) => {
         { id: 8, store: "주점" },
     ];
     const [chatStore, setChatstore] = useState("카페"); //디폴트
-    const [chatName, setChatname] = useState("");
+    const [chatRoomName, setChatRoomName] = useState("");
 
-    const postChatRoom = async () => {
-        try {
-            const res = await axios.post(
-                `${process.env.REACT_APP_SERVER_URL}/chat/room`,
-                {
-                    category: chatStore,
-                    id: 1,
-                    roomId: "1",
-                    roomName: chatName,
-                    userId: 1,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem(
-                            "token"
-                        )}`,
-                    },
-                }
-            );
-            props.setChatEach(0);
-            props.setReloading(true);
-            console.log(res.data);
-            return res;
-        } catch (err) {
-            console.log("postChatRoom ERR", err);
-        }
-    }; // 이건 useCallback 처리하면 chatName 변경을 감지를 못함 !
     function handleSubmitInput(e: React.FormEvent<HTMLInputElement>) {
         e.preventDefault();
-        postChatRoom();
+        postChatRoom(chatStore, chatRoomName, props);
     }
     return (
         <>
@@ -74,10 +47,10 @@ const ChatroomMake = (props: ChatroomProps) => {
                         <input
                             className={CommunityStyle.makeInput}
                             name="chatName"
-                            value={chatName}
+                            value={chatRoomName}
                             type="text"
                             onChange={(e) => {
-                                setChatname(e.currentTarget.value);
+                                setChatRoomName(e.currentTarget.value);
                             }}
                             placeholder="채팅방 이름을 지어주세요"
                         />
@@ -89,7 +62,7 @@ const ChatroomMake = (props: ChatroomProps) => {
                             onClick={(e: any) => {
                                 handleSubmitInput(e);
                             }}
-                            disabled={chatName == ""}
+                            disabled={chatRoomName == ""}
                         >
                             만들기
                         </button>

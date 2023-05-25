@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import CommunityStyle from "../styles/CommunityStyle.module.css";
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-import axios from "axios";
+import { getChatting } from "../api/chatAxios";
 
-const Chatroom = (chatEach: any) => {
-    console.log("CHATREOOMEACH'", chatEach);
+const Chatroom = ({ chatRoomId }: any) => {
+    console.log("CHATREOOMEACH'", chatRoomId);
     const [inputchat, setInputchat] = useState("");
     const [chatAll, setChatAll] = useState([]);
     console.log("chalall", chatAll);
@@ -42,9 +42,6 @@ const Chatroom = (chatEach: any) => {
     };
 
     if (messageBoxRef.current) {
-        console.log(messageBoxRef.current, "CCCUCUCUUCUCUC");
-        console.log(messageBoxRef.current.scrollTop);
-        console.log(messageBoxRef.current.scrollHeight);
         messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
     }
     const stompClient = Stomp.over(
@@ -54,13 +51,13 @@ const Chatroom = (chatEach: any) => {
     // 연결에 성공한 경우
     const onConnected = (roomId: any) => {
         console.log("채팅방 onConnected!");
-        getChatting();
+        getChatting(chatRoomId).then((e) => setChatAll(e));
         stompClient.subscribe("/sub/chatting/" + roomId, onMessageReceived);
     };
     const onMessageReceived = (payload: any) => {
         console.log(JSON.parse(payload.body).message);
         console.log("구독했잖아 !!!!!!!!!!!");
-        getChatting();
+        getChatting(chatRoomId).then((e) => setChatAll(e));
     };
 
     // 연결에 실패한 경우
@@ -68,7 +65,7 @@ const Chatroom = (chatEach: any) => {
         console.log("연결실패", error);
     }, []);
     useEffect(() => {
-        stompClient.connect({}, () => onConnected(chatEach.chatEach), onError);
+        stompClient.connect({}, () => onConnected(chatRoomId), onError);
     }, []);
 
     const sendMessage = (e: any) => {
@@ -77,7 +74,7 @@ const Chatroom = (chatEach: any) => {
         stompClient.connect(
             {},
             () => {
-                console.log(chatEach.chatEach, "보낼메세지", inputchat);
+                console.log(chatRoomId, "보낼메세지", inputchat);
                 if (stompClient) {
                     stompClient.send(
                         "/pub/chatting/project",
@@ -86,7 +83,7 @@ const Chatroom = (chatEach: any) => {
                             senderLoginId: sessionStorage.getItem("userId"),
                             nickname: sessionStorage.getItem("nickname"),
                             message: inputchat,
-                            roomId: chatEach.chatEach,
+                            roomId: chatRoomId,
                         })
                     );
                 }
@@ -97,28 +94,28 @@ const Chatroom = (chatEach: any) => {
         );
     };
 
-    const getChatting = async () => {
-        try {
-            const res = await axios.get(
-                `${process.env.REACT_APP_SERVER_URL}/chatting`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem(
-                            "token"
-                        )}`,
-                    },
-                    params: {
-                        roomId: chatEach.chatEach,
-                        size: 30,
-                    },
-                }
-            );
-            console.log("getchatting특정채팅방조회", res.data);
-            setChatAll(res.data.body.result);
-        } catch (err) {
-            console.log("getChatRoomsERR", err);
-        }
-    };
+    // const getChatting = async () => {
+    //     try {
+    //         const res = await axios.get(
+    //             `${process.env.REACT_APP_SERVER_URL}/chatting`,
+    //             {
+    //                 headers: {
+    //                     Authorization: `Bearer ${sessionStorage.getItem(
+    //                         "token"
+    //                     )}`,
+    //                 },
+    //                 params: {
+    //                     roomId: chatEach.chatEach,
+    //                     size: 30,
+    //                 },
+    //             }
+    //         );
+    //         console.log("getchatting특정채팅방조회", res.data);
+    //         setChatAll(res.data.body.result);
+    //     } catch (err) {
+    //         console.log("getChatRoomsERR", err);
+    //     }
+    // };
     return (
         <>
             <div

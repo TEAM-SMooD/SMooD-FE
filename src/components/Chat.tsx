@@ -1,15 +1,14 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import CommunityStyle from "../styles/CommunityStyle.module.css";
 import chatlogo from "../assets/main_logo_smood.png";
 import mainchatlogo from "../assets/main_logo_chat.png";
-import { VscChromeClose, VscChevronLeft } from "react-icons/vsc";
+import { VscChromeClose } from "react-icons/vsc";
 import { CgChevronLeft } from "react-icons/cg";
 import Chatroom from "./Chatroom";
 import ChatLiEach from "./ChatLiEach";
 import ChatroomMake from "./ChatroomMake";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { BsChevronCompactRight } from "react-icons/bs";
+import { getChatRooms } from "../api/chatAxios";
 
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
@@ -24,35 +23,9 @@ const Chat = () => {
     const [chatRooms, setChatRooms] = useState([]);
     const [reloading, setReloading] = useState(true);
 
-    const getChatRooms = async () => {
-        try {
-            const res = await axios.get(
-                `${process.env.REACT_APP_SERVER_URL}/chat/rooms`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem(
-                            "token"
-                        )}`,
-                    },
-                }
-            );
-            console.log("getChatRooms res", res.data.body.result);
-            setChatRooms(res.data.body.result);
-            res.data.body.result.map((e: any, i: number) => {
-                console.log("e.roomID :", e.roomId);
-                // getLastchat(e.roomId);
-            });
-        } catch (err) {
-            console.log("getChatRoomsERR", err);
-        }
-    };
     const joinChatting = useCallback((e: any) => {
-        console.log("JJJONOONININI", e);
-        // stompClient.connect({}, () => onConnected(e.roomId), onError);
-        setChatEach(
-            e.roomId
-            // !!!!!!!!!!!룸아이디고쳐조 근데 인덱스시작 0부터면 안됨.. chatEach==0인건 채팅첫화면이라고 설정해서
-        );
+        console.log("joinChatting", e);
+        setChatEach(e.roomId);
     }, []);
 
     // 연결에 성공한 경우
@@ -71,33 +44,13 @@ const Chat = () => {
     }, []);
 
     if (reloading && sessionStorage.getItem("token")) {
-        getChatRooms();
+        getChatRooms().then((e) => {
+            setChatRooms(e);
+        });
         setReloading(false);
     }
-
-    // console.log("--------", chatEach);
     // 플로팅 버튼 눌렀을때 로그인되잇는 상황이라면 getChatRooms()가 실행될수있게 이렇게 빼냄
 
-    // useEffect(() => {
-    //     const getChatRooms = async () => {
-    //         try {
-    //             const res = await axios.get(
-    //                 `${process.env.REACT_APP_SERVER_URL}/chat/rooms`,
-    //                 {
-    //                     headers: {
-    //                         Authorization: `Bearer ${sessionStorage.getItem(
-    //                             "token"
-    //                         )}`,
-    //                     },
-    //                 }
-    //             );
-    //             console.log(res);
-    //         } catch (err) {
-    //             console.log("ERR", err);
-    //         }
-    //     };
-    //     getChatRooms();
-    // }, []);
     return (
         <>
             <div className={CommunityStyle.chatFloating}>
@@ -176,7 +129,7 @@ const Chat = () => {
                                                                 key={i}
                                                             >
                                                                 <ChatLiEach
-                                                                    e={e}
+                                                                    eachChat={e}
                                                                 />
                                                             </li>
                                                         )
@@ -235,7 +188,7 @@ const Chat = () => {
                             ) : (
                                 // 어떤 채팅방 하나 들어간 경우
                                 <Chatroom
-                                    chatEach={chatEach}
+                                    chatRoomId={chatEach}
                                     stompClient={stompClient}
                                 />
                             )}
