@@ -12,8 +12,14 @@ import {
 import SelectStyle from "../styles/SelectBox.module.css";
 import SiteReport from "../components/SiteReport";
 import AnalysisReportStyle from "../styles/AnalysisStyle.module.css";
+import { useNavigate } from "react-router-dom";
+import useTitle from "../hooks/useTitle";
 
 const Site = () => {
+    const changeTitle = useTitle("");
+    useEffect(() => {
+        changeTitle("SMooD - 지역 추천");
+    });
     const [selectedStore, setSelectedStore] = useRecoilState(SiteSelectedStore);
     const [selectedConcept, setSelectedConcept] =
         useRecoilState(SiteSelectedConcept);
@@ -59,6 +65,8 @@ const Site = () => {
     const SelectBlock = () => {
         const [openedSelect, setOpenedSelect] =
             useRecoilState(SiteOpenedSelect);
+        const navigate = useNavigate();
+
         return (
             <>
                 <div
@@ -125,8 +133,17 @@ const Site = () => {
                                     : `${SelectStyle.reportBtn}`
                             }
                             onClick={() => {
-                                setReportOpen(true);
-                                setOpenedSelect(0);
+                                if (!sessionStorage.getItem("userId")) {
+                                    setReportOpen(true);
+                                    setOpenedSelect(0);
+                                    // alert(
+                                    //     "보고서를 보려면 먼저 로그인해주세요."
+                                    // );
+                                    // navigate("/mylogin");
+                                } else {
+                                    setReportOpen(true);
+                                    setOpenedSelect(0);
+                                }
                             }}
                             disabled={!selectedAll}
                         >

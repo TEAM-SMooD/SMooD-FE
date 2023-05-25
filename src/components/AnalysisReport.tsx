@@ -1,43 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
 import AnalysisReportStyle from "../styles/AnalysisStyle.module.css";
 import { STreportMenuEach } from "../styles/AnalysisST";
+import { useRecoilState } from "recoil";
 import {
     AnalysisSelectedStore,
-    AnalysisSelectedRestaurant,
     AnalysisSelectedDistrict,
     AnalysisSelectedDistrict2,
+    AnalysisSelectedRestaurant,
 } from "../state/atom";
-import { colors } from "../styles/designSystem";
+import { customAxios } from "../api/customAxios";
 
-const ReportPopulation = () => {
-    return (
-        <>
-            <div>reportPopulation </div>
-        </>
-    );
-};
-const ReportFacility = () => {
-    return (
-        <>
-            <div>reportFacility </div>
-        </>
-    );
-};
-const ReportSale = () => {
-    return (
-        <>
-            <div>reportSale </div>
-        </>
-    );
-};
-const ReportInfo = () => {
-    return (
-        <>
-            <div>reportInfo </div>
-        </>
-    );
-};
 interface scrollProps {
     scrollY: number;
     setScrollY: React.Dispatch<React.SetStateAction<number>>;
@@ -45,15 +17,40 @@ interface scrollProps {
     menuFixed: boolean;
     setMenuFixed: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const AnalysisReport = (props: scrollProps) => {
-    const selectedDistrict = useRecoilValue(AnalysisSelectedDistrict);
-    const selectedDistric2 = useRecoilValue(AnalysisSelectedDistrict2);
-    const selectedStore = useRecoilValue(AnalysisSelectedStore);
-    const selectedRestaurant = useRecoilValue(AnalysisSelectedRestaurant);
 
-    const [selectedMenu, setSelectedMenu] = useState(1);
+const AnalysisReport = (props: scrollProps) => {
+    const [selectedMenu, setSelectedMenu] = useState(0);
+    const [tableauUrl, setTableauUrl] = useState<any>([]);
+
+    const [selectedDistrict, setSelectedDistrict] = useRecoilState(
+        AnalysisSelectedDistrict
+    );
+    const [selectedDistrict2, setSelectedDistrict2] = useRecoilState(
+        AnalysisSelectedDistrict2
+    );
+    const [selectedStore, setSelectedStore] = useRecoilState(
+        AnalysisSelectedStore
+    );
+    const [selectedRestaurant, setSelectedRestaurant] = useRecoilState(
+        AnalysisSelectedRestaurant
+    );
+    const getAnalysisTableau = async () => {
+        try {
+            const res = await customAxios().get(
+                `/tableau?dong=${selectedDistrict2}&category=${
+                    selectedStore == "카페" ? selectedStore : selectedDistrict2
+                }`
+            );
+            // console.log("getAnalysisTableau res", res.data.body.result);
+            setTableauUrl(res.data.body.result.url);
+        } catch (err) {
+            console.log("getAnalysisTableauERR", err);
+        }
+    };
 
     useEffect(() => {
+        getAnalysisTableau(); ///
+
         function scrollListener() {
             window.addEventListener("scroll", props.handleScroll);
         }
@@ -61,7 +58,8 @@ const AnalysisReport = (props: scrollProps) => {
         return () => {
             window.removeEventListener("scroll", props.handleScroll);
         };
-    });
+    }, [selectedMenu]);
+
     return (
         <div>
             <div
@@ -75,29 +73,29 @@ const AnalysisReport = (props: scrollProps) => {
                 <div className={AnalysisReportStyle.reportMenuWrap}>
                     <STreportMenuEach
                         selectedIdx={selectedMenu}
+                        idx={0}
+                        onClick={() => setSelectedMenu(0)}
+                    >
+                        인구
+                    </STreportMenuEach>
+                    <STreportMenuEach
+                        selectedIdx={selectedMenu}
                         idx={1}
                         onClick={() => setSelectedMenu(1)}
                     >
-                        인구
+                        주변시설 현황
                     </STreportMenuEach>
                     <STreportMenuEach
                         selectedIdx={selectedMenu}
                         idx={2}
                         onClick={() => setSelectedMenu(2)}
                     >
-                        주변시설 현황
+                        매출
                     </STreportMenuEach>
                     <STreportMenuEach
                         selectedIdx={selectedMenu}
                         idx={3}
                         onClick={() => setSelectedMenu(3)}
-                    >
-                        매출
-                    </STreportMenuEach>
-                    <STreportMenuEach
-                        selectedIdx={selectedMenu}
-                        idx={4}
-                        onClick={() => setSelectedMenu(4)}
                     >
                         상권정보
                     </STreportMenuEach>
@@ -108,66 +106,18 @@ const AnalysisReport = (props: scrollProps) => {
                     paddingTop: props.menuFixed ? "140px" : "10px",
                 }}
             >
-                <div className={AnalysisReportStyle.reportTitle}>
-                    <div>
-                        {selectedDistrict} {selectedDistric2}
-                    </div>
-                    <div style={{ fontSize: "1.5rem", color: colors.red }}>
-                        {selectedMenu == 1
-                            ? "인구"
-                            : selectedMenu == 2
-                            ? "주변시설 현황"
-                            : selectedMenu == 3
-                            ? "매출"
-                            : selectedMenu == 4
-                            ? "상권 정보"
-                            : ""}
-                    </div>
-                    <div>보고서</div>
-                </div>
-                {selectedMenu == 1 ? (
-                    <ReportPopulation />
-                ) : selectedMenu == 2 ? (
-                    <ReportFacility />
-                ) : selectedMenu == 3 ? (
-                    <ReportSale />
-                ) : selectedMenu == 4 ? (
-                    <ReportInfo />
-                ) : (
-                    ""
+                {tableauUrl && (
+                    <iframe
+                        id="myframe"
+                        src={tableauUrl[selectedMenu]}
+                        // src={`https://public.tableau.com/views/-_16844621835620/sheet12?:language=ko-KR&publish=yes&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true&dong=${encodeURIComponent(
+                        //     selectedDistrict2
+                        // )}`}
+                        width="100%"
+                        height="2000"
+                        title="분석 보고서"
+                    />
                 )}
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
-                <div>.</div>
             </div>
         </div>
     );

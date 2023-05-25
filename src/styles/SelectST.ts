@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { colors } from "./designSystem";
 
 export const STselectbox = styled.div<{ isOpen?: boolean; concept?: boolean }>`
-    width: ${(props) => (props.concept ? "100%" : "30%")};
+    width: ${(props) => (props.concept ? "100%" : "40%")};
     border-radius: ${(props) =>
         props.isOpen ? "12.8px 12.8px 0px 0px" : "204px"};
     background: #f2f1f5;
@@ -13,7 +13,7 @@ export const STselectbox = styled.div<{ isOpen?: boolean; concept?: boolean }>`
     position: relative;
 `;
 export const STselectWrap = styled.div`
-    padding: 3% 5%;
+    padding: 0% 5%;
     display: grid;
     width: 100%;
     grid-template-columns: 25px auto 25px;
@@ -33,7 +33,7 @@ export const STDropdown = styled.div`
     grid-gap: 0.3rem;
     -webkit-box-align: center;
     align-items: center;
-    top: 42px;
+    top: 40px;
     justify-items: center;
     padding-bottom: 0.5rem;
     padding-top: 0.5rem;

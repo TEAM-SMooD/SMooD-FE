@@ -14,8 +14,14 @@ import {
     AnalysisSelectedRestaurant,
 } from "../state/atom";
 import SelectStyle from "../styles/SelectBox.module.css";
+import { useNavigate } from "react-router-dom";
+import useTitle from "../hooks/useTitle";
 
 const Analysis = () => {
+    const changeTitle = useTitle("");
+    useEffect(() => {
+        changeTitle("SMooD - 지역별 상권 분석");
+    });
     const [selectedDistrict, setSelectedDistrict] = useRecoilState(
         AnalysisSelectedDistrict
     );
@@ -67,6 +73,7 @@ const Analysis = () => {
     const SelectBlock = () => {
         const [openedSelect, setOpenedSelect] =
             useRecoilState(AnalysisOpenedSelect);
+        const navigate = useNavigate();
 
         return (
             <>
@@ -130,8 +137,15 @@ const Analysis = () => {
                                     : `${SelectStyle.reportBtn}`
                             }
                             onClick={() => {
-                                setReportOpen(true);
-                                setOpenedSelect(0);
+                                if (!sessionStorage.getItem("userId")) {
+                                    alert(
+                                        "보고서를 보려면 먼저 로그인해주세요."
+                                    );
+                                    navigate("/mylogin");
+                                } else {
+                                    setReportOpen(true);
+                                    setOpenedSelect(0);
+                                }
                             }}
                             disabled={!selectedAll}
                         >

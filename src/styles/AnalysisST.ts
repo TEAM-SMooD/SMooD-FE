@@ -26,7 +26,7 @@ export const STreportMenuEach = styled.div<{
     border-right: ${(props) =>
         props.idx == props.selectedIdx
             ? `1px solid ${colors.red}`
-            : props.idx == 4
+            : props.idx == 3
             ? `1px solid ${colors.lightgrey}`
             : ""};
     color: ${(props) => (props.idx == props.selectedIdx ? colors.red : "")};

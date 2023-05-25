@@ -1,17 +1,23 @@
 :root {
     --red: #ff504b;
+    --lightgrey: #f5f5f5;
+    --brightgrey: #f2f1f5;
+    --semigrey: #c8c8c8;
+    --grey: #b0b0b0;
+    --linegrey: #e3e1e1;
 }
 .header {
     background: white;
     height: 70px;
     display: grid;
-    grid-template-columns: 255px 1fr auto;
+    grid-template-columns: 200px 1fr auto;
     flex-direction: row;
     position: fixed;
     width: 100%;
     align-items: center;
     padding: 0 40px;
     border-bottom: 1px solid #b0b0b0;
+    z-index: 9090;
 }
 
 .pointer :hover {
@@ -25,7 +31,7 @@
 .menubar {
     display: flex;
     flex-direction: row;
-    gap: 39px;
+    gap: 23px;
 }
 .menuEach {
     display: flex;
@@ -44,4 +50,66 @@
     box-sizing: border-box;
     justify-content: center;
     align-items: center;
+}
+
+.myHeader {
+    background: white;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    width: 100%;
+    padding: 0 40px;
+    border-bottom: 1px solid #b0b0b0;
+}
+.myWrap {
+    padding-top: 70px;
+    margin-left: 15%;
+    margin-right: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.myTitle {
+    padding: 50px 12px 25px 12px;
+    font-size: 20px;
+    font-weight: bold;
+    border-bottom: 1px solid #c8c8c8;
+    width: 70%;
+    text-align: center;
+}
+.mySubTitle {
+    padding: 24px 0 50px 0;
+}
+.logoWrap {
+    display: grid;
+    gap: 10px;
+}
+
+/* mypage 닉네임 설정ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ */
+
+.nickname {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+.nicknameInput {
+    border: 1px solid var(--red);
+    border-radius: 10px;
+    padding: 10px;
+    outline: none;
+}
+.nicknameBtn {
+    width: 50%;
+    background: none;
+    border: 1px solid var(--linegrey);
+    padding: 4px 10px;
+    border-radius: 10px;
+}
+.nicknameBtn:enabled:hover {
+    border: none;
+    background-color: rgb(255 80 75 / 55%);
+    cursor: pointer;
 }

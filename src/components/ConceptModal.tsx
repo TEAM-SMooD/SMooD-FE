@@ -14,6 +14,7 @@ import {
 } from "../state/atom";
 import SelectStyle from "../styles/SelectBox.module.css";
 import { DistrictSelectBox, StoreSelectBox } from "./SelectBox";
+import { useNavigate } from "react-router-dom";
 interface btnActiveProps {
     isBtnClicked: boolean;
     setIsBtnClicked: React.Dispatch<React.SetStateAction<boolean>>;
@@ -35,7 +36,7 @@ const ConceptModal = (props: btnActiveProps) => {
         ConceptSelectedDistrict2
     );
     const [openedSelect, setOpenedSelect] = useRecoilState(ConceptOpenedSelect);
-
+    const navigate = useNavigate();
     return (
         <>
             <StWrap>
@@ -107,11 +108,18 @@ const ConceptModal = (props: btnActiveProps) => {
                                         : `${SelectStyle.reportBtn}`
                                 }
                                 onClick={() => {
-                                    if (!props.isBtnClicked) {
-                                        props.setIsBtnClicked(true);
-                                        props.setReportDoorVisible(true);
+                                    if (!sessionStorage.getItem("userId")) {
+                                        alert(
+                                            "보고서를 보려면 먼저 로그인해주세요."
+                                        );
+                                        navigate("/mylogin");
+                                    } else {
+                                        if (!props.isBtnClicked) {
+                                            console.log("서버에 get 요청");
+                                            props.setIsBtnClicked(true);
+                                            props.setReportDoorVisible(true);
+                                        }
                                     }
-                                    console.log("서버에 get 요청");
                                 }}
                                 // ~~~ onClick 에 서버로부터 보고서 받아오는거 추가 필요 ~~~
                                 disabled={
