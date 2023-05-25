@@ -58,3 +58,16 @@ export const postChatRoom = async (
         console.log("postChatRoom ERR", err);
     }
 };
+export const deleteChatRoom = async (roomId: number) => {
+    try {
+        const res = await customAxios().delete(`/chat/room`, {
+            params: {
+                roomId: roomId,
+            },
+        });
+        console.log("rsafadfasdfdsa", res);
+        return res;
+    } catch (err) {
+        console.log("postChatRoom ERR", err);
+    }
+};

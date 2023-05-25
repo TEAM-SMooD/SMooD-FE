@@ -6,6 +6,7 @@ import {
     postComment,
     postCommentReply,
     handleDeleteCR,
+    deletePost,
 } from "../api/communityAxios";
 import ic_user from "../assets/ic_user.png";
 import ic_user2 from "../assets/ic_user2.png";
@@ -101,9 +102,7 @@ const CommunityPostEach = (posts: any) => {
                                                     </div> */}
                                             <div
                                                 onClick={() =>
-                                                    console.log(
-                                                        "each에서 게시글삭제아직안해쪙"
-                                                    )
+                                                    deletePost(data.postId)
                                                 }
                                             >
                                                 {" "}
@@ -326,8 +325,9 @@ const CommunityPostEach = (posts: any) => {
                                                                     CommunityStyle.replyDatetime
                                                                 }
                                                             >
-                                                                {ec.date}{" "}
-                                                                {ec.time}
+                                                                {ec.date}
+                                                                {/* {"? "}
+                                                                {ec.time} */}
                                                             </div>
                                                         </div>
 
