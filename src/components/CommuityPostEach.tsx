@@ -1,125 +1,49 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CommunityStyle from "../styles/CommunityStyle.module.css";
+import {
+    getComments,
+    postComment,
+    postCommentReply,
+    handleDeleteCR,
+} from "../api/communityAxios";
 
 const CommunityPostEach = (posts: any) => {
-    const path = useLocation();
-    const spliturl = path.pathname.split("/");
-    const pathid = spliturl[spliturl.length - 1];
-    const data = posts.posts.filter((e: any) => e.postId == pathid)[0];
+    const spliturl = useLocation().pathname.split("/");
+    const postId = spliturl[spliturl.length - 1];
+    const data = posts.posts.filter((e: any) => e.postId == postId)[0];
     const navigate = useNavigate();
-    const [newreply, setNewreply] = useState("");
-    const [newrereply, setNewrereply] = useState("");
+    const [newComment, setNewComment] = useState("");
+    const [newReply, setNewReply] = useState("");
     const [comments, setComments] = useState([]);
-    const [newrereplyN, setNewrereplyN] = useState(-1);
-    const getComments = async () => {
-        try {
-            const commentsRes = await axios.get(
-                `${process.env.REACT_APP_SERVER_URL}/comments/${pathid}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem(
-                            "token"
-                        )}`,
-                    },
-                }
-            );
-            console.log("OCMMMENTS", commentsRes);
-            setComments(commentsRes.data.body.result);
-        } catch (err) {
-            console.log("getcommentsErr", err);
-        }
-    };
-    function onchangeNewreply(e: React.FormEvent<HTMLInputElement>) {
-        setNewreply(e.currentTarget.value);
+    const [selectedCommentId, setSelectedCommentId] = useState(-1);
+
+    function onchangeNewComment(e: React.FormEvent<HTMLInputElement>) {
+        setNewComment(e.currentTarget.value);
     }
-    function onsubmitNewreply(e: React.FormEvent<HTMLInputElement>) {
+    function onsubmitNewComment(e: React.FormEvent<HTMLInputElement>) {
         e.preventDefault();
-        const postNewComment = async () => {
-            try {
-                const res = await axios.post(
-                    `${
-                        process.env.REACT_APP_SERVER_URL
-                    }/comment/${sessionStorage.getItem("userId")}/${pathid}`,
-                    {
-                        contents: newreply,
-                    },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${sessionStorage.getItem(
-                                "token"
-                            )}`,
-                        },
-                    }
-                );
-                window.location.replace(`/community/post/${pathid}`);
-                return res;
-            } catch (err) {
-                console.log("postChatRoom ERR", err);
-            }
-        };
-        postNewComment();
-        setNewreply("");
+        postComment(postId, newComment); // 댓글작성
+        setNewComment("");
     }
-    function onchangeNewrereply(e: React.FormEvent<HTMLInputElement>) {
-        setNewrereply(e.currentTarget.value);
+    function onchangeNewReply(e: React.FormEvent<HTMLInputElement>) {
+        setNewReply(e.currentTarget.value);
     }
-    function onsubmitNewrereply(
+    function onsubmitNewReply(
         e: React.FormEvent<HTMLInputElement>,
-        newrereplyN: number
+        selectedCommentId: number
     ) {
         e.preventDefault();
-        const postNewrereply = async () => {
-            try {
-                const res = await axios.post(
-                    `${
-                        process.env.REACT_APP_SERVER_URL
-                    }/comment/reply/${sessionStorage.getItem(
-                        "userId"
-                    )}/${pathid}/${newrereplyN}`,
-                    {
-                        contents: newrereply,
-                    },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${sessionStorage.getItem(
-                                "token"
-                            )}`,
-                        },
-                    }
-                );
-                window.location.replace(`/community/post/${pathid}`);
-                console.log("대댓글", res);
-                return res;
-            } catch (err) {
-                console.log("postChatRoom ERR", err);
-            }
-        };
-        postNewrereply();
-        setNewreply("");
+        postCommentReply(postId, selectedCommentId, newReply); // 대댓글작성
+        setNewReply("");
     }
-    const handleDeleteRereply = async (commentId: number) => {
-        try {
-            const res = await axios.delete(
-                `${process.env.REACT_APP_SERVER_URL}/comment/${commentId}`, //댓글,대댓글 id 같이씀
-                {
-                    headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem(
-                            "token"
-                        )}`,
-                    },
-                }
-            );
-            window.location.replace("/community"); //새로고침
-        } catch (err) {
-            console.log("handleDeletePost ERR", err);
-        }
-        // 목록페이지로 navigate .. !?!
-    };
+
     useEffect(() => {
-        getComments();
+        getComments(postId).then((e) => {
+            setComments(e);
+        });
     }, []);
+
     return (
         <>
             {data && comments && (
@@ -173,11 +97,13 @@ const CommunityPostEach = (posts: any) => {
                                                     </div> */}
                                             <div
                                                 onClick={() =>
-                                                    handleDeleteRereply(data.id)
+                                                    console.log(
+                                                        "each에서 게시글삭제아직안해쪙"
+                                                    )
                                                 }
                                             >
                                                 {" "}
-                                                삭제
+                                                글삭제
                                             </div>
                                         </div>
                                     )}
@@ -229,14 +155,15 @@ const CommunityPostEach = (posts: any) => {
                                                         수정
                                                     </div> */}
                                                     <div
-                                                        onClick={() =>
-                                                            handleDeleteRereply(
-                                                                e.id
-                                                            )
-                                                        }
+                                                        onClick={() => {
+                                                            handleDeleteCR(
+                                                                e.id,
+                                                                e.postId
+                                                            );
+                                                        }}
                                                     >
                                                         {" "}
-                                                        삭제
+                                                        댓글삭제
                                                     </div>
                                                 </div>
                                             )}
@@ -252,16 +179,16 @@ const CommunityPostEach = (posts: any) => {
                                     <button
                                         className={CommunityStyle.rereplyBtn}
                                         onClick={() => {
-                                            if (newrereplyN == e.id) {
-                                                setNewrereplyN(-1);
+                                            if (selectedCommentId == e.id) {
+                                                setSelectedCommentId(-1);
                                             } else {
-                                                setNewrereplyN(e.id);
+                                                setSelectedCommentId(e.id);
                                             }
                                         }}
                                     >
                                         답글
                                     </button>
-                                    {newrereplyN == e.id && (
+                                    {selectedCommentId == e.id && (
                                         <div
                                             style={{
                                                 padding: "10px 10px",
@@ -305,14 +232,14 @@ const CommunityPostEach = (posts: any) => {
                                                         }
                                                         type="text"
                                                         onChange={
-                                                            onchangeNewrereply
+                                                            onchangeNewReply
                                                         }
-                                                        value={newrereply}
+                                                        value={newReply}
                                                         placeholder={
                                                             sessionStorage.getItem(
                                                                 "userId"
                                                             )
-                                                                ? "댓글을 남겨주세요"
+                                                                ? "답글을 남겨주세요"
                                                                 : "로그인 후 댓글을 남겨주세요"
                                                         }
                                                         disabled={
@@ -323,9 +250,9 @@ const CommunityPostEach = (posts: any) => {
                                                     />
                                                     <button
                                                         onClick={(e: any) => {
-                                                            onsubmitNewrereply(
+                                                            onsubmitNewReply(
                                                                 e,
-                                                                newrereplyN
+                                                                selectedCommentId
                                                             );
                                                         }}
                                                         className={
@@ -336,14 +263,6 @@ const CommunityPostEach = (posts: any) => {
                                                         작성
                                                     </button>
                                                 </form>
-                                            </div>
-                                            <div
-                                                style={{
-                                                    marginLeft: "1rem",
-                                                    paddingTop: "5px",
-                                                }}
-                                            >
-                                                {/* {ec.contents} */}
                                             </div>
                                         </div>
                                     )}
@@ -369,6 +288,15 @@ const CommunityPostEach = (posts: any) => {
                                                     >
                                                         {" "}
                                                         ↳ 🫥 {ec.nickname}
+                                                        <div
+                                                            style={{
+                                                                fontSize:
+                                                                    "0.7rem",
+                                                                color: "var(--grey)",
+                                                            }}
+                                                        >
+                                                            {ec.date} {ec.time}
+                                                        </div>
                                                         {sessionStorage.getItem(
                                                             "token"
                                                         ) &&
@@ -391,14 +319,15 @@ const CommunityPostEach = (posts: any) => {
                                                                         수정
                                                                     </div> */}
                                                                     <div
-                                                                        onClick={() =>
-                                                                            handleDeleteRereply(
-                                                                                ec.id
-                                                                            )
-                                                                        }
+                                                                        onClick={() => {
+                                                                            handleDeleteCR(
+                                                                                ec.id,
+                                                                                ec.postId
+                                                                            );
+                                                                        }}
                                                                     >
                                                                         {" "}
-                                                                        삭제
+                                                                        답글삭제
                                                                     </div>
                                                                 </div>
                                                             )}
@@ -431,8 +360,8 @@ const CommunityPostEach = (posts: any) => {
                             <input
                                 className={CommunityStyle.eachInputBox}
                                 type="text"
-                                onChange={onchangeNewreply}
-                                value={newreply}
+                                onChange={onchangeNewComment}
+                                value={newComment}
                                 placeholder={
                                     sessionStorage.getItem("userId")
                                         ? "댓글을 남겨주세요"
@@ -444,13 +373,13 @@ const CommunityPostEach = (posts: any) => {
                             />
                             <button
                                 onClick={(e: any) => {
-                                    onsubmitNewreply(e);
+                                    onsubmitNewComment(e);
                                 }}
                                 className={CommunityStyle.eachButton}
                                 type="submit"
                                 disabled={
                                     sessionStorage.getItem("userId") == null ||
-                                    newreply == ""
+                                    newComment == ""
                                 }
                             >
                                 작성

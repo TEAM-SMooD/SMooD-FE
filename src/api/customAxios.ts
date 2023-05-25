@@ -17,8 +17,10 @@ export const getSessionToken = async () => {
 };
 
 export const customAxios = (): AxiosInstance => {
+    const token = async () => await getSessionToken();
     const axiosInstance = axios.create({
         baseURL: `${process.env.REACT_APP_SERVER_URL}`,
+        headers: { Authorization: `Bearer ${token}` }, // 헤더 기본설정 customAxios에 추가!
     });
 
     axiosInstance.interceptors.request.use(

@@ -43,17 +43,12 @@ const Mypage = () => {
     useEffect(() => {
         const postLogin = async () => {
             let token = await getSessionToken();
-
-            await console.log(token);
             try {
-                const res = await customAxios().get(
-                    `${process.env.REACT_APP_SERVER_URL}/users`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
+                const res = await customAxios().get(`/users`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
                 console.log(res);
                 if (token) {
                     sessionStorage.setItem("token", token);

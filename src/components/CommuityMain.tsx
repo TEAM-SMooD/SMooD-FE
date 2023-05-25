@@ -1,30 +1,13 @@
 import React, { useEffect, useState } from "react";
 import CommunityStyle from "../styles/CommunityStyle.module.css";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import comment from "../assets/comment.png";
+import { deletePost, getPostCategory, postPost } from "../api/communityAxios";
 
 const CommunityBoard = (posts: any) => {
     const navigate = useNavigate();
     const handleEditPost = () => {};
-    const handleDeletePost = async (postId: number) => {
-        try {
-            const res = await axios.delete(
-                `${process.env.REACT_APP_SERVER_URL}/post/${postId}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem(
-                            "token"
-                        )}`,
-                    },
-                }
-            );
-            window.location.replace("/community"); //새로고침
-        } catch (err) {
-            console.log("handleDeletePost ERR", err);
-        }
-        // 목록페이지로 navigate .. !?!
-    };
+
     return (
         <>
             {posts.posts.map((e: any, i: number) => (
@@ -67,11 +50,7 @@ const CommunityBoard = (posts: any) => {
                                 e.nickname && (
                                 <div className={CommunityStyle.editDelete}>
                                     {/* <div onClick={handleEditPost}>수정</div> */}
-                                    <div
-                                        onClick={() =>
-                                            handleDeletePost(e.postId)
-                                        }
-                                    >
+                                    <div onClick={() => deletePost(e.postId)}>
                                         {" "}
                                         삭제
                                     </div>
@@ -120,68 +99,25 @@ const CommunityBoard = (posts: any) => {
         </>
     );
 };
-const CommunityBoardCategory = (selectedBoard: any) => {
+const CommunityBoardCategory = ({ selectedCategory }: any) => {
     const [categoryPosts, setCategoryPosts] = useState([]);
-    const getCategoryBoard = async () => {
-        try {
-            const res = await axios.get(
-                `${process.env.REACT_APP_SERVER_URL}/post/category/${selectedBoard.selectedBoard}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem(
-                            "token"
-                        )}`,
-                    },
-                }
-            );
-            setCategoryPosts(res.data.body.result);
-        } catch (err) {
-            console.log("getcommentsErr", err);
-        }
-    };
     useEffect(() => {
-        getCategoryBoard();
-    });
+        getPostCategory(selectedCategory).then((e) => {
+            setCategoryPosts(e);
+        });
+    }, [selectedCategory]);
     return <CommunityBoard posts={categoryPosts} />;
 };
-const CommunityBoarWrite = () => {
-    const [selectedWriteBoard, setSelectedWriteBoard] = useState(1);
-    const [selectedStore, setSelectedStore] = useState("한식");
-    const [selectedWriteTitle, setSelectedWriteTitle] = useState("");
-    const [selectedWriteContents, setSelectedWriteContents] = useState("");
+const CommunityBoardWrite = () => {
+    const [writeCategory, setWriteCategory] = useState(1);
+    const [writeStore, setWriteStore] = useState("한식");
+    const [writeTitle, setWriteTitle] = useState("");
+    const [writeContents, setWriteContents] = useState("");
     const navigate = useNavigate();
 
     function handleSubmitInput(e: React.FormEvent<HTMLInputElement>) {
         e.preventDefault();
-        console.group(selectedWriteBoard, "BBSADAB");
-        const postPost = async () => {
-            try {
-                const res = await axios.post(
-                    `${
-                        process.env.REACT_APP_SERVER_URL
-                    }/post/${sessionStorage.getItem("userId")}`,
-                    {
-                        category: selectedWriteBoard,
-                        contents: selectedWriteContents,
-                        store: selectedStore,
-                        title: selectedWriteTitle,
-                    },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${sessionStorage.getItem(
-                                "token"
-                            )}`,
-                        },
-                    }
-                );
-                console.log("ASFAAAAA", res);
-                window.location.replace("/community"); //새로고침
-                return res;
-            } catch (err) {
-                console.log("postPost ERR", err);
-            }
-        };
-        postPost();
+        postPost(writeCategory, writeContents, writeStore, writeTitle);
     }
     return (
         <>
@@ -191,7 +127,7 @@ const CommunityBoarWrite = () => {
                     <select
                         onChange={(e: any) => {
                             //onClick아니고 onChange임~
-                            setSelectedWriteBoard(e.currentTarget.value);
+                            setWriteCategory(e.currentTarget.value);
                         }}
                         className={CommunityStyle.writeSelect}
                     >
@@ -204,7 +140,7 @@ const CommunityBoarWrite = () => {
                     <div className={CommunityStyle.left}>업종 선택</div>
                     <select
                         onChange={(e: any) =>
-                            setSelectedStore(e.currentTarget.value)
+                            setWriteStore(e.currentTarget.value)
                         }
                         className={CommunityStyle.writeSelect}
                     >
@@ -224,7 +160,7 @@ const CommunityBoarWrite = () => {
                     <input
                         className={CommunityStyle.writeTitle}
                         onChange={(e: any) =>
-                            setSelectedWriteTitle(e.currentTarget.value)
+                            setWriteTitle(e.currentTarget.value)
                         }
                     />
                 </div>
@@ -233,7 +169,7 @@ const CommunityBoarWrite = () => {
                     <input
                         className={CommunityStyle.writeContents}
                         onChange={(e: any) =>
-                            setSelectedWriteContents(e.currentTarget.value)
+                            setWriteContents(e.currentTarget.value)
                         }
                     />
                 </div>
@@ -244,10 +180,7 @@ const CommunityBoarWrite = () => {
                     <button
                         className={CommunityStyle.makeBtn}
                         style={{ width: "50%", height: "2rem" }}
-                        disabled={
-                            selectedWriteTitle == "" ||
-                            selectedWriteContents == ""
-                        }
+                        disabled={writeTitle == "" || writeContents == ""}
                         onClick={(e: any) => handleSubmitInput(e)}
                     >
                         글쓰기
@@ -259,7 +192,7 @@ const CommunityBoarWrite = () => {
 };
 
 const CommunityMain = (posts: any) => {
-    const [selectedBoard, setSelectedBoard] = useState(0); //0전체 1자유2홍보3질문 4글쓰기
+    const [selectedCategory, setSelectedCategory] = useState(0); //0전체 1자유2홍보3질문 4글쓰기
     const navigate = useNavigate();
     return (
         <>
@@ -275,33 +208,33 @@ const CommunityMain = (posts: any) => {
                     }}
                 >
                     <div
-                        onClick={() => setSelectedBoard(0)}
+                        onClick={() => setSelectedCategory(0)}
                         style={{
-                            color: selectedBoard == 0 ? "var(--red)" : "",
+                            color: selectedCategory == 0 ? "var(--red)" : "",
                         }}
                     >
                         전체
                     </div>
                     <div
-                        onClick={() => setSelectedBoard(1)}
+                        onClick={() => setSelectedCategory(1)}
                         style={{
-                            color: selectedBoard == 1 ? "var(--red)" : "",
+                            color: selectedCategory == 1 ? "var(--red)" : "",
                         }}
                     >
                         자유 게시판
                     </div>
                     <div
-                        onClick={() => setSelectedBoard(2)}
+                        onClick={() => setSelectedCategory(2)}
                         style={{
-                            color: selectedBoard == 2 ? "var(--red)" : "",
+                            color: selectedCategory == 2 ? "var(--red)" : "",
                         }}
                     >
                         홍보 게시판
                     </div>
                     <div
-                        onClick={() => setSelectedBoard(3)}
+                        onClick={() => setSelectedCategory(3)}
                         style={{
-                            color: selectedBoard == 3 ? "var(--red)" : "",
+                            color: selectedCategory == 3 ? "var(--red)" : "",
                         }}
                     >
                         질문 게시판
@@ -309,28 +242,30 @@ const CommunityMain = (posts: any) => {
                     <div
                         onClick={() => {
                             if (sessionStorage.getItem("token")) {
-                                setSelectedBoard(4);
+                                setSelectedCategory(4);
                             } else {
                                 alert("로그인 후 이용해주세요");
                                 navigate("/mylogin");
                             }
                         }}
                         style={{
-                            color: selectedBoard == 4 ? "var(--red)" : "",
+                            color: selectedCategory == 4 ? "var(--red)" : "",
                         }}
                     >
                         글쓰기
                     </div>
                 </div>
                 <div className={CommunityStyle.postListWrap}>
-                    {selectedBoard == 0 ? (
+                    {selectedCategory == 0 ? (
                         posts.posts.length > 0 && (
                             <CommunityBoard posts={posts.posts} />
                         )
-                    ) : selectedBoard == 4 ? (
-                        <CommunityBoarWrite />
+                    ) : selectedCategory == 4 ? (
+                        <CommunityBoardWrite />
                     ) : (
-                        <CommunityBoardCategory selectedBoard={selectedBoard} />
+                        <CommunityBoardCategory
+                            selectedCategory={selectedCategory}
+                        />
                     )}
                 </div>
             </div>

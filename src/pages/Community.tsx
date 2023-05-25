@@ -1,36 +1,26 @@
 import React, { useEffect, useState } from "react";
 import Layout from "./Layout";
-import { useNavigate } from "react-router-dom";
 import { STtitle, STcontentWrap } from "../styles/ReportLayoutST";
 import CommunityMain from "../components/CommuityMain";
 import { useParams } from "react-router-dom";
 import CommunityPostEach from "../components/CommuityPostEach";
 import Chat from "../components/Chat";
-import axios from "axios";
 import useTitle from "../hooks/useTitle";
+import { getPosts } from "../api/communityAxios";
 
 const Community = () => {
     const changeTitle = useTitle("");
     useEffect(() => {
         changeTitle("SMooD - 커뮤니티");
     });
+
     const [postall, setPostall] = useState([]);
     const useparam = useParams();
 
-    // GET data from server
-    const getPosts = async () => {
-        try {
-            const res = await axios.get(
-                `${process.env.REACT_APP_SERVER_URL}/posts`
-            );
-            console.log("getPosts res", res.data.body.result);
-            setPostall(res.data.body.result);
-        } catch (err) {
-            console.log("getPostsERR", err);
-        }
-    };
     useEffect(() => {
-        getPosts();
+        getPosts().then((e) => {
+            setPostall(e);
+        });
     }, []);
 
     return (
