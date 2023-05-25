@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import AnalysisReportStyle from "../styles/AnalysisStyle.module.css";
 import { STreportMenuEach } from "../styles/AnalysisST";
-import axios from "axios";
+import { useRecoilState } from "recoil";
+import {
+    AnalysisSelectedStore,
+    AnalysisSelectedDistrict,
+    AnalysisSelectedDistrict2,
+    AnalysisSelectedRestaurant,
+} from "../state/atom";
+import { customAxios } from "../api/customAxios";
 
 interface scrollProps {
     scrollY: number;
@@ -10,22 +17,40 @@ interface scrollProps {
     menuFixed: boolean;
     setMenuFixed: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
 const AnalysisReport = (props: scrollProps) => {
-    const [selectedMenu, setSelectedMenu] = useState(1);
+    const [selectedMenu, setSelectedMenu] = useState(0);
     const [tableauUrl, setTableauUrl] = useState<any>([]);
+
+    const [selectedDistrict, setSelectedDistrict] = useRecoilState(
+        AnalysisSelectedDistrict
+    );
+    const [selectedDistrict2, setSelectedDistrict2] = useRecoilState(
+        AnalysisSelectedDistrict2
+    );
+    const [selectedStore, setSelectedStore] = useRecoilState(
+        AnalysisSelectedStore
+    );
+    const [selectedRestaurant, setSelectedRestaurant] = useRecoilState(
+        AnalysisSelectedRestaurant
+    );
     const getAnalysisTableau = async () => {
         try {
-            const res = await axios.get(
-                ""
-                // `${process.env.REACT_APP_SERVER_URL}/` // api 맹글어주면~
+            const res = await customAxios().get(
+                `/tableau?dong=${selectedDistrict2}&category=${
+                    selectedStore == "카페" ? selectedStore : selectedDistrict2
+                }`
             );
-            console.log("getAnalysisTableau res", res.data.body.result);
-            setTableauUrl(res);
+            // console.log("getAnalysisTableau res", res.data.body.result);
+            setTableauUrl(res.data.body.result.url);
         } catch (err) {
-            console.log("getPostsERR", err);
+            console.log("getAnalysisTableauERR", err);
         }
     };
+
     useEffect(() => {
+        getAnalysisTableau(); ///
+
         function scrollListener() {
             window.addEventListener("scroll", props.handleScroll);
         }
@@ -33,8 +58,8 @@ const AnalysisReport = (props: scrollProps) => {
         return () => {
             window.removeEventListener("scroll", props.handleScroll);
         };
-        getAnalysisTableau(); ///
-    });
+    }, [selectedMenu]);
+
     return (
         <div>
             <div
@@ -48,29 +73,29 @@ const AnalysisReport = (props: scrollProps) => {
                 <div className={AnalysisReportStyle.reportMenuWrap}>
                     <STreportMenuEach
                         selectedIdx={selectedMenu}
+                        idx={0}
+                        onClick={() => setSelectedMenu(0)}
+                    >
+                        인구
+                    </STreportMenuEach>
+                    <STreportMenuEach
+                        selectedIdx={selectedMenu}
                         idx={1}
                         onClick={() => setSelectedMenu(1)}
                     >
-                        인구
+                        주변시설 현황
                     </STreportMenuEach>
                     <STreportMenuEach
                         selectedIdx={selectedMenu}
                         idx={2}
                         onClick={() => setSelectedMenu(2)}
                     >
-                        주변시설 현황
+                        매출
                     </STreportMenuEach>
                     <STreportMenuEach
                         selectedIdx={selectedMenu}
                         idx={3}
                         onClick={() => setSelectedMenu(3)}
-                    >
-                        매출
-                    </STreportMenuEach>
-                    <STreportMenuEach
-                        selectedIdx={selectedMenu}
-                        idx={4}
-                        onClick={() => setSelectedMenu(4)}
                     >
                         상권정보
                     </STreportMenuEach>
@@ -84,16 +109,13 @@ const AnalysisReport = (props: scrollProps) => {
                 {tableauUrl && (
                     <iframe
                         id="myframe"
-                        // src={tableauUrl[selectedMenu]}
-                        src={
-                            "https://public.tableau.com/views/-_16844621835620/sheet12?:language=ko-KR&publish=yes&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true&행정동=성수1가제1동"
-                        }
+                        src={tableauUrl[selectedMenu]}
+                        // src={`https://public.tableau.com/views/-_16844621835620/sheet12?:language=ko-KR&publish=yes&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true&dong=${encodeURIComponent(
+                        //     selectedDistrict2
+                        // )}`}
                         width="100%"
                         height="2000"
-                        title="성수인구"
-                        onClick={(e: any) => {
-                            console.log("eee'", e.target);
-                        }}
+                        title="분석 보고서"
                     />
                 )}
             </div>
