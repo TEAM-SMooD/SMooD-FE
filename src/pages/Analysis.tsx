@@ -15,7 +15,6 @@ import {
 } from "../state/atom";
 import SelectStyle from "../styles/SelectBox.module.css";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import useTitle from "../hooks/useTitle";
 
 const Analysis = () => {

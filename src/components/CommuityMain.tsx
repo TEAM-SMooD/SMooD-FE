@@ -3,6 +3,7 @@ import CommunityStyle from "../styles/CommunityStyle.module.css";
 import { useNavigate } from "react-router-dom";
 import comment from "../assets/comment.png";
 import { deletePost, getPostCategory, postPost } from "../api/communityAxios";
+import ic_user from "../assets/ic_user.png";
 
 const CommunityBoard = (posts: any) => {
     const navigate = useNavigate();
@@ -22,7 +23,9 @@ const CommunityBoard = (posts: any) => {
                     }}
                 >
                     <div className={CommunityStyle.eachWriter}>
-                        <div style={{ width: "1.3rem" }}>👤</div>
+                        <div style={{ width: "30px" }}>
+                            <img src={ic_user} />
+                        </div>
                         <div className={CommunityStyle.eachWriterInfo}>
                             <div
                                 style={{
@@ -36,12 +39,7 @@ const CommunityBoard = (posts: any) => {
                                 </div>
                             </div>
 
-                            <div
-                                style={{
-                                    fontSize: "0.7rem",
-                                    color: "var(--grey)",
-                                }}
-                            >
+                            <div className={CommunityStyle.datetime}>
                                 {e.date} {e.time}
                             </div>
                         </div>
@@ -61,13 +59,13 @@ const CommunityBoard = (posts: any) => {
                         style={{
                             display: "flex",
                             justifyContent: "space-between",
+                            cursor: "pointer",
                         }}
                         onClick={() => navigate(`./post/${e.postId}`)}
                     >
                         <div
                             style={{
-                                paddingLeft: "1.3rem",
-                                cursor: "pointer",
+                                paddingLeft: "30px",
                                 maxWidth: "90%",
                             }}
                         >
@@ -166,7 +164,7 @@ const CommunityBoardWrite = () => {
                 </div>
                 <div className={CommunityStyle.writeBlock}>
                     <div className={CommunityStyle.left}>내용</div>
-                    <input
+                    <textarea
                         className={CommunityStyle.writeContents}
                         onChange={(e: any) =>
                             setWriteContents(e.currentTarget.value)

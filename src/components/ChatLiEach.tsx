@@ -4,7 +4,7 @@ import { BsChevronCompactRight } from "react-icons/bs";
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import { getLastchat } from "../api/chatAxios";
-
+import ic_chat from "../assets/ic_chat.png";
 const stompClient = Stomp.over(
     () => new SockJS(`${process.env.REACT_APP_WS_URL}`)
 );
@@ -21,7 +21,7 @@ const ChatLiEach = ({ eachChat }: any) => {
                     margin: "0 5px",
                 }}
             >
-                👥
+                <img src={ic_chat} />
             </div>
             <div style={{ flex: "1 1 0px" }}>
                 <div className={CommunityStyle.chatLiTitle}>

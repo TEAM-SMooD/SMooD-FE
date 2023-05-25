@@ -7,6 +7,8 @@ import {
     postCommentReply,
     handleDeleteCR,
 } from "../api/communityAxios";
+import ic_user from "../assets/ic_user.png";
+import ic_user2 from "../assets/ic_user2.png";
 
 const CommunityPostEach = (posts: any) => {
     const spliturl = useLocation().pathname.split("/");
@@ -59,7 +61,9 @@ const CommunityPostEach = (posts: any) => {
                                     position: "relative",
                                 }}
                             >
-                                <div style={{ width: "1.3rem" }}>👤</div>
+                                <div style={{ width: "30px" }}>
+                                    <img src={ic_user} />
+                                </div>
                                 <div className={CommunityStyle.eachWriterInfo}>
                                     <div
                                         style={{
@@ -124,8 +128,14 @@ const CommunityPostEach = (posts: any) => {
                                         className={CommunityStyle.eachWriter}
                                         style={{ position: "relative" }}
                                     >
-                                        <div style={{ width: "1.3rem" }}>
-                                            🗣️{" "}
+                                        <div style={{ width: "30px" }}>
+                                            {sessionStorage.getItem(
+                                                "nickname"
+                                            ) == e.nickname ? (
+                                                <img src={ic_user} />
+                                            ) : (
+                                                <img src={ic_user2} />
+                                            )}{" "}
                                         </div>
                                         <div
                                             className={
@@ -199,7 +209,11 @@ const CommunityPostEach = (posts: any) => {
                                         >
                                             <div>
                                                 {" "}
-                                                ↳ 🫥{" "}
+                                                ↳{" "}
+                                                <img
+                                                    src={ic_user}
+                                                    style={{ width: "1rem" }}
+                                                />{" "}
                                                 {sessionStorage.getItem(
                                                     "nickname"
                                                 )}
@@ -271,13 +285,9 @@ const CommunityPostEach = (posts: any) => {
                                             (ec: any, ic: number) => (
                                                 <div
                                                     key={ic}
-                                                    style={{
-                                                        padding: "10px 10px",
-                                                        fontSize: "0.9rem",
-                                                        borderTop:
-                                                            "1px solid var(--linegrey)",
-                                                        background: "#f5f5f57a",
-                                                    }}
+                                                    className={
+                                                        CommunityStyle.replyWrap
+                                                    }
                                                 >
                                                     <div
                                                         style={{
@@ -286,17 +296,41 @@ const CommunityPostEach = (posts: any) => {
                                                                 "space-between",
                                                         }}
                                                     >
-                                                        {" "}
-                                                        ↳ 🫥 {ec.nickname}
-                                                        <div
-                                                            style={{
-                                                                fontSize:
-                                                                    "0.7rem",
-                                                                color: "var(--grey)",
-                                                            }}
-                                                        >
-                                                            {ec.date} {ec.time}
+                                                        <div>
+                                                            {" "}
+                                                            ↳{" "}
+                                                            {sessionStorage.getItem(
+                                                                "nickname"
+                                                            ) == ec.nickname ? (
+                                                                <img
+                                                                    src={
+                                                                        ic_user
+                                                                    }
+                                                                    style={{
+                                                                        width: "1rem",
+                                                                    }}
+                                                                />
+                                                            ) : (
+                                                                <img
+                                                                    src={
+                                                                        ic_user2
+                                                                    }
+                                                                    style={{
+                                                                        width: "1rem",
+                                                                    }}
+                                                                />
+                                                            )}{" "}
+                                                            {ec.nickname}
+                                                            <div
+                                                                className={
+                                                                    CommunityStyle.replyDatetime
+                                                                }
+                                                            >
+                                                                {ec.date}{" "}
+                                                                {ec.time}
+                                                            </div>
                                                         </div>
+
                                                         {sessionStorage.getItem(
                                                             "token"
                                                         ) &&

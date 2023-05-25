@@ -86,7 +86,7 @@ const AnalysisReport = (props: scrollProps) => {
                         id="myframe"
                         // src={tableauUrl[selectedMenu]}
                         src={
-                            "https://public.tableau.com/views/_16843934504640/sheet17?:language=ko-KR&publish=yes&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true&%ED%96%89%EC%A0%95%EB%8F%99=%EC%84%B1%EC%88%981%EA%B0%80%EC%A0%9C2%EB%8F%99&%EC%97%85%EC%A2%85=%EB%B6%84%EC%8B%9D"
+                            "https://public.tableau.com/views/-_16844621835620/sheet12?:language=ko-KR&publish=yes&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true&행정동=성수1가제1동"
                         }
                         width="100%"
                         height="2000"

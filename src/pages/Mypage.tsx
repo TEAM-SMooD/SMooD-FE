@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import headerStyle from "../styles/HeaderStyle.module.css";
 import main_logo from "../assets/main_logo.png";
 import { useNavigate } from "react-router";
-import axios from "axios";
 import { customAxios, getSessionToken } from "../api/customAxios";
 import useTitle from "../hooks/useTitle";
 
