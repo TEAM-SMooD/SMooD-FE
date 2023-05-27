@@ -129,7 +129,13 @@ const Analysis = () => {
                             setOpenedSelect={setOpenedSelect}
                         />
                     </div>
-                    <div style={{ display: "flex", justifyContent: "center" }}>
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            paddingTop: "10px",
+                        }}
+                    >
                         <button
                             className={
                                 selectedAll

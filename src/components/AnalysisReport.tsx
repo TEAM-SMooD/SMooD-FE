@@ -38,9 +38,10 @@ const AnalysisReport = (props: scrollProps) => {
         try {
             const res = await customAxios().get(
                 `/tableau?dong=${selectedDistrict2}&category=${
-                    selectedStore == "카페" ? selectedStore : selectedDistrict2
+                    selectedStore == "카페" ? selectedStore : selectedRestaurant
                 }`
             );
+            console.log(res);
             // console.log("getAnalysisTableau res", res.data.body.result);
             setTableauUrl(res.data.body.result.url);
         } catch (err) {
@@ -106,7 +107,11 @@ const AnalysisReport = (props: scrollProps) => {
                     paddingTop: props.menuFixed ? "140px" : "10px",
                 }}
             >
-                {tableauUrl && (
+                {tableauUrl &&
+                selectedMenu == 2 &&
+                selectedRestaurant == "동남아시아" ? (
+                    `${selectedDistrict2} 의 [동남아시아] 음식점에 대한 매출 보고서가 없습니다.`
+                ) : (
                     <iframe
                         id="myframe"
                         src={tableauUrl[selectedMenu]}

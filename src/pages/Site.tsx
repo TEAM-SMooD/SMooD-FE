@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Layout from "./Layout";
 import ReportLayout from "./ReportLayout";
 import { StoreSelectBox, ConceptSelectBox } from "../components/SelectBox";
@@ -14,6 +14,7 @@ import SiteReport from "../components/SiteReport";
 import AnalysisReportStyle from "../styles/AnalysisStyle.module.css";
 import { useNavigate } from "react-router-dom";
 import useTitle from "../hooks/useTitle";
+import IframeTableu from "../components/IframeTableu";
 
 const Site = () => {
     const changeTitle = useTitle("");
@@ -31,6 +32,17 @@ const Site = () => {
 
     const [scrollY, setScrollY] = useState(0);
     const [menuFixed, setMenuFixed] = useState(false);
+
+    //
+    // function initViz() {
+    //     var containerDiv = document.getElementById("vizContainer"),
+    //     url = "https://YOUR-SERVER/views/YOUR-VISUALIZATION";
+
+    //     var viz = new tableau.Viz(containerDiv, url);
+    // }
+    // initViz();
+
+    //
 
     function handleScroll() {
         setScrollY(window.pageYOffset);
@@ -107,10 +119,13 @@ const Site = () => {
                                         );
                                     setSelectedConcept(changeConcept);
                                 } else {
-                                    setSelectedConcept((prev) => [
-                                        ...prev,
-                                        each,
-                                    ]);
+                                    if (selectedConcept.length < 4) {
+                                        // 최대 3개 선택
+                                        setSelectedConcept((prev) => [
+                                            ...prev,
+                                            each,
+                                        ]);
+                                    }
                                 }
                             }}
                             openId={2}
@@ -125,7 +140,13 @@ const Site = () => {
                             setOpenedSelect={setOpenedSelect}
                         />
                     </div>
-                    <div style={{ display: "flex", justifyContent: "center" }}>
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            paddingTop: "10px",
+                        }}
+                    >
                         <button
                             className={
                                 selectedAll
@@ -150,15 +171,18 @@ const Site = () => {
                             분석하기
                         </button>
                     </div>
+                    {/* <div id="vizContainer"></div> */}
+                    {/* <TableauReact /> */}
+
                     {reportOpen && (
                         <div
                             style={{
-                                background: "rgba(0,0,0,.1)",
-                                height: "1px",
-                                marginTop: "10px",
+                                height: "10px",
                                 width: "200%",
                                 position: "relative",
                                 left: "-50%",
+                                background: "white",
+                                borderBottom: "1px solid var(--linegrey)",
                             }}
                         ></div>
                     )}

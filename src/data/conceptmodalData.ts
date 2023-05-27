@@ -1,9 +1,9 @@
 export const districtArr = ["성수", "북촌", "신촌"];
 export const sungsuArr = [
     "성수1가 제1동",
-    "성수1가 2동",
-    "성수2가 1동",
-    "성수2가 3동",
+    "성수1가 제2동",
+    "성수2가 제1동",
+    "성수2가 제3동",
 ];
 export const bukchonArr = ["가회동", "삼청동"];
 export const shinchonArr = ["신촌동"];

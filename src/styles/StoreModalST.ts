@@ -28,4 +28,21 @@ export const ModalContainer = styled.div`
     width: 60%;
     height: 85%;
     z-index: 21;
+    @media screen and (max-width: 1200px) {
+        width: 70%;
+    }
+`;
+export const ProgressBg = styled.div`
+    background-color: #eee;
+    height: 13px;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+`;
+export const Progress = styled.div<{ pct: number }>`
+    background-color: var(--red);
+    width: ${(props) => `${props.pct}%`};
+    height: 100%;
+    transition: width 1s;
+    border-radius: 10px;
 `;

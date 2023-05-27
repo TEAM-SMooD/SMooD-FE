@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "./Layout";
 import ConceptModal from "../components/ConceptModal";
-import ConceptSlideReport from "../components/reports/ConceptSlideReport";
+import ConceptSlideReport from "../components/ConceptSlideReport";
 import { useRecoilState } from "recoil";
 import { selectedDistrictCrdnt } from "../state/atom";
 import KakaoMap from "../components/KakaoMap";

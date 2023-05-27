@@ -37,11 +37,68 @@
     border-bottom: 1.8px solid var(--red);
 }
 .reportContentWrap {
-    padding: 15px;
+    /* padding: 15px 0; */
     overflow: scroll;
+}
+.report3refWrap {
+    display: flex;
+    gap: 10px;
+    padding: 10px 10px 20px;
+    border-bottom: 5px solid var(--linegrey);
+    flex-direction: column;
+}
+.report3refEachTitle {
+    /* padding-bottom: 10px;
+    font-size: 0.9rem; */
 }
 
 .borderBox {
-    padding: 18px;
+    padding: 10px 15px;
     border: 1px solid #e3e1e1;
+}
+
+.cateKw3Container {
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 5px;
+}
+.cateKw3each {
+    padding: 3px 25px;
+    border: 1px solid var(--semigrey);
+    cursor: pointer;
+}
+.cateKw3eachSelected {
+    padding: 3px 25px;
+    border: 1px solid var(--red);
+    color: var(--red);
+    cursor: pointer;
+}
+.cateKw3storeWrap {
+    display: flex;
+    gap: 10px;
+    overflow-x: scroll;
+}
+.createKw3storeEachWrap {
+    max-width: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    align-items: flex-start;
+}
+.innerTitle {
+    font-size: 0.9rem;
+    padding-bottom: 8px;
+    font-weight: bold;
+}
+.innerSub {
+    color: #4e4e4e;
+    font-size: 0.9rem;
+    padding-bottom: 5px;
+}
+.selectStyle {
+    border: none;
+    background: var(--brightgrey);
+    padding: 3px 13px;
+    color: var(--red);
+    font-weight: bold;
 }
