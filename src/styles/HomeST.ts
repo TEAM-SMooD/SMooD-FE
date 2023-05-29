@@ -6,6 +6,7 @@ export const StHome = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    background: #ff3d3702;
 `;
 
 export const StCreamImg = styled.img`
@@ -16,7 +17,8 @@ export const StCreamImg = styled.img`
 `;
 
 export const StLogo = styled.img`
-    width: 13%;
+    // width: 13%;
+    width: 200px;
     left: calc(50vw - 6.5%);
     top: calc(50vh - 6.5%);
 `;
@@ -40,4 +42,18 @@ export const SThomeBtn = styled.div`
 export const SThomeIc = styled.img`
     width: 86px;
     height: 86px;
+`;
+export const STVerticallMove = styled.div<{ number: number }>`
+    position: relative;
+    top: ${(props) => props.number - 300}px;
+`;
+export const STVerticallMove2 = styled.div<{ number: number }>`
+    position: relative;
+    top: ${(props) => -props.number}px;
+`;
+
+export const SThorizonalMove = styled.div<{ number: number }>`
+    position: relative;
+    display: flex;
+    left: ${(props) => props.number - 300}px;
 `;
