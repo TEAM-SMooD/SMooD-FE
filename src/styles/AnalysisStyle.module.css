@@ -35,8 +35,8 @@
     border: 1px solid #e3e1e1;
 }
 .reportTitle {
-    font-size: 0.9rem;
-    padding-bottom: 25px;
+    font-size: 0.8rem;
+    padding-bottom: 20px;
 }
 .reportPiesWrap {
     display: grid;
@@ -54,4 +54,14 @@
     display: flex;
     gap: 10px;
     align-items: center;
+}
+.selectStyle {
+    border: none;
+    width: 140px;
+    min-width: 20%;
+    background: var(--brightgrey);
+    padding: 4px 11px;
+    color: var(--red);
+    font-weight: bold;
+    border-radius: 30px;
 }

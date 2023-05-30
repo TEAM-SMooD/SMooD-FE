@@ -8,7 +8,7 @@
 }
 .title {
     display: grid;
-    gap: 6px;
+    gap: 10px;
     align-items: center;
     justify-content: center;
     padding: 15px 0px 10px 0px;
@@ -16,9 +16,8 @@
     border-bottom: 0.9px solid #b0b0b0;
 }
 .tagsWrap {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    justify-items: center;
+    display: flex;
+    gap: 0.5rem;
 }
 .tagEach {
     border: 0.9px solid var(--red);
@@ -46,6 +45,33 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
+.mainReviewEach {
+    padding: 10px 0;
+}
 .mainReviewEach:not(:last-child) {
     border-bottom: 0.9px solid #b0b0b0;
+}
+.reviewKeyword {
+    color: var(--red);
+    padding-bottom: 5px;
+}
+.reviewSentence {
+    font-size: 0.9rem;
+}
+.pctWrap {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+.pctRight {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    justify-content: space-around;
+}
+.pctRTop {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 0.8rem;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Layout from "./Layout";
 import ReportLayout from "./ReportLayout";
 import { StoreSelectBox, ConceptSelectBox } from "../components/SelectBox";
@@ -31,6 +31,17 @@ const Site = () => {
 
     const [scrollY, setScrollY] = useState(0);
     const [menuFixed, setMenuFixed] = useState(false);
+
+    //
+    // function initViz() {
+    //     var containerDiv = document.getElementById("vizContainer"),
+    //     url = "https://YOUR-SERVER/views/YOUR-VISUALIZATION";
+
+    //     var viz = new tableau.Viz(containerDiv, url);
+    // }
+    // initViz();
+
+    //
 
     function handleScroll() {
         setScrollY(window.pageYOffset);
@@ -107,10 +118,13 @@ const Site = () => {
                                         );
                                     setSelectedConcept(changeConcept);
                                 } else {
-                                    setSelectedConcept((prev) => [
-                                        ...prev,
-                                        each,
-                                    ]);
+                                    if (selectedConcept.length < 4) {
+                                        // 최대 3개 선택
+                                        setSelectedConcept((prev) => [
+                                            ...prev,
+                                            each,
+                                        ]);
+                                    }
                                 }
                             }}
                             openId={2}
@@ -125,7 +139,13 @@ const Site = () => {
                             setOpenedSelect={setOpenedSelect}
                         />
                     </div>
-                    <div style={{ display: "flex", justifyContent: "center" }}>
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            paddingTop: "10px",
+                        }}
+                    >
                         <button
                             className={
                                 selectedAll
@@ -136,10 +156,10 @@ const Site = () => {
                                 if (!sessionStorage.getItem("userId")) {
                                     setReportOpen(true);
                                     setOpenedSelect(0);
-                                    // alert(
-                                    //     "보고서를 보려면 먼저 로그인해주세요."
-                                    // );
-                                    // navigate("/mylogin");
+                                    alert(
+                                        "보고서를 보려면 먼저 로그인해주세요."
+                                    );
+                                    navigate("/mylogin");
                                 } else {
                                     setReportOpen(true);
                                     setOpenedSelect(0);
@@ -150,15 +170,16 @@ const Site = () => {
                             분석하기
                         </button>
                     </div>
+
                     {reportOpen && (
                         <div
                             style={{
-                                background: "rgba(0,0,0,.1)",
-                                height: "1px",
-                                marginTop: "10px",
+                                height: "10px",
                                 width: "200%",
                                 position: "relative",
                                 left: "-50%",
+                                background: "white",
+                                borderBottom: "1px solid var(--linegrey)",
                             }}
                         ></div>
                     )}

@@ -1,14 +1,15 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CommunityStyle from "../styles/CommunityStyle.module.css";
 import chatlogo from "../assets/main_logo_smood.png";
 import mainchatlogo from "../assets/main_logo_chat.png";
 import { VscChromeClose } from "react-icons/vsc";
 import { CgChevronLeft } from "react-icons/cg";
+import ic_trashbin from "../assets/ic_trashbin.png";
 import Chatroom from "./Chatroom";
 import ChatLiEach from "./ChatLiEach";
 import ChatroomMake from "./ChatroomMake";
 import { useNavigate } from "react-router-dom";
-import { getChatRooms } from "../api/chatAxios";
+import { deleteChatRoom, getChatRooms } from "../api/chatAxios";
 
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
@@ -43,12 +44,15 @@ const Chat = () => {
         console.log("연결실패", error);
     }, []);
 
-    if (reloading && sessionStorage.getItem("token")) {
-        getChatRooms().then((e) => {
-            setChatRooms(e);
-        });
-        setReloading(false);
-    }
+    useEffect(() => {
+        if (reloading && sessionStorage.getItem("token")) {
+            getChatRooms().then((e) => {
+                setChatRooms(e);
+            });
+            setReloading(false);
+        }
+    }, [reloading]);
+
     // 플로팅 버튼 눌렀을때 로그인되잇는 상황이라면 getChatRooms()가 실행될수있게 이렇게 빼냄
 
     return (
@@ -90,7 +94,17 @@ const Chat = () => {
                                     }}
                                     className={CommunityStyle.chatClosebtnWrap}
                                 >
-                                    <VscChromeClose />
+                                    {chatEach == 0 ? (
+                                        <VscChromeClose />
+                                    ) : (
+                                        <img
+                                            src={ic_trashbin}
+                                            style={{ width: "1rem" }}
+                                            onClick={async () => {
+                                                deleteChatRoom(chatEach);
+                                            }}
+                                        />
+                                    )}
                                 </div>
                             </div>
                             {chatEach == 0 ? (

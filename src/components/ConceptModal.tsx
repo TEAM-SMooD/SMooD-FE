@@ -115,13 +115,12 @@ const ConceptModal = (props: btnActiveProps) => {
                                         navigate("/mylogin");
                                     } else {
                                         if (!props.isBtnClicked) {
-                                            console.log("서버에 get 요청");
+                                            //isBtnClicekd : 처음분석하기 눌렀는지확인: 화살표보이기 여부때문에
                                             props.setIsBtnClicked(true);
-                                            props.setReportDoorVisible(true);
                                         }
+                                        props.setReportDoorVisible(true);
                                     }
                                 }}
-                                // ~~~ onClick 에 서버로부터 보고서 받아오는거 추가 필요 ~~~
                                 disabled={
                                     !(
                                         selectedDistrict !=

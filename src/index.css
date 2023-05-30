@@ -12,6 +12,12 @@ code {
         monospace;
 }
 @font-face {
+    font-family: "JetBrainsMono";
+    src: url("./assets/fonts/JetBrainsMono.ttf");
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
     font-family: "Pretendard-Regular";
     src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
         format("woff");
@@ -19,7 +25,9 @@ code {
     font-style: normal;
 }
 * {
-    font-family: "Pretendard-Regular";
+    font-family: "JetBrainsMono", monospace;
+    word-spacing: -5px;
+    /* font-family: "Pretendard-Regular"; */
     -webkit-box-sizing: border-box;
 }
 /* -webkit-box-sizing: https://endorphin0710.tistory.com/75 */
