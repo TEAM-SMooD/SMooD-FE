@@ -14,7 +14,6 @@ import SiteReport from "../components/SiteReport";
 import AnalysisReportStyle from "../styles/AnalysisStyle.module.css";
 import { useNavigate } from "react-router-dom";
 import useTitle from "../hooks/useTitle";
-import IframeTableu from "../components/IframeTableu";
 
 const Site = () => {
     const changeTitle = useTitle("");
@@ -157,10 +156,10 @@ const Site = () => {
                                 if (!sessionStorage.getItem("userId")) {
                                     setReportOpen(true);
                                     setOpenedSelect(0);
-                                    // alert(
-                                    //     "보고서를 보려면 먼저 로그인해주세요."
-                                    // );
-                                    // navigate("/mylogin");
+                                    alert(
+                                        "보고서를 보려면 먼저 로그인해주세요."
+                                    );
+                                    navigate("/mylogin");
                                 } else {
                                     setReportOpen(true);
                                     setOpenedSelect(0);
@@ -171,8 +170,6 @@ const Site = () => {
                             분석하기
                         </button>
                     </div>
-                    {/* <div id="vizContainer"></div> */}
-                    {/* <TableauReact /> */}
 
                     {reportOpen && (
                         <div

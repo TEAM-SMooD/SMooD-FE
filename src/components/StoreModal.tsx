@@ -76,9 +76,9 @@ const StoreModal = (props: StoreModalProps) => {
         crd: [37.55049472619646, 127.07427075510395],
         pct: 88.8,
     });
-    // useEffect(() => {
-    //     getModalStore().then((e) => setStoreData(e));
-    // });
+    useEffect(() => {
+        getModalStore(props.modalStoreId).then((e) => console.log(e));
+    });
 
     return (
         <ModalWrap>

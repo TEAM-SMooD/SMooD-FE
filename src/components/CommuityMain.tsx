@@ -142,6 +142,7 @@ const CommunityBoardWrite = () => {
                         }
                         className={CommunityStyle.writeSelect}
                     >
+                        <option value="카페">카페 </option>
                         <option value="한식">한식 </option>
                         <option value="중식">중식 </option>
                         <option value="일식">일식 </option>
@@ -203,6 +204,7 @@ const CommunityMain = (posts: any) => {
                         justifyItems: "center",
                         alignItems: "center",
                         height: "45px",
+                        cursor: "pointer",
                     }}
                 >
                     <div

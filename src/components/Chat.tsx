@@ -46,8 +46,6 @@ const Chat = () => {
 
     useEffect(() => {
         if (reloading && sessionStorage.getItem("token")) {
-            console.log("--------------");
-
             getChatRooms().then((e) => {
                 setChatRooms(e);
             });

@@ -14,7 +14,7 @@
 }
 .reportNav {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     place-items: center;
     width: 100%;
     background: white;
@@ -63,27 +63,45 @@
     padding-bottom: 5px;
 }
 .cateKw3each {
-    padding: 3px 25px;
+    width: 100px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 1px solid var(--semigrey);
     cursor: pointer;
 }
 .cateKw3eachSelected {
-    padding: 3px 25px;
+    width: 100px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 1px solid var(--red);
     color: var(--red);
     cursor: pointer;
 }
 .cateKw3storeWrap {
     display: flex;
-    gap: 10px;
+    gap: 30px;
     overflow-x: scroll;
+    padding-bottom: 1rem;
+}
+.cateKw3storeWrap::-webkit-scrollbar {
+    border: none;
+    height: 10px;
+}
+.cateKw3storeWrap::-webkit-scrollbar-thumb {
+    background-color: rgb(255 80 75 / 30%);
+    border-radius: 30px;
 }
 .createKw3storeEachWrap {
-    max-width: 100px;
+    max-width: 170px;
     display: flex;
     flex-direction: column;
     gap: 3px;
     align-items: flex-start;
+    cursor: pointer;
 }
 .innerTitle {
     font-size: 0.9rem;

@@ -12,6 +12,7 @@ import { colors } from "../styles/designSystem";
 import { PieChart } from "react-minimal-pie-chart";
 import { getSiteStores, getSiteTop3 } from "../api/reportAxios";
 import StoreModal from "./StoreModal";
+import notfound from "../assets/notfound.png";
 
 interface scrollProps {
     scrollY: number;
@@ -25,52 +26,13 @@ const SiteReport = (props: scrollProps) => {
     const selectedRestaurant = useRecoilValue(SiteSelectedRestaurant);
     const selectedConcept = useRecoilValue(SiteSelectedConcept);
 
-    const [selectedMenu, setSelectedMenu] = useState(1);
     const [modalOpen, setModalOpen] = useState(false);
 
     const [modalStoreId, setModalStoreId] = useState(0); // 가게상세모달 보여줄 가게 번호
-    const [sortSite, setSortSite] = useState("");
-    const [sortCate, setSortCate] = useState("");
-    const [siteTop3, setSiteTop3] = useState([
-        {
-            rank: 1,
-            site: "성수1가2동",
-            kw: [20, 30],
-            pct: 88,
-        },
-        {
-            rank: 2,
-            site: "신촌동",
-            kw: [14, 25],
-            pct: 71.4,
-        },
-        {
-            rank: 3,
-            site: "성수2가1동",
-            kw: [21, 31],
-            pct: 61.9,
-        },
-    ]);
-    const [siteStores, setSiteStores] = useState([
-        {
-            name: "아오이비스트로",
-            imgsrc: "https://d12zq4w4guyljn.cloudfront.net/300_300_20220313131218_photo1_da5845cfa3c2.jpg",
-            tag: ["분위기", "데이트", "인스타"],
-            storeId: 123213,
-        },
-        {
-            name: "성수먕당",
-            imgsrc: "https://d12zq4w4guyljn.cloudfront.net/300_300_20220313131218_photo1_da5845cfa3c2.jpg",
-            tag: ["저ㅗㄴ맛", "데이트", "인스타"],
-            storeId: 13543,
-        },
-        {
-            name: "차만다",
-            imgsrc: "https://d12zq4w4guyljn.cloudfront.net/300_300_20220313131218_photo1_da5845cfa3c2.jpg",
-            tag: ["힙함", "데이트", "인스타"],
-            storeId: 4213,
-        },
-    ]); // {카테고리}별 많은 가게
+    const [sortSite, setSortSite] = useState("성수1가 제1동");
+    const [sortCate, setSortCate] = useState("긍정 리뷰");
+    const [siteTop3, setSiteTop3] = useState([]);
+    const [siteStores, setSiteStores] = useState([]); // {카테고리}별 많은 가게
     useEffect(() => {
         function scrollListener() {
             window.addEventListener("scroll", props.handleScroll);
@@ -80,12 +42,24 @@ const SiteReport = (props: scrollProps) => {
             window.removeEventListener("scroll", props.handleScroll);
         };
     });
-    // useEffect(() => { //서버버ㅓ
-    //     getSiteTop3().then((e)=> setSiteTop3(e));
-    // })
-    // useEffect(() => {
-    //     getSiteStores().then((e) => setSiteStores(e));
-    // }, [sortSite,sortCate]) // 서버버
+    useEffect(() => {
+        const category =
+            selectedStore == "카페" ? selectedStore : selectedRestaurant;
+        const k1 = selectedConcept[1];
+        const k2 = selectedConcept[2] ? selectedConcept[2] : "";
+        const k3 = selectedConcept[3] ? selectedConcept[3] : "";
+        getSiteTop3(category, k1, k2, k3).then((e) => setSiteTop3(e));
+    }, []);
+    useEffect(() => {
+        const category =
+            selectedStore == "카페" ? selectedStore : selectedRestaurant;
+        const k1 = selectedConcept[1];
+        const k2 = selectedConcept[2] ? selectedConcept[2] : "";
+        const k3 = selectedConcept[3] ? selectedConcept[3] : "";
+        getSiteStores(sortSite, sortCate, category, k1, k2, k3).then((e) =>
+            setSiteStores(e)
+        );
+    }, [sortSite, sortCate]);
     return (
         <>
             <div
@@ -110,62 +84,64 @@ const SiteReport = (props: scrollProps) => {
                         </span>
                         이(가) 가장 많은 지역은
                     </div>
-                    <div className={AnalysisReportStyle.reportPiesWrap}>
-                        {siteTop3.map((e: any, i: number) => (
-                            <div key={i}>
-                                <PieChart
-                                    style={{ height: "auto" }}
-                                    data={[
-                                        {
-                                            value: e.pct,
-                                            color: "#faa8a5",
-                                            name: "name1",
-                                        },
-                                    ]}
-                                    reveal={e.pct}
-                                    lineWidth={40}
-                                    background="#f3f3f3"
-                                    lengthAngle={360}
-                                    animate
-                                    startAngle={-90}
-                                    label={({ dataEntry }) =>
-                                        dataEntry.value + "%"
-                                    }
-                                    labelStyle={{
-                                        fontSize: "13px",
-                                        fill: "#33333",
-                                    }}
-                                    labelPosition={0}
-                                    // rounded={true}
-                                />
-                                <div
-                                    className={
-                                        AnalysisReportStyle.reportPieUnderWrap
-                                    }
-                                >
+                    {siteTop3 && (
+                        <div className={AnalysisReportStyle.reportPiesWrap}>
+                            {siteTop3.map((e: any, i: number) => (
+                                <div key={i}>
+                                    <PieChart
+                                        style={{ height: "auto" }}
+                                        data={[
+                                            {
+                                                value: e.percentage,
+                                                color: "#faa8a5",
+                                                name: "name1",
+                                            },
+                                        ]}
+                                        reveal={e.percentage}
+                                        lineWidth={40}
+                                        background="#f3f3f3"
+                                        lengthAngle={360}
+                                        animate
+                                        startAngle={-90}
+                                        label={({ dataEntry }) =>
+                                            dataEntry.value + "%"
+                                        }
+                                        labelStyle={{
+                                            fontSize: "13px",
+                                            fill: "#33333",
+                                        }}
+                                        labelPosition={0}
+                                        // rounded={true}
+                                    />
                                     <div
                                         className={
-                                            AnalysisReportStyle.reportPieUnderTitle
+                                            AnalysisReportStyle.reportPieUnderWrap
                                         }
                                     >
                                         <div
-                                            style={{
-                                                color: "var(--red)",
-                                                fontSize: "1.5rem",
-                                            }}
+                                            className={
+                                                AnalysisReportStyle.reportPieUnderTitle
+                                            }
                                         >
-                                            {e.rank}위
+                                            <div
+                                                style={{
+                                                    color: "var(--red)",
+                                                    fontSize: "1.5rem",
+                                                }}
+                                            >
+                                                {i + 1}위
+                                            </div>
+                                            <div>{e.name}</div>
                                         </div>
-                                        <div>{e.site}</div>
-                                    </div>
-                                    <div style={{ fontSize: "0.8rem" }}>
-                                        {e.kw[0]} 개 중 {e.kw[1]}개의 키워드를
-                                        포함하고 있습니다.
+                                        <div style={{ fontSize: "0.8rem" }}>
+                                            {e.storeSum} 곳 중 {e.keywordSum}
+                                            곳이 키워드를 포함하고 있습니다.
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
                 <div className={AnalysisReportStyle.borderBox}>
                     <div className={AnalysisReportStyle.reportTitle}>
@@ -184,7 +160,7 @@ const SiteReport = (props: scrollProps) => {
                     <div
                         style={{
                             display: "flex",
-                            gap: "1rem",
+                            gap: "2rem",
                             paddingBottom: "10px",
                         }}
                     >
@@ -192,13 +168,19 @@ const SiteReport = (props: scrollProps) => {
                             className={AnalysisReportStyle.selectStyle}
                             onChange={(e) => setSortSite(e.currentTarget.value)}
                         >
-                            {["북촌", "성수", "신촌"].map(
-                                (e: any, i: number) => (
-                                    <option key={i} value={e}>
-                                        {e}
-                                    </option>
-                                )
-                            )}
+                            {[
+                                "성수1가 제1동",
+                                "성수1가 제2동",
+                                "성수2가 제1동",
+                                "성수2가 제3동",
+                                "가회동",
+                                "삼청동",
+                                "신촌동",
+                            ].map((e: any, i: number) => (
+                                <option key={i} value={e}>
+                                    {e}
+                                </option>
+                            ))}
                         </select>
                         <select
                             className={AnalysisReportStyle.selectStyle}
@@ -214,32 +196,41 @@ const SiteReport = (props: scrollProps) => {
                         </select>
                     </div>
                     <div className={ConceptSlideReportStyle.cateKw3storeWrap}>
-                        {siteStores.map((e: any, i: number) => (
-                            <div
-                                onClick={() => {
-                                    setModalOpen(true);
-                                    setModalStoreId(e.storeId);
-                                }}
-                                className={
-                                    ConceptSlideReportStyle.createKw3storeEachWrap
-                                }
-                                key={i}
-                            >
-                                <img
-                                    style={{
-                                        width: "100px",
-                                        borderRadius: "10px",
+                        {siteStores &&
+                            siteStores.map((e: any, i: number) => (
+                                <div
+                                    onClick={() => {
+                                        setModalOpen(true);
+                                        setModalStoreId(e.id);
                                     }}
-                                    src={e.imgsrc}
-                                />
-                                {e.name}
-                                <div style={{ fontSize: "0.8rem" }}>
-                                    {e.tag.map((etag: string, i: number) => (
-                                        <span key={i}>#{etag} </span>
-                                    ))}
+                                    className={
+                                        ConceptSlideReportStyle.createKw3storeEachWrap
+                                    }
+                                    key={i}
+                                >
+                                    <img
+                                        style={{
+                                            width: "170px",
+                                            borderRadius: "10px",
+                                        }}
+                                        src={e.photo ? e.photo : notfound}
+                                    />
+                                    {e.name}
+                                    <div style={{ fontSize: "0.8rem" }}>
+                                        {e.keywords &&
+                                            e.keywords.map(
+                                                (
+                                                    ekeyword: string,
+                                                    i: number
+                                                ) => (
+                                                    <span key={i}>
+                                                        #{ekeyword}{" "}
+                                                    </span>
+                                                )
+                                            )}
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
                     </div>
                 </div>
             </div>

@@ -57,7 +57,8 @@
 }
 .selectStyle {
     border: none;
-    width: 120px;
+    width: 140px;
+    min-width: 20%;
     background: var(--brightgrey);
     padding: 4px 11px;
     color: var(--red);

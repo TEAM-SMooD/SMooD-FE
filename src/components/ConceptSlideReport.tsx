@@ -19,7 +19,13 @@ import { useRecoilValue } from "recoil";
 import ic_loc from "../assets/ic_location.png";
 import ic_store from "../assets/ic_store.png";
 import IframeTableu from "./IframeTableu";
-import { getCategoryStores, getKeywordStore } from "../api/reportAxios";
+import {
+    getCategoryStores,
+    getKeywordStore,
+    getReportUrls,
+    getKeyword20,
+} from "../api/reportAxios";
+import notfound from "../assets/notfound.png";
 
 interface btnActiveProps {
     isBtnClicked: boolean;
@@ -49,28 +55,8 @@ const ConceptSlideReport = (props: btnActiveProps) => {
         }
     };
     const [selectedCateKw, setSeletedCateKw] = useState("긍정 리뷰");
-    const [test, setTest] = useState(0);
     const [modalStoreId, setModalStoreId] = useState(0); // 가게상세모달 보여줄 가게 번호
-    const [kwStores, setKwStores] = useState([
-        {
-            name: "아오이비스트로",
-            imgsrc: "https://d12zq4w4guyljn.cloudfront.net/300_300_20220313131218_photo1_da5845cfa3c2.jpg",
-            tag: ["분위기", "데이트", "인스타"],
-            storeId: 123213,
-        },
-        {
-            name: "성수먕당",
-            imgsrc: "https://d12zq4w4guyljn.cloudfront.net/300_300_20220313131218_photo1_da5845cfa3c2.jpg",
-            tag: ["저ㅗㄴ맛", "데이트", "인스타"],
-            storeId: 13543,
-        },
-        {
-            name: "차만다",
-            imgsrc: "https://d12zq4w4guyljn.cloudfront.net/300_300_20220313131218_photo1_da5845cfa3c2.jpg",
-            tag: ["힙함", "데이트", "인스타"],
-            storeId: 4213,
-        },
-    ]); // {키워드} 포함한 대표 가게
+    const [kwStores, setKwStores] = useState([]); // {키워드} 포함한 대표 가게
     const [cateStores, setCateStores] = useState([
         {
             name: "아오이비스트로",
@@ -91,13 +77,49 @@ const ConceptSlideReport = (props: btnActiveProps) => {
             storeId: 4213,
         },
     ]); // {카테고리}별 많은 가게
+    const [keyword20, setKeyword20] = useState([]);
+    const [urls, setUrls] = useState({
+        url1: ["", ""],
+        url2: "",
+        url3: ["", ""],
+    });
+    const [selectedKeyword, setSelectedKeyword] = useState("");
     const handleSelectChange = (e: string) => {
-        console.log(e);
+        setSelectedKeyword(e);
     };
-    // useEffect(() => {
-    //     getKeywordStore().then((e) => setKwStores(e));
-    //     getCategoryStores().then((e) => setCateStores(e));
-    // },[props.isBtnClicked])
+    useEffect(() => {
+        if (selectedStore != "업종을 선택하세요" && selectedDistrict2 != "") {
+            getReportUrls(
+                selectedDistrict2,
+                selectedStore == "카페" ? selectedStore : selectedRestaurant
+            ).then((e) => setUrls(e));
+            getKeyword20(
+                selectedDistrict2,
+                selectedStore == "카페" ? selectedStore : selectedRestaurant
+            ).then((e) => setKeyword20(e));
+        }
+    }, [props.isBtnClicked]);
+    useEffect(() => {
+        if (keyword20.length > 0) {
+            setSelectedKeyword(keyword20[0]["keyword"]);
+        }
+    }, [keyword20]);
+    useEffect(() => {
+        getKeywordStore(
+            selectedDistrict2,
+            selectedStore == "카페" ? selectedStore : selectedRestaurant,
+            selectedKeyword
+        ).then((e) => setKwStores(e));
+    }, [selectedKeyword]);
+    useEffect(() => {
+        if (selectedStore != "업종을 선택하세요" && selectedDistrict2 != "") {
+            getCategoryStores(
+                selectedCateKw,
+                selectedDistrict2,
+                selectedStore == "카페" ? selectedStore : selectedRestaurant
+            ).then((e) => setCateStores(e));
+        }
+    }, [selectedCateKw, selectedKeyword]);
     return (
         <>
             <STconceptSlideReportWrap slideOpen={props.reportDoorVisible}>
@@ -127,9 +149,9 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                                 : `${ConceptSlideReportStyle.reportNavEach}`
                         }
                     >
-                        카테고리별키워드분석
+                        잘나가는 가게 키워드
                     </div>
-                    <div
+                    {/* <div
                         ref={refClosed}
                         onClick={() => onScroll(refClosed, 3)}
                         className={
@@ -139,7 +161,7 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                         }
                     >
                         폐업가게분석
-                    </div>
+                    </div> */}
                 </div>
                 <div
                     style={{
@@ -172,14 +194,20 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                                 2023년 1분기 핵심 키워드
                             </div>
                             <div style={{ display: "flex" }}>
-                                <IframeTableu
-                                    size="50"
-                                    src="https://public.tableau.com/views/1-test_16851632350350/20231?:language=ko-KR&publish=yes&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true"
-                                />
-                                <IframeTableu
-                                    size="50"
-                                    src="https://public.tableau.com/shared/SSNMQJJ9K?:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true"
-                                />
+                                {urls.url1 && (
+                                    <>
+                                        <IframeTableu
+                                            size="50"
+                                            src={urls.url1[0]}
+                                            // src="https://public.tableau.com/views/1-test_16851632350350/20231?:language=ko-KR&publish=yes&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true"
+                                        />
+                                        <IframeTableu
+                                            size="50"
+                                            src={urls.url1[1]}
+                                            // src="https://public.tableau.com/shared/SSNMQJJ9K?:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true"
+                                        />
+                                    </>
+                                )}
                             </div>
                         </div>
                         <div className={ConceptSlideReportStyle.borderBox}>
@@ -197,33 +225,12 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                                         )
                                     }
                                 >
-                                    {[
-                                        "인스타",
-                                        "힙함",
-                                        "힙함",
-                                        "힙함",
-                                        "힙함",
-                                        "가나다",
-                                        "가s나다",
-                                        "ㄷ",
-                                        "ㄹ",
-                                        "가ㅁ나다",
-                                        "ㅂ",
-                                        "ㅅ",
-                                        "ㅇ",
-                                        "ㅈ",
-                                        "가나다",
-                                        "가나다",
-                                        "힙함",
-                                        "힙함",
-                                        "힙함",
-                                        "공간",
-                                        "디저트",
-                                    ].map((e: any, i: number) => (
-                                        <option value={e} key={i}>
-                                            {e}
-                                        </option>
-                                    ))}
+                                    {keyword20 &&
+                                        keyword20.map((e: any, i: number) => (
+                                            <option value={e.keyword} key={i}>
+                                                {e.keyword}
+                                            </option>
+                                        ))}
                                 </select>{" "}
                                 가 포함된 대표 가게
                             </div>
@@ -245,14 +252,14 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                                     >
                                         <img
                                             style={{
-                                                width: "100px",
+                                                width: "140px",
                                                 borderRadius: "10px",
                                             }}
-                                            src={e.imgsrc}
+                                            src={e.photo ? e.photo : notfound}
                                         />
                                         {e.name}
                                         <div style={{ fontSize: "0.8rem" }}>
-                                            {e.tag.map(
+                                            {e.keywords.map(
                                                 (etag: string, i: number) => (
                                                     <span key={i}>
                                                         #{etag}{" "}
@@ -269,8 +276,12 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                                 핵심 키워드 변화
                             </div>
                             <div>
-                                {/* 수저저ㅓ저어ㅓ정ㅈ */}
-                                <IframeTableu src="https://public.tableau.com/shared/MBGJCGPGD?:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true&%ED%96%89%EC%A0%95%EB%8F%99=%EA%B0%80%ED%9A%8C%EB%8F%99&%EC%97%85%EC%A2%85=%EB%8F%99%EB%82%A8%EC%95%84%EC%8B%9C%EC%95%84&%EA%B0%80%EA%B2%8C%EB%AA%85=%EB%B0%98%ED%83%80%EC%9D%B4&%EA%B0%80%EA%B2%8C%EB%AA%85=%EB%B0%98%ED%83%80%EC%9D%B4" />
+                                {urls.url2 && (
+                                    <IframeTableu
+                                        src={urls.url2}
+                                        // src="https://public.tableau.com/views/_16854401093190/sheet10?:language=ko-KR&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=ture"
+                                    />
+                                )}
                             </div>
                         </div>
                     </div>
@@ -281,7 +292,7 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                                 ConceptSlideReportStyle.report3refEachTitle
                             }
                         >
-                            카테고리별키워드분석
+                            잘나가는 가게의 키워드 순위
                         </div>
                         <div
                             className={ConceptSlideReportStyle.cateKw3Container}
@@ -294,7 +305,7 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                                         : ConceptSlideReportStyle.cateKw3each
                                 }
                             >
-                                긍정리뷰
+                                긍정 리뷰
                             </div>
                             <div
                                 onClick={() => setSeletedCateKw("단골")}
@@ -315,30 +326,6 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                                 }
                             >
                                 뜨고 있는
-                            </div>
-                        </div>
-                        <div className={ConceptSlideReportStyle.borderBox}>
-                            <div className={ConceptSlideReportStyle.innerTitle}>
-                                키워드 순위
-                            </div>
-                            <div className={ConceptSlideReportStyle.innerSub}>
-                                {selectedCateKw == "뜨고 있는"
-                                    ? "뜨고 있는 가게"
-                                    : selectedCateKw == "단골"
-                                    ? "단골이 많은 가게"
-                                    : "긍정 리뷰가 많은 가게"}
-                                의 키워드입니다.
-                            </div>
-                            <div>
-                                <iframe
-                                    id="myframe"
-                                    src={
-                                        "https://public.tableau.com/shared/MBGJCGPGD?:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true&%ED%96%89%EC%A0%95%EB%8F%99=%EA%B0%80%ED%9A%8C%EB%8F%99&%EC%97%85%EC%A2%85=%EB%8F%99%EB%82%A8%EC%95%84%EC%8B%9C%EC%95%84&%EA%B0%80%EA%B2%8C%EB%AA%85=%EB%B0%98%ED%83%80%EC%9D%B4&%EA%B0%80%EA%B2%8C%EB%AA%85=%EB%B0%98%ED%83%80%EC%9D%B4"
-                                    }
-                                    width="100%"
-                                    height="300"
-                                    title="분석 보고서"
-                                />
                             </div>
                         </div>
                         <div className={ConceptSlideReportStyle.borderBox}>
@@ -367,23 +354,55 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                                     >
                                         <img
                                             style={{
-                                                width: "100px",
+                                                width: "140px",
                                                 borderRadius: "10px",
                                             }}
-                                            src={e.imgsrc}
+                                            src={e.photo ? e.photo : notfound}
                                         />
                                         {e.name}
                                         <div style={{ fontSize: "0.8rem" }}>
-                                            {e.tag.map(
-                                                (etag: string, i: number) => (
-                                                    <span key={i}>
-                                                        #{etag}{" "}
-                                                    </span>
-                                                )
-                                            )}
+                                            {e.keywords &&
+                                                e.keywords.map(
+                                                    (
+                                                        etag: string,
+                                                        i: number
+                                                    ) => (
+                                                        <span key={i}>
+                                                            #{etag}{" "}
+                                                        </span>
+                                                    )
+                                                )}
                                         </div>
                                     </div>
                                 ))}
+                            </div>
+                        </div>
+                        <div className={ConceptSlideReportStyle.borderBox}>
+                            <div className={ConceptSlideReportStyle.innerTitle}>
+                                키워드 순위
+                            </div>
+                            <div className={ConceptSlideReportStyle.innerSub}>
+                                {selectedCateKw == "뜨고 있는"
+                                    ? "뜨고 있는 가게"
+                                    : selectedCateKw == "단골"
+                                    ? "단골이 많은 가게"
+                                    : "긍정 리뷰가 많은 가게"}
+                                의 키워드입니다.
+                            </div>
+                            <div>
+                                {urls.url3 && (
+                                    <IframeTableu
+                                        src={
+                                            urls.url3[
+                                                selectedCateKw == "긍정 리뷰"
+                                                    ? 0
+                                                    : selectedCateKw == "단골"
+                                                    ? 1
+                                                    : 2
+                                            ]
+                                        }
+                                    />
+                                )}
                             </div>
                         </div>
                     </div>
