@@ -1,17 +1,23 @@
 name: CI
 on:
-  push:
-    branches: ["develop"]
+    push:
+        branches: ["release"]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
+        steps:
+            - uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: npm ci
+            - name: Install dependencies
+              run: npm ci
 
-      - name: build
-        run: npm run build
+            - name: Create .env file
+              run: |
+                  jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' <<< "$SECRETS_CONTEXT" > .env
+              env:
+                  SECRETS_CONTEXT: ${{ toJson(secrets) }}
+
+            - name: build
+              run: CI='' npm run build
