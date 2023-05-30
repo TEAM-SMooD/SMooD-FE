@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { colors } from "./designSystem";
 
 export const StHome = styled.div`
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;

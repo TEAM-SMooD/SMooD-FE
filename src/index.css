@@ -26,6 +26,7 @@ code {
 }
 * {
     font-family: "JetBrainsMono", monospace;
+    word-spacing: -5px;
     /* font-family: "Pretendard-Regular"; */
     -webkit-box-sizing: border-box;
 }
