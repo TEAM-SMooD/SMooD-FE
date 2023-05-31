@@ -83,8 +83,10 @@
 }
 .cateKw3storeWrap {
     display: flex;
+    height: 300px;
     gap: 30px;
     overflow-x: scroll;
+    overflow-y: hidden;
     padding-bottom: 1rem;
 }
 .cateKw3storeWrap::-webkit-scrollbar {

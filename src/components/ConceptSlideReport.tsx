@@ -254,6 +254,7 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                                             style={{
                                                 width: "140px",
                                                 borderRadius: "10px",
+                                                height: "140px",
                                             }}
                                             src={e.photo ? e.photo : notfound}
                                         />

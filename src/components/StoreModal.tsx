@@ -25,59 +25,73 @@ const StoreModal = (props: StoreModalProps) => {
     };
     window.addEventListener("resize", resizeListener);
 
-    const [storeData, setStoreData] = useState({
-        keyword: ["분위기 좋은", "힙함", "맛집"],
-        url: [
-            "https://public.tableau.com/views/_16850810670700/_?:language=ko-KR&publish=yes&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true&행정동=가회동&업종=동남아시아&상가업소번호=MA010120220800040531&상가업소번호=MA010120220800040531",
-            "https://public.tableau.com/views/_16850810670700/_?:language=ko-KR&publish=yes&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true&행정동=가회동&업종=동남아시아&상가업소번호=MA010120220800040531&상가업소번호=MA010120220800040531",
-        ],
-        review: [
-            {
-                kw: "분위기좋은",
-                re: "이아아아 분위기가좋아ㅛ 아아아ㅏ아",
-            },
-            {
-                kw: "힙함",
-                re: "힙해여 아아아ㅏ아",
-            },
-            {
-                kw: "ㄱ",
-                re: "ㄱ 아아아ㅏ아",
-            },
-            {
-                kw: "ㄴ",
-                re: "ㄴ 아아아ㅏ아",
-            },
-            {
-                kw: "ㄷ",
-                re: "ㄷ 아아아ㅏ아",
-            },
-            {
-                kw: "ㄹ",
-                re: "ㄹ 아아아ㅏ아",
-            },
-            {
-                kw: "ㅁ",
-                re: "ㅁ 아아아ㅏ아",
-            },
-            {
-                kw: "ㅂ",
-                re: "ㅂ 아아아ㅏ아",
-            },
-            {
-                kw: "ㅅ",
-                re: "ㅅ 아아아ㅏ아",
-            },
-            {
-                kw: "ㅇ",
-                re: "ㅇ 아아아ㅏ아",
-            },
-        ],
-        crd: [37.55049472619646, 127.07427075510395],
-        pct: 88.8,
-    });
+    interface storelistI {
+        keyword: string;
+        review: string;
+    }
+    interface storeI {
+        url: string[];
+        list: storelistI[];
+        possitive: number;
+        location_x: number;
+        location_y: number;
+        topKeyword: string[];
+    }
+    const [storeData, setStoreData] = useState<storeI>();
+    // keyword: ["분위기 좋은", "힙함", "맛집"],
+    // url: [
+    //     "https://public.tableau.com/views/_16850810670700/_?:language=ko-KR&publish=yes&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true&행정동=가회동&업종=동남아시아&상가업소번호=MA010120220800040531&상가업소번호=MA010120220800040531",
+    //     "https://public.tableau.com/views/_16850810670700/_?:language=ko-KR&publish=yes&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true&행정동=가회동&업종=동남아시아&상가업소번호=MA010120220800040531&상가업소번호=MA010120220800040531",
+    // ],
+    // review: [
+    //     {
+    //         kw: "분위기좋은",
+    //         re: "이아아아 분위기가좋아ㅛ 아아아ㅏ아",
+    //     },
+    //     {
+    //         kw: "힙함",
+    //         re: "힙해여 아아아ㅏ아",
+    //     },
+    //     {
+    //         kw: "ㄱ",
+    //         re: "ㄱ 아아아ㅏ아",
+    //     },
+    //     {
+    //         kw: "ㄴ",
+    //         re: "ㄴ 아아아ㅏ아",
+    //     },
+    //     {
+    //         kw: "ㄷ",
+    //         re: "ㄷ 아아아ㅏ아",
+    //     },
+    //     {
+    //         kw: "ㄹ",
+    //         re: "ㄹ 아아아ㅏ아",
+    //     },
+    //     {
+    //         kw: "ㅁ",
+    //         re: "ㅁ 아아아ㅏ아",
+    //     },
+    //     {
+    //         kw: "ㅂ",
+    //         re: "ㅂ 아아아ㅏ아",
+    //     },
+    //     {
+    //         kw: "ㅅ",
+    //         re: "ㅅ 아아아ㅏ아",
+    //     },
+    //     {
+    //         kw: "ㅇ",
+    //         re: "ㅇ 아아아ㅏ아",
+    //     },
+    // ],
+    // crd: [37.55049472619646, 127.07427075510395],
+    // pct: 88.8,
     useEffect(() => {
-        getModalStore(props.modalStoreId).then((e) => console.log(e));
+        getModalStore(props.modalStoreId).then((e) => {
+            setStoreData(e);
+            console.log(e);
+        });
     });
 
     return (
@@ -98,7 +112,7 @@ const StoreModal = (props: StoreModalProps) => {
                                 {props.modalStoreId}
                             </div>
                             <div className={StoreModalStyle.tagsWrap}>
-                                {storeData.keyword.map(
+                                {storeData.topKeyword.map(
                                     (e: string, i: number) => (
                                         <div
                                             className={StoreModalStyle.tagEach}
@@ -145,41 +159,41 @@ const StoreModal = (props: StoreModalProps) => {
                                             className={StoreModalStyle.pctRTop}
                                         >
                                             <div>긍정리뷰</div>
-                                            <div>{storeData.pct}%</div>
+                                            <div>{storeData.possitive}%</div>
                                         </div>
                                         <div>
                                             <ProgressBg>
-                                                <Progress pct={storeData.pct} />
+                                                <Progress
+                                                    pct={storeData.possitive}
+                                                />
                                             </ProgressBg>
                                         </div>
                                     </div>
                                 </div>
                                 <div>
-                                    {storeData.review.map(
-                                        (e: any, i: number) => (
+                                    {storeData.list.map((e: any, i: number) => (
+                                        <div
+                                            className={
+                                                StoreModalStyle.mainReviewEach
+                                            }
+                                            key={i}
+                                        >
                                             <div
                                                 className={
-                                                    StoreModalStyle.mainReviewEach
+                                                    StoreModalStyle.reviewKeyword
                                                 }
-                                                key={i}
                                             >
-                                                <div
-                                                    className={
-                                                        StoreModalStyle.reviewKeyword
-                                                    }
-                                                >
-                                                    #{e.kw}
-                                                </div>
-                                                <div
-                                                    className={
-                                                        StoreModalStyle.reviewSentence
-                                                    }
-                                                >
-                                                    {e.re}
-                                                </div>
+                                                #{e.keyword}
                                             </div>
-                                        )
-                                    )}
+                                            <div
+                                                className={
+                                                    StoreModalStyle.reviewSentence
+                                                }
+                                            >
+                                                {e.review}
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                             <div className={StoreModalStyle.mainEachWrap}>
@@ -188,7 +202,10 @@ const StoreModal = (props: StoreModalProps) => {
                                         elementsId="Storemap"
                                         mapWidth={innerWidth * 0.53}
                                         mapHeight={258}
-                                        crdnt={storeData.crd}
+                                        crdnt={[
+                                            storeData.location_x,
+                                            storeData.location_y,
+                                        ]}
                                         isForStore={1}
                                     />
                                 </div>

@@ -12,7 +12,6 @@ const Mypage = () => {
     });
     const navigate = useNavigate();
     const [nickname, setNickname] = useState("");
-
     const putNickname = async () => {
         try {
             const resnickname = await customAxios().put(
@@ -62,6 +61,7 @@ const Mypage = () => {
                     res.data.body.result.nickname
                 );
                 setNickname(res.data.body.result.nickname);
+                sessionStorage.setItem("email", res.data.body.result.email);
                 navigate("/mypage"); //주소창에 토큰보이던거 지우려고 다시 페이지이동
             } catch (err) {
                 console.log("postLogin_ERR", err);
@@ -83,6 +83,10 @@ const Mypage = () => {
             <div className={headerStyle.myWrap}>
                 <div className={headerStyle.myTitle}>닉네임 설정</div>
                 <div className={headerStyle.mySubTitle}>
+                    안녕하세요, {sessionStorage.userName}(
+                    {sessionStorage.getItem("email")})님!
+                    <br />
+                    <br />
                     커뮤니티 이용을 위해 닉네임을 만들어주세요!
                 </div>
                 <div>
