@@ -320,7 +320,7 @@ select {
 }
 
 .sendInput {
-    width: 100%;
+    width: 80%;
     height: 100%;
     padding-left: 1rem;
     border: none;

@@ -47,6 +47,7 @@ export const handleSelectDropdownEach = (
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
+                textAlign: "center",
             }}
         >
             {each}

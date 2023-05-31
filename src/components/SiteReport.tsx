@@ -29,7 +29,7 @@ const SiteReport = (props: scrollProps) => {
     const [modalOpen, setModalOpen] = useState(false);
 
     const [modalStoreId, setModalStoreId] = useState(0); // 가게상세모달 보여줄 가게 번호
-    const [sortSite, setSortSite] = useState("성수1가 제1동");
+    const [sortSite, setSortSite] = useState("전체");
     const [sortCate, setSortCate] = useState("긍정 리뷰");
     const [siteTop3, setSiteTop3] = useState([]);
     const [siteStores, setSiteStores] = useState([]); // {카테고리}별 많은 가게
@@ -169,6 +169,7 @@ const SiteReport = (props: scrollProps) => {
                             onChange={(e) => setSortSite(e.currentTarget.value)}
                         >
                             {[
+                                "전체",
                                 "성수1가 제1동",
                                 "성수1가 제2동",
                                 "성수2가 제1동",
