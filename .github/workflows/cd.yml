@@ -1,7 +1,7 @@
 name: CD
 on:
   push:
-    branches: ["develop"]
+    branches: ["release"]
 jobs:
   build:
     runs-on: ubuntu-latest
