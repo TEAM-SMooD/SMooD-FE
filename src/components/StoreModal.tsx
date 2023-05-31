@@ -30,69 +30,21 @@ const StoreModal = (props: StoreModalProps) => {
         review: string;
     }
     interface storeI {
+        name: string;
         url: string[];
         list: storelistI[];
-        possitive: number;
+        positive: number;
         location_x: number;
         location_y: number;
         topKeyword: string[];
     }
     const [storeData, setStoreData] = useState<storeI>();
-    // keyword: ["분위기 좋은", "힙함", "맛집"],
-    // url: [
-    //     "https://public.tableau.com/views/_16850810670700/_?:language=ko-KR&publish=yes&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true&행정동=가회동&업종=동남아시아&상가업소번호=MA010120220800040531&상가업소번호=MA010120220800040531",
-    //     "https://public.tableau.com/views/_16850810670700/_?:language=ko-KR&publish=yes&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true&행정동=가회동&업종=동남아시아&상가업소번호=MA010120220800040531&상가업소번호=MA010120220800040531",
-    // ],
-    // review: [
-    //     {
-    //         kw: "분위기좋은",
-    //         re: "이아아아 분위기가좋아ㅛ 아아아ㅏ아",
-    //     },
-    //     {
-    //         kw: "힙함",
-    //         re: "힙해여 아아아ㅏ아",
-    //     },
-    //     {
-    //         kw: "ㄱ",
-    //         re: "ㄱ 아아아ㅏ아",
-    //     },
-    //     {
-    //         kw: "ㄴ",
-    //         re: "ㄴ 아아아ㅏ아",
-    //     },
-    //     {
-    //         kw: "ㄷ",
-    //         re: "ㄷ 아아아ㅏ아",
-    //     },
-    //     {
-    //         kw: "ㄹ",
-    //         re: "ㄹ 아아아ㅏ아",
-    //     },
-    //     {
-    //         kw: "ㅁ",
-    //         re: "ㅁ 아아아ㅏ아",
-    //     },
-    //     {
-    //         kw: "ㅂ",
-    //         re: "ㅂ 아아아ㅏ아",
-    //     },
-    //     {
-    //         kw: "ㅅ",
-    //         re: "ㅅ 아아아ㅏ아",
-    //     },
-    //     {
-    //         kw: "ㅇ",
-    //         re: "ㅇ 아아아ㅏ아",
-    //     },
-    // ],
-    // crd: [37.55049472619646, 127.07427075510395],
-    // pct: 88.8,
+
     useEffect(() => {
         getModalStore(props.modalStoreId).then((e) => {
             setStoreData(e);
-            console.log(e);
         });
-    });
+    }, [props.modalOpen]);
 
     return (
         <ModalWrap>
@@ -109,7 +61,7 @@ const StoreModal = (props: StoreModalProps) => {
                         </div>
                         <div className={StoreModalStyle.title}>
                             <div style={{ fontSize: "1.4rem" }}>
-                                {props.modalStoreId}
+                                {storeData.name}
                             </div>
                             <div className={StoreModalStyle.tagsWrap}>
                                 {storeData.topKeyword.map(
@@ -159,12 +111,12 @@ const StoreModal = (props: StoreModalProps) => {
                                             className={StoreModalStyle.pctRTop}
                                         >
                                             <div>긍정리뷰</div>
-                                            <div>{storeData.possitive}%</div>
+                                            <div>{storeData.positive}%</div>
                                         </div>
                                         <div>
                                             <ProgressBg>
                                                 <Progress
-                                                    pct={storeData.possitive}
+                                                    pct={storeData.positive}
                                                 />
                                             </ProgressBg>
                                         </div>
