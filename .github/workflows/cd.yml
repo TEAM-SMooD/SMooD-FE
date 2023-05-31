@@ -1,32 +1,32 @@
 name: CD
 on:
-    push:
-        branches: ["release"]
+  push:
+    branches: ["develop"]
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-            - uses: actions/checkout@v3
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
 
-            - name: Install dependencies
-              run: npm ci
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Create .env file 
+        run: | 
+          jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' <<< "$SECRETS_CONTEXT" > .env
+        env: 
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
 
-            - name: Create .env file
-              run: |
-                  jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' <<< "$SECRETS_CONTEXT" > .env
-              env:
-                  SECRETS_CONTEXT: ${{ toJson(secrets) }}
+      - name: build
+        run: CI='' npm run build
 
-            - name: build
-              run: CI='' npm run build
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
 
-            - name: Configure AWS Credentials
-              uses: aws-actions/configure-aws-credentials@v1
-              with:
-                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                  aws-region: ap-northeast-2
-
-            - name: Deploy to S3
-              run: aws s3 sync ./build s3://${{ secrets.DEV_AWS_S3_BUCKET }} —delete
+      - name: Deploy to S3
+        run: aws s3 sync ./build s3://${{ secrets.DEV_AWS_S3_BUCKET }} --delete
