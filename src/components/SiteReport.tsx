@@ -210,6 +210,7 @@ const SiteReport = (props: scrollProps) => {
                                     key={i}
                                 >
                                     <img
+                                     referrerPolicy="no-referrer"
                                         style={{
                                             width: "170px",
                                             height: "170px",
