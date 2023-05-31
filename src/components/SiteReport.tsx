@@ -211,6 +211,7 @@ const SiteReport = (props: scrollProps) => {
                                     <img
                                         style={{
                                             width: "170px",
+                                            height: "170px",
                                             borderRadius: "10px",
                                         }}
                                         src={e.photo ? e.photo : notfound}
