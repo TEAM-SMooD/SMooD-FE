@@ -148,7 +148,7 @@ const CommunityPostEach = (posts: any) => {
                                                     color: "var(--grey)",
                                                 }}
                                             >
-                                                {e.date} {e.time}
+                                                {e.date}&nbsp;{e.time}
                                             </div>
                                         </div>
                                         {sessionStorage.getItem("token") &&

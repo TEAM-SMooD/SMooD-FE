@@ -57,26 +57,7 @@ const ConceptSlideReport = (props: btnActiveProps) => {
     const [selectedCateKw, setSeletedCateKw] = useState("긍정 리뷰");
     const [modalStoreId, setModalStoreId] = useState(0); // 가게상세모달 보여줄 가게 번호
     const [kwStores, setKwStores] = useState([]); // {키워드} 포함한 대표 가게
-    const [cateStores, setCateStores] = useState([
-        {
-            name: "아오이비스트로",
-            imgsrc: "https://d12zq4w4guyljn.cloudfront.net/300_300_20220313131218_photo1_da5845cfa3c2.jpg",
-            tag: ["분위기", "데이트", "인스타"],
-            storeId: 123213,
-        },
-        {
-            name: "성수먕당",
-            imgsrc: "https://d12zq4w4guyljn.cloudfront.net/300_300_20220313131218_photo1_da5845cfa3c2.jpg",
-            tag: ["저ㅗㄴ맛", "데이트", "인스타"],
-            storeId: 13543,
-        },
-        {
-            name: "차만다",
-            imgsrc: "https://d12zq4w4guyljn.cloudfront.net/300_300_20220313131218_photo1_da5845cfa3c2.jpg",
-            tag: ["힙함", "데이트", "인스타"],
-            storeId: 4213,
-        },
-    ]); // {카테고리}별 많은 가게
+    const [cateStores, setCateStores] = useState([]); // {카테고리}별 많은 가게
     const [keyword20, setKeyword20] = useState([]);
     const [urls, setUrls] = useState({
         url1: ["", ""],
@@ -346,7 +327,7 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                                     <div
                                         onClick={() => {
                                             setModalOpen(true);
-                                            setModalStoreId(e.storeId);
+                                            setModalStoreId(e.id);
                                         }}
                                         className={
                                             ConceptSlideReportStyle.createKw3storeEachWrap
@@ -356,6 +337,7 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                                         <img
                                             style={{
                                                 width: "140px",
+                                                height: "140px",
                                                 borderRadius: "10px",
                                             }}
                                             src={e.photo ? e.photo : notfound}
