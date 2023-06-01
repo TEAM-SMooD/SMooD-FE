@@ -176,7 +176,9 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                         src={ic_loc}
                         style={{ width: "1rem" }}
                     />
-                    {selectedStore}
+                    {selectedStore == "카페"
+                        ? selectedStore
+                        : selectedRestaurant}
                 </div>
 
                 <div className={ConceptSlideReportStyle.reportContentWrap}>
