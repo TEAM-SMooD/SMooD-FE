@@ -91,12 +91,12 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                 selectedStore == "카페" ? selectedStore : selectedRestaurant
             ).then((e) => setKeyword20(e));
         }
-    }, [props.isBtnClicked]);
+    }, [props.isBtnClicked, props.reportReload]);
     useEffect(() => {
         if (keyword20.length > 0) {
             setSelectedKeyword(keyword20[0]["keyword"]);
         }
-    }, [keyword20]);
+    }, [keyword20, props.reportReload]);
     useEffect(() => {
         getKeywordStore(
             selectedDistrict2,
@@ -112,7 +112,7 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                 selectedStore == "카페" ? selectedStore : selectedRestaurant
             ).then((e) => setCateStores(e));
         }
-    }, [selectedCateKw, selectedKeyword]);
+    }, [selectedCateKw, selectedKeyword, props.reportReload]);
     return (
         <>
             <STconceptSlideReportWrap slideOpen={props.reportDoorVisible}>
