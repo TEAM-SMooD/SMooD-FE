@@ -32,6 +32,8 @@ interface btnActiveProps {
     setIsBtnClicked: React.Dispatch<React.SetStateAction<boolean>>;
     reportDoorVisible: boolean;
     setReportDoorVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    reportReload: boolean;
+    setReportReload: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ConceptSlideReport = (props: btnActiveProps) => {
@@ -68,6 +70,16 @@ const ConceptSlideReport = (props: btnActiveProps) => {
     const handleSelectChange = (e: string) => {
         setSelectedKeyword(e);
     };
+    const [nowDistNStore, setNowDistNStore] = useState([
+        selectedDistrict,
+        selectedStore ? selectedStore : selectedRestaurant,
+    ]);
+    useEffect(() => {
+        setNowDistNStore([
+            selectedDistrict,
+            selectedStore ? selectedStore : selectedRestaurant,
+        ]);
+    }, [props.reportReload]);
     useEffect(() => {
         if (selectedStore != "업종을 선택하세요" && selectedDistrict2 != "") {
             getReportUrls(
@@ -91,7 +103,7 @@ const ConceptSlideReport = (props: btnActiveProps) => {
             selectedStore == "카페" ? selectedStore : selectedRestaurant,
             selectedKeyword
         ).then((e) => setKwStores(e));
-    }, [selectedKeyword]);
+    }, [selectedKeyword, props.reportReload]);
     useEffect(() => {
         if (selectedStore != "업종을 선택하세요" && selectedDistrict2 != "") {
             getCategoryStores(
@@ -154,9 +166,9 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                     className={ConceptSlideReportStyle.h50center}
                 >
                     <img src={ic_loc} style={{ width: "1rem" }} />
-                    {selectedDistrict}
+                    {nowDistNStore[0]}
                     <img src={ic_loc} style={{ width: "1rem" }} />
-                    {selectedStore}
+                    {nowDistNStore[1]}
                 </div>
 
                 <div className={ConceptSlideReportStyle.reportContentWrap}>

@@ -13,6 +13,7 @@ const Concept = () => {
     const [crdnt, setCrdnt] = useRecoilState(selectedDistrictCrdnt);
     const [isBtnClicked, setIsBtnClicked] = useState(false);
     const [reportDoorVisible, setReportDoorVisible] = useState(false);
+    const [reportReload, setReportReload] = useState(false);
     const resizeListener = () => {
         setInnerWidth(window.innerWidth);
         setInnerHeight(window.innerHeight);
@@ -36,12 +37,16 @@ const Concept = () => {
                     setIsBtnClicked={setIsBtnClicked}
                     reportDoorVisible={reportDoorVisible}
                     setReportDoorVisible={setReportDoorVisible}
+                    reportReload={reportReload}
+                    setReportReload={setReportReload}
                 />
                 <ConceptSlideReport
                     isBtnClicked={isBtnClicked}
                     setIsBtnClicked={setIsBtnClicked}
                     reportDoorVisible={reportDoorVisible}
                     setReportDoorVisible={setReportDoorVisible}
+                    reportReload={reportReload}
+                    setReportReload={setReportReload}
                 />
             </Layout>
         </>
