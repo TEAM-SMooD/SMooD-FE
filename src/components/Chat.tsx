@@ -23,10 +23,12 @@ const Chat = () => {
     const navigate = useNavigate();
     const [chatRooms, setChatRooms] = useState([]);
     const [reloading, setReloading] = useState(true);
+    const [chatMakerId, setChatMakeId] = useState(-1);
 
     const joinChatting = useCallback((e: any) => {
         console.log("joinChatting", e);
         setChatEach(e.roomId);
+        setChatMakeId(e.userId);
     }, []);
 
     // 연결에 성공한 경우
@@ -96,7 +98,8 @@ const Chat = () => {
                                 >
                                     {chatEach == 0 ? (
                                         <VscChromeClose />
-                                    ) : (
+                                    ) : sessionStorage.getItem("userId") ==
+                                      chatMakerId.toString() ? (
                                         <img
                                             src={ic_trashbin}
                                             style={{ width: "1rem" }}
@@ -104,6 +107,8 @@ const Chat = () => {
                                                 deleteChatRoom(chatEach);
                                             }}
                                         />
+                                    ) : (
+                                        ""
                                     )}
                                 </div>
                             </div>
