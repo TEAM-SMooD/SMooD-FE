@@ -165,10 +165,18 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                     }}
                     className={ConceptSlideReportStyle.h50center}
                 >
-                    <img src={ic_loc} style={{ width: "1rem" }} />
-                    {nowDistNStore[0]}
-                    <img src={ic_loc} style={{ width: "1rem" }} />
-                    {nowDistNStore[1]}
+                    <img
+                        referrerPolicy="no-referrer"
+                        src={ic_loc}
+                        style={{ width: "1rem" }}
+                    />
+                    {selectedDistrict}
+                    <img
+                        referrerPolicy="no-referrer"
+                        src={ic_loc}
+                        style={{ width: "1rem" }}
+                    />
+                    {selectedStore}
                 </div>
 
                 <div className={ConceptSlideReportStyle.reportContentWrap}>
@@ -244,6 +252,7 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                                         key={i}
                                     >
                                         <img
+                                            referrerPolicy="no-referrer"
                                             style={{
                                                 width: "140px",
                                                 borderRadius: "10px",
@@ -347,6 +356,7 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                                         key={i}
                                     >
                                         <img
+                                            referrerPolicy="no-referrer"
                                             style={{
                                                 width: "140px",
                                                 height: "140px",
