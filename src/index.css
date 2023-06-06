@@ -13,7 +13,7 @@ code {
 }
 @font-face {
     font-family: "JetBrainsMono";
-    src: url("./assets/fonts/JetBrainsMono.ttf");
+    src: url("./assets/fonts/JetBrainsMono.ttf") format("ttf");
     font-weight: 400;
     font-style: normal;
 }
@@ -25,7 +25,7 @@ code {
     font-style: normal;
 }
 * {
-    font-family: "JetBrainsMono", monospace;
+    font-family: "JetBrainsMono";
     word-spacing: -5px;
     /* font-family: "Pretendard-Regular"; */
     -webkit-box-sizing: border-box;

@@ -72,11 +72,7 @@ export const getCategoryStores = async (
 };
 export const getModalStore = async (storeId: number) => {
     try {
-        const res = await customAxios().get(`/store/storeId`, {
-            params: {
-                storeId: storeId,
-            },
-        }); // / /// / // /  // /
+        const res = await customAxios().get(`/store/${storeId}`); // / /// / // /  // /
         console.log("getModalStore  res", res.data.body.result);
         return res.data.body.result; // [{…}, {…}]
     } catch (err) {

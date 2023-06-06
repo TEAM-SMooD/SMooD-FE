@@ -40,7 +40,7 @@ const CommunityBoard = (posts: any) => {
                             </div>
 
                             <div className={CommunityStyle.datetime}>
-                                {e.date} {e.time}
+                                {e.date}&nbsp;{e.time}
                             </div>
                         </div>
                         {sessionStorage.getItem("token") &&
@@ -108,7 +108,7 @@ const CommunityBoardCategory = ({ selectedCategory }: any) => {
 };
 const CommunityBoardWrite = () => {
     const [writeCategory, setWriteCategory] = useState(1);
-    const [writeStore, setWriteStore] = useState("한식");
+    const [writeStore, setWriteStore] = useState("카페");
     const [writeTitle, setWriteTitle] = useState("");
     const [writeContents, setWriteContents] = useState("");
     const navigate = useNavigate();

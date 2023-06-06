@@ -32,6 +32,8 @@ interface btnActiveProps {
     setIsBtnClicked: React.Dispatch<React.SetStateAction<boolean>>;
     reportDoorVisible: boolean;
     setReportDoorVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    reportReload: boolean;
+    setReportReload: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ConceptSlideReport = (props: btnActiveProps) => {
@@ -57,26 +59,7 @@ const ConceptSlideReport = (props: btnActiveProps) => {
     const [selectedCateKw, setSeletedCateKw] = useState("긍정 리뷰");
     const [modalStoreId, setModalStoreId] = useState(0); // 가게상세모달 보여줄 가게 번호
     const [kwStores, setKwStores] = useState([]); // {키워드} 포함한 대표 가게
-    const [cateStores, setCateStores] = useState([
-        {
-            name: "아오이비스트로",
-            imgsrc: "https://d12zq4w4guyljn.cloudfront.net/300_300_20220313131218_photo1_da5845cfa3c2.jpg",
-            tag: ["분위기", "데이트", "인스타"],
-            storeId: 123213,
-        },
-        {
-            name: "성수먕당",
-            imgsrc: "https://d12zq4w4guyljn.cloudfront.net/300_300_20220313131218_photo1_da5845cfa3c2.jpg",
-            tag: ["저ㅗㄴ맛", "데이트", "인스타"],
-            storeId: 13543,
-        },
-        {
-            name: "차만다",
-            imgsrc: "https://d12zq4w4guyljn.cloudfront.net/300_300_20220313131218_photo1_da5845cfa3c2.jpg",
-            tag: ["힙함", "데이트", "인스타"],
-            storeId: 4213,
-        },
-    ]); // {카테고리}별 많은 가게
+    const [cateStores, setCateStores] = useState([]); // {카테고리}별 많은 가게
     const [keyword20, setKeyword20] = useState([]);
     const [urls, setUrls] = useState({
         url1: ["", ""],
@@ -87,6 +70,16 @@ const ConceptSlideReport = (props: btnActiveProps) => {
     const handleSelectChange = (e: string) => {
         setSelectedKeyword(e);
     };
+    const [nowDistNStore, setNowDistNStore] = useState([
+        selectedDistrict,
+        selectedStore ? selectedStore : selectedRestaurant,
+    ]);
+    useEffect(() => {
+        setNowDistNStore([
+            selectedDistrict,
+            selectedStore ? selectedStore : selectedRestaurant,
+        ]);
+    }, [props.reportReload]);
     useEffect(() => {
         if (selectedStore != "업종을 선택하세요" && selectedDistrict2 != "") {
             getReportUrls(
@@ -98,19 +91,19 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                 selectedStore == "카페" ? selectedStore : selectedRestaurant
             ).then((e) => setKeyword20(e));
         }
-    }, [props.isBtnClicked]);
+    }, [props.isBtnClicked, props.reportReload]);
     useEffect(() => {
         if (keyword20.length > 0) {
             setSelectedKeyword(keyword20[0]["keyword"]);
         }
-    }, [keyword20]);
+    }, [keyword20, props.reportReload]);
     useEffect(() => {
         getKeywordStore(
             selectedDistrict2,
             selectedStore == "카페" ? selectedStore : selectedRestaurant,
             selectedKeyword
         ).then((e) => setKwStores(e));
-    }, [selectedKeyword]);
+    }, [selectedKeyword, props.reportReload]);
     useEffect(() => {
         if (selectedStore != "업종을 선택하세요" && selectedDistrict2 != "") {
             getCategoryStores(
@@ -119,7 +112,7 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                 selectedStore == "카페" ? selectedStore : selectedRestaurant
             ).then((e) => setCateStores(e));
         }
-    }, [selectedCateKw, selectedKeyword]);
+    }, [selectedCateKw, selectedKeyword, props.reportReload]);
     return (
         <>
             <STconceptSlideReportWrap slideOpen={props.reportDoorVisible}>
@@ -172,10 +165,20 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                     }}
                     className={ConceptSlideReportStyle.h50center}
                 >
-                    <img src={ic_loc} style={{ width: "1rem" }} />
+                    <img
+                        referrerPolicy="no-referrer"
+                        src={ic_loc}
+                        style={{ width: "1rem" }}
+                    />
                     {selectedDistrict}
-                    <img src={ic_loc} style={{ width: "1rem" }} />
-                    {selectedStore}
+                    <img
+                        referrerPolicy="no-referrer"
+                        src={ic_loc}
+                        style={{ width: "1rem" }}
+                    />
+                    {selectedStore == "카페"
+                        ? selectedStore
+                        : selectedRestaurant}
                 </div>
 
                 <div className={ConceptSlideReportStyle.reportContentWrap}>
@@ -251,9 +254,11 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                                         key={i}
                                     >
                                         <img
+                                            referrerPolicy="no-referrer"
                                             style={{
                                                 width: "140px",
                                                 borderRadius: "10px",
+                                                height: "140px",
                                             }}
                                             src={e.photo ? e.photo : notfound}
                                         />
@@ -345,7 +350,7 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                                     <div
                                         onClick={() => {
                                             setModalOpen(true);
-                                            setModalStoreId(e.storeId);
+                                            setModalStoreId(e.id);
                                         }}
                                         className={
                                             ConceptSlideReportStyle.createKw3storeEachWrap
@@ -353,8 +358,10 @@ const ConceptSlideReport = (props: btnActiveProps) => {
                                         key={i}
                                     >
                                         <img
+                                            referrerPolicy="no-referrer"
                                             style={{
                                                 width: "140px",
+                                                height: "140px",
                                                 borderRadius: "10px",
                                             }}
                                             src={e.photo ? e.photo : notfound}

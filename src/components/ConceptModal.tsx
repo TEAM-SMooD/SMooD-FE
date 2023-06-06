@@ -20,6 +20,8 @@ interface btnActiveProps {
     setIsBtnClicked: React.Dispatch<React.SetStateAction<boolean>>;
     reportDoorVisible: boolean;
     setReportDoorVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    reportReload: boolean;
+    setReportReload: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const ConceptModal = (props: btnActiveProps) => {
     const [modalOpen, setModalOpen] = useState(true);
@@ -37,6 +39,7 @@ const ConceptModal = (props: btnActiveProps) => {
     );
     const [openedSelect, setOpenedSelect] = useRecoilState(ConceptOpenedSelect);
     const navigate = useNavigate();
+
     return (
         <>
             <StWrap>
@@ -102,10 +105,10 @@ const ConceptModal = (props: btnActiveProps) => {
                         >
                             <button
                                 className={
-                                    selectedDistrict != "지역을 선택하세요" &&
-                                    selectedStore != "업종을 선택하세요"
-                                        ? `${SelectStyle.clickableReportBtn} ${SelectStyle.reportBtn}`
-                                        : `${SelectStyle.reportBtn}`
+                                    selectedDistrict2 == "" ||
+                                    selectedStore == "업종을 선택하세요"
+                                        ? ` ${SelectStyle.reportBtn}`
+                                        : `${SelectStyle.reportBtn} ${SelectStyle.clickableReportBtn}`
                                 }
                                 onClick={() => {
                                     if (!sessionStorage.getItem("userId")) {
@@ -119,14 +122,14 @@ const ConceptModal = (props: btnActiveProps) => {
                                             props.setIsBtnClicked(true);
                                         }
                                         props.setReportDoorVisible(true);
+                                        props.setReportReload(
+                                            !props.reportReload
+                                        );
                                     }
                                 }}
                                 disabled={
-                                    !(
-                                        selectedDistrict !=
-                                            "지역을 선택하세요" &&
-                                        selectedStore != "업종을 선택하세요"
-                                    )
+                                    selectedDistrict2 == "" ||
+                                    selectedStore == "업종을 선택하세요"
                                 }
                             >
                                 분석하기

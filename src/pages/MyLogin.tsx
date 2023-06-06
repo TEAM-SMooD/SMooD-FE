@@ -37,13 +37,13 @@ const MyLogin = () => {
                             style={{ width: "183px", height: "45px" }}
                         />
                     </a>
-                    <a href={process.env.REACT_APP_KAKAO_AUTH_URL}>
+                    <a href={process.env.REACT_APP_NAVER_AUTH_URL}>
                         <img
                             src={naver_login}
                             style={{ width: "183px", height: "45px" }}
                         />
                     </a>
-                    <a href={process.env.REACT_APP_KAKAO_AUTH_URL}>
+                    <a href={process.env.REACT_APP_GOOGLE_AUTH_URL}>
                         <img
                             src={google_login}
                             style={{ width: "183px", height: "45px" }}
