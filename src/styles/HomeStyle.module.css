@@ -33,7 +33,7 @@
     grid-template-columns: 300px auto; */
     display: grid;
     align-items: center;
-    grid-template-columns: 300px auto;
+    grid-template-columns: 320px auto;
 }
 .sec1Grid {
     height: 300px;
